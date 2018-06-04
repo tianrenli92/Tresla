@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'tresla_app.apps.TreslaAppConfig',
+    'main.apps.TreslaAppConfig',
     'rest_framework',
 ]
 
