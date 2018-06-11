@@ -9,11 +9,12 @@ from django.shortcuts import render, redirect
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('home')
+        return redirect('project')
     return render(request, 'index.html', {})
 
 
-def home(request):
+def project(request):
+
     return render(request, 'home.html', {})
 
 

@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class ChattingRoomConfig(AppConfig):
+class CommunicationChannelConfig(AppConfig):
     name = 'communication_channel'

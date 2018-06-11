@@ -37,8 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.TreslaAppConfig',
+    'main.apps.MainConfig',
+    'task_tracker.apps.TaskTrackerConfig',
+    'communication_channel.apps.CommunicationChannelConfig',
+    'issue_tracker.apps.IssueTrackerConfig',
     'rest_framework',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -121,6 +125,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# rest framework
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
+# auth
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
