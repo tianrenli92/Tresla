@@ -1,0 +1,26 @@
+{% extends 'issue_tracker/issue/base.html' %}
+
+
+{% block content %}
+         <h2>{{ issue.title}}</h2>
+         <p>Written by {{issue.author }} on {{issue.published}}</p>
+        
+         <p>{{issue.content|linebreaks}}</p>
+         <hr>
+         <div class="page-header">
+         <h3>Leave a comment</h3>
+         <small>Total comments: {{issue.Comment.count }}</small>
+         </div>
+         <p><button type="button" class="btn btn-default"><a href="{% url 'issue_tracker:add_comment' slug=issue.slug%}">leave a comment</a></button></p>
+         <p><button type="button" class="btn btn-default"><a href="{% url 'issue_tracker:list_of_issue'%}">Home Page</a></button></p>
+         
+         {% for comment in issue.Comment.all %}
+         <div class="panel panel-default">
+                  <div class="panel panel-heading" style="background:gainsboro">User: {{comment.user}},Created: {{comment.created}}</div>
+                  <div class="panel panel-body">{{comment.body}}</div>
+         {% empty %}
+               <p>This is no comment</p>    
+            </div>  
+         {% endfor %}
+      
+{% endblock %}

@@ -43,6 +43,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('task/', include('task_tracker.urls')),
     path('issue/', include('issue_tracker.urls')),
-    path('communication/', include('communication_channel.urls')),
+    path('channel/', include('communication_channel.urls')),
     path('', include('main.urls')),
 ]

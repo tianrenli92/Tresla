@@ -1,0 +1,13 @@
+{% extends 'issue_tracker/issue/base.html' %}
+
+{% block title %}{{ project.name }}{% endblock %}
+
+{% block content %}
+    <h2>{{project.name}}</h2> 
+     {% for Issues in Issue %}
+         <h2><a href="{{ Issues.get_absolute_url }}">{{ Issues.title }}</a></h2>
+         <p>Written by {{ Issues.author }} on {{ Issues.published}}</p>
+         <hr>
+         {{ Issues.content | truncatewords:40 | linebreaks}}
+     {% endfor %}
+{% endblock %}

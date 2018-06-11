@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
+    'main',
     'task_tracker.apps.TaskTrackerConfig',
     'communication_channel.apps.CommunicationChannelConfig',
     'issue_tracker.apps.IssueTrackerConfig',
     'rest_framework',
     'widget_tweaks',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +127,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+
+STATICFILES_DIRS=(
+    os.path.join(BASE_DIR,'static'),
+)
+
 # rest framework
 
 REST_FRAMEWORK = {
@@ -140,4 +146,8 @@ REST_FRAMEWORK = {
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'project'
+
+# crispy
+
+CRISPY_TEMPLATE_PACK='bootstrap3'

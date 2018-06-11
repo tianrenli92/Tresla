@@ -11,7 +11,7 @@
         <a href="{% url 'logout' %}">Projects</a>
         <a href="{% url 'logout' %}">app A</a>
         <a href="{% url 'logout' %}">app B</a>
-        <a href="{% url 'logout' %}">app C</a>
+        <a href="{% url 'issue_tracker:list_of_issue' %}">Issues</a>
         <a href="{% url 'logout' %}">logout</a>
       {% else %}
         <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
