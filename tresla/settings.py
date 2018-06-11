@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'task_tracker.apps.TaskTrackerConfig',
-    'communication_channel.apps.CommunicationChannelConfig',
+    'communication_channel',
     'issue_tracker.apps.IssueTrackerConfig',
     'rest_framework',
     'widget_tweaks',
@@ -141,3 +141,5 @@ REST_FRAMEWORK = {
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'project'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
