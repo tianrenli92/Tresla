@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     'task_tracker.apps.TaskTrackerConfig',
-    'communication_channel.apps.CommunicationChannelConfig',
+    'communication_channel',
     'issue_tracker.apps.IssueTrackerConfig',
     'rest_framework',
     'widget_tweaks',
@@ -148,6 +148,10 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'project'
 
+<<<<<<< HEAD
 # crispy
 
 CRISPY_TEMPLATE_PACK='bootstrap3'
+=======
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+>>>>>>> 78c4587a06d8e2e5a3713b90fe4812fae6297435
