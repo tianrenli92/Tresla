@@ -20,6 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('task/', include('task_tracker.urls')),
     path('issue/', include('issue_tracker.urls')),
-    path('communication/', include('chatting_room.urls')),
+    path('communication/', include('communication_channel.urls')),
     path('', include('main.urls')),
 ]
