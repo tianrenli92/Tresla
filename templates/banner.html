@@ -8,6 +8,10 @@
     <header>
       <h1><a href="{% url 'index' %}">Tresla</a></h1>
       {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Projects</a>
+        <a href="{% url 'logout' %}">app A</a>
+        <a href="{% url 'logout' %}">app B</a>
+        <a href="{% url 'logout' %}">app C</a>
         <a href="{% url 'logout' %}">logout</a>
       {% else %}
         <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
