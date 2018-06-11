@@ -15,7 +15,7 @@ def index(request):
 
 def project(request):
 
-    return render(request, 'home.html', {})
+    return render(request, 'project.html', {})
 
 
 def signup(request):
