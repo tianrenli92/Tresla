@@ -4,7 +4,7 @@
     {% if project_id %}
         <p>Project {{ project_id }}</p>
         <a href="{% url 'project:task_tracker:task_group_list' project_id=project_id %}">Tasks</a>
-        <a href="{% url 'project:communication_channel:channel_list' project_id=project_id %}">Channels</a>
+        <a href="{% url 'project:communication_channel:channel' project_id=project_id %}">Channels</a>
         <a href="{% url 'project:issue_tracker:issue_list' project_id=project_id %}">Issues</a>
     {% endif %}
        <a href="{% url 'logout' %}">logout</a>
