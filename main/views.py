@@ -1,6 +1,3 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
@@ -9,13 +6,8 @@ from django.shortcuts import render, redirect
 
 def index(request):
     if request.user.is_authenticated:
-        return redirect('project')
+        return redirect('project:project-list')
     return render(request, 'index.html', {})
-
-
-def project(request):
-
-    return render(request, 'project.html', {})
 
 
 def signup(request):
