@@ -37,14 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main',
+    'task_tracker.apps.TaskTrackerConfig',
+    'communication_channel',
+    'issue_tracker.apps.IssueTrackerConfig',
     'rest_framework',
     'widget_tweaks',
     'crispy_forms',
-    'main',
-    'project',
-    'task_tracker',
-    'communication_channel',
-    'issue_tracker',
 ]
 
 MIDDLEWARE = [
@@ -148,7 +147,7 @@ REST_FRAMEWORK = {
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'project:project-list'
+LOGIN_REDIRECT_URL = 'project'
 
 
 # crispy

@@ -4,12 +4,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, IssueForm
 
 
-
-def issue_list(request, project_id):
-
-    return render(request, 'issue_tracker/issue_list.html', {'project_id': project_id})
-
-
 def list_of_issue_by_project(request, project_slug):
     projects = Project.objects.all()
     issue = Issue.objects.filter(status='published')

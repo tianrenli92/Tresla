@@ -2,6 +2,14 @@ from django.contrib import admin
 from .models import Issue, Project, Comment
 
 
+class ProjectAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')
+    prepopulated_fields = {'slug': ('name',)}
+
+
+admin.site.register(Project)
+
+
 class IssueAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'published', 'status')
     list_filter = ('status', 'created', 'published', 'author')
