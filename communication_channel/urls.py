@@ -5,7 +5,7 @@ app_name = 'communication_channel'
 
 urlpatterns = [
 
-    path('communication_channel', views.channel_view, name='channel'),
+    path('<int:channel_id>/', views.channel_view, name='channel'),
 
     path('', views.channel_list, name='channel_list'),
 
