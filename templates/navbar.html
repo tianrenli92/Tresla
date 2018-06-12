@@ -1,0 +1,15 @@
+<h1><a href="{% url 'index' %}">Tresla</a></h1>
+<nav>
+    {% if user.is_authenticated %}
+    {% if project_id %}
+        <p>Project {{ project_id }}</p>
+        <a href="{% url 'project:task_tracker:task_group_list' project_id=project_id %}">Tasks</a>
+        <a href="{% url 'project:communication_channel:channel_list' project_id=project_id %}">Channels</a>
+        <a href="{% url 'project:issue_tracker:issue_list' project_id=project_id %}">Issues</a>
+    {% endif %}
+       <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+       <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
+    {% endif %}
+    <hr>
+</nav>
