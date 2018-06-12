@@ -7,8 +7,6 @@ from .serializers import MessageSerializer, UserSerializer  # Our Serializer Cla
 
 from django.contrib.auth import authenticate, login #Django's inbuilt authentication methods
 from django.shortcuts import render, redirect
-from chat.models import Message
-from chat.serializers import MessageSerializer, UserSerializer
 
 def channel_view(request):
     """Render the template with required context variables"""
