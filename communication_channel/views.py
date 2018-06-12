@@ -4,7 +4,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message
 from .serializers import MessageSerializer, UserSerializer  # Our Serializer Classes
+from django.shortcuts import render
 
+
+def channel_list(request, project_id):
+
+    return render(request, 'communication_channel/channel_list.html', {'project_id': project_id})
 
 # Users View
 @csrf_exempt  # Decorator to make the view csrf excempt.

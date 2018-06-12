@@ -3,22 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.template.defaultfilters import slugify
+from project.models import Project
 
-
-class Project(models.Model):
-    name = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique=True)
-
-    class Meta:
-        ordering = ['name']
-        verbose_name = 'project'
-        verbose_name_plural = 'projects'
-
-    def get_absolute_url(self):
-        return reverse('issue_tracker:list_of_issue_by_project', args=[self.slug])
-
-    def __str__(self):
-        return self.name
 
 
 class Issue(models.Model):
