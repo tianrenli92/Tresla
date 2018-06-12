@@ -132,6 +132,7 @@ STATICFILES_DIRS=(
     os.path.join(BASE_DIR,'static'),
 )
 
+
 # rest framework
 
 REST_FRAMEWORK = {
@@ -148,10 +149,10 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'project'
 
-<<<<<<< HEAD
+
 # crispy
 
 CRISPY_TEMPLATE_PACK='bootstrap3'
-=======
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
->>>>>>> 78c4587a06d8e2e5a3713b90fe4812fae6297435
+
+
+
