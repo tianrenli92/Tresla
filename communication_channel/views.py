@@ -6,11 +6,11 @@ from .models import Message
 from .serializers import MessageSerializer, UserSerializer  # Our Serializer Classes
 from django.shortcuts import render,redirect
 
-
+"""
 def channel_list(request, project_id):
 
     return render(request, 'communication_channel/channel_list.html', {'project_id': project_id})
-
+"""
 
 def channel_view(request):
     """Render the template with required context variables"""
