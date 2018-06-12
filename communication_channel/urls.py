@@ -4,11 +4,11 @@ from . import views
 app_name = 'communication_channel'
 
 urlpatterns = [
-<<<<<<< HEAD
+
     path('communication_channel', views.channel_view, name='channel'),
-=======
+
     path('', views.channel_list, name='channel_list'),
->>>>>>> 6709944bde6a76bb5f0e1917059e69c4b1e08110
+
     # URL form : "/api/messages/1/2"
     path('api/messages/<int:sender>/<int:receiver>', views.message_list, name='message-detail'),  # For GET request.
     # URL form : "/api/messages/"

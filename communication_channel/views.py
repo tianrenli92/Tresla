@@ -11,11 +11,6 @@ def channel_list(request, project_id):
 
     return render(request, 'communication_channel/channel_list.html', {'project_id': project_id})
 
-<<<<<<< HEAD
-from django.contrib.auth import authenticate, login #Django's inbuilt authentication methods
-from django.shortcuts import render, redirect
-=======
->>>>>>> 6709944bde6a76bb5f0e1917059e69c4b1e08110
 
 def channel_view(request):
     """Render the template with required context variables"""
