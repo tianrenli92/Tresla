@@ -14,13 +14,8 @@ def channel_list(request, project_id):
 <<<<<<< HEAD
 from django.contrib.auth import authenticate, login #Django's inbuilt authentication methods
 from django.shortcuts import render, redirect
-<<<<<<< HEAD
 =======
 >>>>>>> 6709944bde6a76bb5f0e1917059e69c4b1e08110
-=======
-from chat.models import Message
-from chat.serializers import MessageSerializer, UserSerializer
->>>>>>> parent of 74c02b5... html change
 
 def channel_view(request):
     """Render the template with required context variables"""
