@@ -17,7 +17,7 @@ def channel_view(request):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
-        return render(request, 'communication_channel.html',
+        return render(request, 'communication_channel/communication_channel.html',
                       {'users': User.objects.exclude(username=request.user.username)}) #Returning context for all users except the current logged-in user
 
 
