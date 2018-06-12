@@ -4,12 +4,22 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message
 from .serializers import MessageSerializer, UserSerializer  # Our Serializer Classes
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 
 def channel_list(request, project_id):
 
     return render(request, 'communication_channel/channel_list.html', {'project_id': project_id})
+
+
+def channel_view(request):
+    """Render the template with required context variables"""
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == "GET":
+        return render(request, 'communication_channel.html',
+                      {'users': User.objects.exclude(username=request.user.username)}) #Returning context for all users except the current logged-in user
+
 
 # Users View
 @csrf_exempt  # Decorator to make the view csrf excempt.
