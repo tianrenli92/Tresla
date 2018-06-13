@@ -1,14 +1,13 @@
-from django.contrib.auth.models import User  # Django Build in User Model
+from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from .models import Message
-from .serializers import MessageSerializer, UserSerializer  # Our Serializer Classes
+from .serializers import MessageSerializer, UserSerializer
 from django.shortcuts import render,redirect
 
 
 def channel_view(request,project_id):
-    """Render the template with required context variables"""
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
@@ -16,10 +15,9 @@ def channel_view(request,project_id):
                       {'users': User.objects.exclude(username=request.user.username),
                        'project_id': project_id,
                        }
-        ) #Returning context for all users except the current logged-in user
+        )
 
 def message_view(request, sender, receiver):
-    """Render the template with required context variables"""
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
