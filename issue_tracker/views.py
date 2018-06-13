@@ -60,7 +60,7 @@ def new_issue(request,project_id):
             issue = form.save(commit=False)
             issue.author = request.user
             issue.save()
-            return redirect('issue_tracker:issue_detail', slug=issue.slug)
+            return redirect('issue_tracker:issue_detail', project_id=project_id, slug=issue.slug)
     else:
         form = IssueForm()
     template = 'issue_tracker/issue/new_issue.html'
