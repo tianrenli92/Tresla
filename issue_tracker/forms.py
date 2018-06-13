@@ -4,7 +4,7 @@ from .models import Comment,Issue
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('user','email','body')
+        fields = ('body',)
 
 class IssueForm(forms.ModelForm):
     class Meta:
