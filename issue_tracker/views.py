@@ -8,7 +8,7 @@ from .forms import CommentForm, IssueForm
 def list_of_issue_by_project(request,project_id):
     projects = Project.objects.all()
     issue = Issue.objects.filter(status='published')
-    template = 'issue_tracker/project/list_of_issue_by_project.html'
+    template = 'project:issue_tracker/project/list_of_issue_by_project.html'
     context = {'projects': projects, 'issue': issue, 'project_id': project_id}
     return render(request, template, context)
 
@@ -27,9 +27,9 @@ def list_of_issue(request,project_id):
     return render(request, template, {'issues': issues, 'page': page,'project_id':project_id})
 
 
-def issue_detail(request, slug,project_id):
-    issue = get_object_or_404(Issue, slug=slug)
-    context = {'issue': issue,'project_id':project_id}
+def issue_detail(request, issue_id, project_id):
+    issue = get_object_or_404(Issue, id=issue_id)
+    context = {'issue': issue,'issue_id':issue_id,'project_id':project_id}
     if issue.status == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
     else:
@@ -37,34 +37,34 @@ def issue_detail(request, slug,project_id):
     return render(request, template, context)
 
 
-def add_comment(request, slug,project_id):
-    issue = get_object_or_404(Issue, slug=slug)
+def add_comment(request, issue_id, project_id):
+    issue = get_object_or_404(Issue, id=issue_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.issue = issue
             comment.save()
-            return redirect('issue_tracker:issue_detail', slug=issue.slug)
+            return redirect('project:issue_tracker:issue_detail', project_id=project_id, issue_id=issue.id)
     else:
         form = CommentForm()
     template = 'issue_tracker/issue/add_comment.html'
-    context = {'form': form,'project_id':project_id}
+    context = {'form': form}
     return render(request, template, context)
 
 
-def new_issue(request,project_id):
+def new_issue(request, project_id):
     if request.method == 'POST':
         form = IssueForm(request.POST)
         if form.is_valid():
             issue = form.save(commit=False)
             issue.author = request.user
             issue.save()
-            return redirect('issue_tracker:issue_detail', project_id=project_id, slug=issue.slug)
+            return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue.id)
     else:
         form = IssueForm()
     template = 'issue_tracker/issue/new_issue.html'
-    context = {'form': form,'project_id':project_id}
+    context = {'form': form}
     return render(request, template, context)
 
 

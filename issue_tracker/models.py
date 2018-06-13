@@ -14,7 +14,7 @@ class Issue(models.Model):
     )
     project = models.ForeignKey(Project, on_delete=models.PROTECT)
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique=True)
+    slug = models.SlugField(max_length=250)
     content = models.TextField()
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     published = models.DateTimeField(default=timezone.now)
@@ -27,7 +27,7 @@ class Issue(models.Model):
         super(Issue, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('project:issue_tracker:issue_detail', kwargs={'project_id':self.project_id, 'slug':self.slug})
+        return reverse('project:issue_tracker:issue_detail', kwargs={'project_id':self.project_id, 'issue_id':self.id})
 
     def __str__(self):
         return self.title
