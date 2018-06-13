@@ -26,5 +26,5 @@ class ProjectMember(models.Model):
         ordering = ('project','member',)
 
     def __str__(self):
-        return self.member
+        return self.member.username
 
