@@ -27,19 +27,19 @@
         <div class="col-sm-9">
             <div class="card">
             <div id="board" class="#eeeeee grey lighten-3" style="height: 68vh; padding: 5px; overflow-y: scroll">
-                {% block messages %}
+                {% block message %}
                 {% endblock %}
             </div>
-            <form id="chat-box" class="form-group {% block hide %}hide{% endblock %}" method="post">
+            <form id="chat-box" class="form-group" method="post">
                 {% csrf_token %}
                 <div class="row">
-                    <div class="col s11">
+                    <div class="col-sm-11">
                         <div class="input-field">
                             <input id="id_message" name="message" type="text" placeholder="Type your message..">
                         </div>
                     </div>
-                    <div class="col s1" style="line-height: 80px">
-                        <button class="btn btn-floating blue lighten-2 waves-effect waves-light"><i class="material-icons">send</i></button>
+                    <div class="col-sm-11" style="line-height: 80px">
+                        <button class="btn btn-floating blue lighten-3 waves-effect waves-light">send</button>
                     </div>
                 </div>
             </form>
@@ -49,7 +49,7 @@
     </div>
     {% load staticfiles %}
     (html comment removed:  Including the scripts required )
-    <script src="{% static 'js/chat.js' %}"></script>
+    <script src="{% static 'js/message.js' %}"></script>
     <script>
         // For receiving, set global variables to be used by the 'receive' function
         sender_id = "{{ receiver.id }}"; //Context variable for receiver
