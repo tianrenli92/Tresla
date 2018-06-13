@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Project list</p>
+    <hr>
+    {% if project_list %}
+        <ul>
+
+    {% else %}
+        <p>No project are available.</p>
+    {% endif %}
+{% endblock %}
