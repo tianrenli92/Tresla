@@ -1,10 +1,14 @@
 from django.contrib import admin
 from .models import Project,ProjectMember
 
+
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
-    prepopulated_fields = {'slug': ('name',)}
+    list_display = ('name', 'owner')
 
 
-admin.site.register(Project)
-admin.site.register(ProjectMember)
+class ProjectMemberAdmin(admin.ModelAdmin):
+    list_display = ('member','project')
+
+
+admin.site.register(Project,ProjectAdmin)
+admin.site.register(ProjectMember,ProjectMemberAdmin)

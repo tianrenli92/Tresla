@@ -5,5 +5,5 @@ app_name = 'task_tracker'
 
 
 urlpatterns = [
-    path('', views.task_group_list, name='task_group_list'),
+    path('', views.task_group_list, name='task_list_list'),
 ]

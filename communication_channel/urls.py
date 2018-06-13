@@ -6,6 +6,7 @@ app_name = 'communication_channel'
 urlpatterns = [
 
     path('', views.channel_view, name='channel'),
+    path('api/messages/<int:sender>/<int:receiver>', views.message_list, name='message-detail'),
 
     # URL form : "/api/messages/1/2"
     path('api/messages/<int:sender>/<int:receiver>', views.message_list, name='message-detail'),  # For GET request.
