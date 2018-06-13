@@ -7,13 +7,15 @@ from .serializers import MessageSerializer, UserSerializer  # Our Serializer Cla
 from django.shortcuts import render,redirect
 
 
-def channel_view(request):
+def channel_view(request,project_id):
     """Render the template with required context variables"""
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
         return render(request, 'communication_channel/communication_view.html',
-                      {'users': User.objects.exclude(username=request.user.username)}) #Returning context for all users except the current logged-in user
+                      {'users': User.objects.exclude(username=request.user.username)},
+                      'project_id':project_id
+                      ) #Returning context for all users except the current logged-in user
 
 def message_view(request, sender, receiver):
     """Render the template with required context variables"""
@@ -24,7 +26,8 @@ def message_view(request, sender, receiver):
                       {'users': User.objects.exclude(username=request.user.username), #List of users
                        'receiver': User.objects.get(id=receiver), # Receiver context user object for using in template
                        'messages': Message.objects.filter(sender_id=sender, receiver_id=receiver) |
-                                   Message.objects.filter(sender_id=receiver, receiver_id=sender)}) # Return context with message objects where users are either sender or receiver.
+                                   Message.objects.filter(sender_id=receiver, receiver_id=sender),
+                       }) # Return context with message objects where users are either sender or receiver.
 
 
 # Users View
