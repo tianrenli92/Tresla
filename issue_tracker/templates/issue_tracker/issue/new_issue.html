@@ -1,9 +1,9 @@
-{% extends 'issue_tracker/issue/base.html' %}
+{% extends 'base.html' %}
 {% load crispy_forms_tags %}
 
 {% block content %}
     <h1>Add New Issue </h1> 
-    <a href="{% url 'issue_tracker:list_of_issue' %}">Home</a>
+    <a >Home</a>
     <form method="POST" class="Issue-form">{% csrf_token %}
         {{form|crispy}}
         <button type="submit" class="btn btn-success">Submit</button>

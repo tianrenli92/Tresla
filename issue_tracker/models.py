@@ -27,7 +27,7 @@ class Issue(models.Model):
         super(Issue, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('issue_tracker:issue_detail', args=[self.slug])
+        return reverse('project:issue_tracker:issue_detail', kwargs={'project_id':self.project,'slug':self.slug})
 
     def __str__(self):
         return self.title

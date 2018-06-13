@@ -5,23 +5,15 @@ from .forms import CommentForm, IssueForm
 
 
 
-def issue_list(request, project_id):
-
-    return render(request, 'issue_tracker/issue_list.html', {'project_id': project_id})
-
-
-def list_of_issue_by_project(request, project_slug):
+def list_of_issue_by_project(request,project_id):
     projects = Project.objects.all()
     issue = Issue.objects.filter(status='published')
-    if project_slug:
-        project = get_object_or_404(Project, slug=project_slug)
-        issue = issue.filter(project=project)
     template = 'issue_tracker/project/list_of_issue_by_project.html'
-    context = {'projects': projects, 'issue': issue, 'project': project}
+    context = {'projects': projects, 'issue': issue, 'project_id': project_id}
     return render(request, template, context)
 
 
-def list_of_issue(request):
+def list_of_issue(request,project_id):
     issue = Issue.objects.filter(status='published')
     paginator = Paginator(issue, 10)
     page = request.GET.get('page')
@@ -32,12 +24,12 @@ def list_of_issue(request):
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
     template = 'issue_tracker/issue/list_of_issue.html'
-    return render(request, template, {'issues': issues, 'page': page})
+    return render(request, template, {'issues': issues, 'page': page,'project_id':project_id})
 
 
-def issue_detail(request, slug):
+def issue_detail(request, slug,project_id):
     issue = get_object_or_404(Issue, slug=slug)
-    context = {'issue': issue}
+    context = {'issue': issue,'project_id':project_id}
     if issue.status == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
     else:
@@ -45,7 +37,7 @@ def issue_detail(request, slug):
     return render(request, template, context)
 
 
-def add_comment(request, slug):
+def add_comment(request, slug,project_id):
     issue = get_object_or_404(Issue, slug=slug)
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -57,11 +49,11 @@ def add_comment(request, slug):
     else:
         form = CommentForm()
     template = 'issue_tracker/issue/add_comment.html'
-    context = {'form': form}
+    context = {'form': form,'project_id':project_id}
     return render(request, template, context)
 
 
-def new_issue(request):
+def new_issue(request,project_id):
     if request.method == 'POST':
         form = IssueForm(request.POST)
         if form.is_valid():
@@ -72,7 +64,7 @@ def new_issue(request):
     else:
         form = IssueForm()
     template = 'issue_tracker/issue/new_issue.html'
-    context = {'form': form}
+    context = {'form': form,'project_id':project_id}
     return render(request, template, context)
 
 
