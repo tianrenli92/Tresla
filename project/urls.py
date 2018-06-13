@@ -8,6 +8,6 @@ urlpatterns = [
     path('', views.project_list, name='project-list'),
     path('<int:project_id>/', views.project_detail, name='project-detail'),
     path('<int:project_id>/task/', include('task_tracker.urls')),
-    path('<int:project_id>/issue/', include('issue_tracker.urls')),
+    path('<int:project_id>/issue/', include('issue_tracker.urls',namespace='issue_tracker')),
     path('<int:project_id>/channel/', include('communication_channel.urls')),
 ]

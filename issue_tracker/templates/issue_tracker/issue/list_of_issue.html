@@ -1,13 +1,14 @@
-{% extends 'issue_tracker/issue/base.html' %}
+{% extends 'base.html' %}
 
 {% block description %}This is the description{% endblock %}
 {% block title %}List of Issue{% endblock %}
 
 {% block content %}
+     <p>Issue list of project {{ project_id }}</p>
     <div class="row">
         <div class="col-md-8">
             <div class="page-header"><h1>Our lastest issues</h1></div>
-            <button class="btn btn-default"><a href="{% url 'issue_tracker:new_issue'%}">New issues</a></button>
+            <button class="btn btn-default"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}">New issues</a></button>
      {% for Issue in issues %}
          <h2><a href="{{Issue.get_absolute_url}}">{{ Issue.title }}</a></h2>
          <small>Written by {{ Issue.author }} on {{ Issue.published}} in <a href="{{Issue.project.get_absolute_url}}">{{Issue.project}}</a></small>
