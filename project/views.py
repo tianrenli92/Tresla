@@ -1,5 +1,6 @@
 from django.shortcuts import render,get_list_or_404, redirect
-from .models import Project, ProjectList, ProjectListForm
+from .models import Project, ProjectForm
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -14,12 +15,12 @@ def project_detail(request, project_id):
 
 def project_create(request):
     if request.method == 'POST':
-        project_list = ProjectList
-        form = ProjectListForm(request.POST,instance=project_list)
+        project = Project(owner_id=request.user.id)
+        form = ProjectForm(request.POST,instance=project)
         if form.is_valid():
             form.save()
         return redirect('project:project_index')
 
     else:
-        form=ProjectListForm()
-        return render(request, 'project/project_creat.html', {'form':form})
+        form=ProjectForm()
+        return render(request, 'project/project_create.html', {'form':form})
