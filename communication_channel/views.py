@@ -11,11 +11,11 @@ def channel_view(request,project_id):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
-        return render(request, 'communication_channel/communication_view.html',
+        return render(request, 'communication_channel/channel_view.html',
                       {'users': User.objects.exclude(username=request.user.username),
                        'project_id': project_id,
                        }
-        )
+                      )
 
 def message_view(request, sender, receiver):
     if not request.user.is_authenticated:
