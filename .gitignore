@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Created by https://www.gitignore.io
 
 ### OSX ###
@@ -89,8 +88,4 @@ local_settings.py
 .env
 db.sqlite3
 .idea/
-=======
-.idea/
-*.pyc
-.DS_Store
->>>>>>> 0424b532a8f9cfa33e28b50230fc2f6aacb6db54
+**/migrations/*.*
