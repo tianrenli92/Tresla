@@ -1,8 +1,49 @@
-from django.shortcuts import render,get_list_or_404
-from .models import Project,TaskList
+from django.shortcuts import render,get_object_or_404,redirect
+from .models import Project,TaskList,TaskListForm
+from django.http import Http404
 
 
-def task_group_list(request, project_id):
-    task_list_list=get_list_or_404(TaskList, project_id=project_id)
-    print(task_list_list)
-    return render(request, 'task_tracker/task_list_list.html', {'project_id':project_id, 'task_list_list':task_list_list})
+def task_list_index(request, project_id):
+    task_list_list=TaskList.objects.filter(project_id=project_id)
+    return render(request, 'task_tracker/task_list_index.html', {'project_id': project_id, 'task_list_list': task_list_list})
+
+
+def task_list_create(request, project_id):
+    if request.method == 'POST':
+        task_list = TaskList(project_id=project_id)
+        form = TaskListForm(request.POST,instance=task_list)
+        if form.is_valid():
+            form.save()
+        return redirect('project:task_tracker:task_list_index', project_id=project_id)
+
+    else:
+        form=TaskListForm()
+        return render(request, 'task_tracker/task_list_create.html', {'form':form})
+
+
+def task_list_update(request, project_id, task_list_id):
+    try:
+        task_list = TaskList.objects.get(id=task_list_id)
+    except TaskList.DoesNotExist:
+        raise Http404("No such task list.")
+
+    if request.method == 'POST':
+        form = TaskListForm(request.POST,instance=task_list)
+        if form.is_valid():
+            form.save()
+        return redirect('project:task_tracker:task_list_index', project_id=project_id)
+
+    else:
+        form = TaskListForm(instance=task_list)
+        return render(request, 'task_tracker/task_list_update.html', {'form':form})
+
+
+def task_list_delete(request, project_id, task_list_id):
+    try:
+        instance=TaskList.objects.get(id=task_list_id)
+    except TaskList.DoesNotExist:
+        raise Http404("No such task list.")
+    instance.delete()
+    return redirect('project:task_tracker:task_list_index', project_id=project_id)
+
+

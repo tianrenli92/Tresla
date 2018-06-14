@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>Tasks of project {{ project_id }}:</p>
+    <a href="{% url 'project:task_tracker:task_list_create' project_id=project_id %}">new task list</a>
+    {% if task_list_list %}
+        <ul>
+        {% for task_list in task_list_list %}
+            <p>{{ task_list.name }}:
+                <a href="{% url 'project:task_tracker:task_list_update' project_id=project_id task_list_id=task_list.id%}">[edit]</a>
+                <a href="{% url 'project:task_tracker:task_list_delete' project_id=project_id task_list_id=task_list.id%}">[del]</a>
+            </p>
+            {% if task_list.tasks.all %}
+                <ul>
+                {% for task in task_list.tasks.all %}
+                    <p>{{ task.topic }}</p>
+                {%  endfor %}
+                </ul>
+            {% else %}
+                <ul>
+                    <p>(empty)</p>
+                </ul>
+            {% endif %}
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>There is no task list.</p>
+    {% endif %}
+{% endblock %}
