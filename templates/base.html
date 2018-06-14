@@ -2,16 +2,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <meta charset="utf-8">
     <title>{% block title %}Tresla{% endblock %}</title>
   </head>
   <body>
-    <header>
-      {% include "navbar.html" %}
-    </header>
-    <main>
-      {% block content %}
-      {% endblock %}
-    </main>
+    <div class="container-fluid" style="border:1px">
+        <header>
+          {% include "navbar.html" %}
+        </header>
+        <main>
+          {% block content %}
+          {% endblock %}
+        </main>
+    </div>
   </body>
 </html>
