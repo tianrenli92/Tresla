@@ -3,8 +3,13 @@
 {% block content %}
     <p>Project list</p>
     <hr>
+    <a href="{% url 'project:project_create'%}">new project</a>
     {% if project_list %}
         <ul>
+        {% for project in project_list %}
+            <p><a href={% url 'project:project_detail' project_id=project_id%}>{{ project.name }}</a></p>
+        {% endfor %}
+        </ul>
 
     {% else %}
         <p>No project are available.</p>
