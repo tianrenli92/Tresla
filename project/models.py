@@ -12,7 +12,7 @@ class Project(models.Model):
         ordering = ('timestamp',)
 
     def get_absolute_url(self):
-        return reverse('project:project-detail', args=[self.id])
+        return reverse('project:project_detail', args=[self.id])
 
     def __str__(self):
         return self.name

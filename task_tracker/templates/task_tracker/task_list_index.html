@@ -6,21 +6,25 @@
     {% if task_list_list %}
         <ul>
         {% for task_list in task_list_list %}
-            <p>{{ task_list.name }}:
-                <a href="{% url 'project:task_tracker:task_list_update' project_id=project_id task_list_id=task_list.id%}">[edit]</a>
-                <a href="{% url 'project:task_tracker:task_list_delete' project_id=project_id task_list_id=task_list.id%}">[del]</a>
-            </p>
-            {% if task_list.tasks.all %}
+            <li>
+                <p>{{ task_list.name }}
+                    <a href="{% url 'project:task_tracker:task_list_update' project_id=project_id task_list_id=task_list.id%}">[edit]</a>
+                    <a href="{% url 'project:task_tracker:task_list_delete' project_id=project_id task_list_id=task_list.id%}">[del]</a>
+                    :
+                </p>
                 <ul>
-                {% for task in task_list.tasks.all %}
-                    <p>{{ task.topic }}</p>
-                {%  endfor %}
+                    <a href="{% url 'project:task_tracker:task_create' project_id=project_id task_list_id=task_list.id%}">new task</a>
+                    {% if task_list.tasks.all %}
+                         {% for task in task_list.tasks.all %}
+                            <p>
+                                {{ task.topic }}
+                                <a href="{% url 'project:task_tracker:task_update' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[edit]</a>
+                                <a href="{% url 'project:task_tracker:task_delete' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[del]</a>
+                            </p>
+                        {%  endfor %}
+                    {% endif %}
                 </ul>
-            {% else %}
-                <ul>
-                    <p>(empty)</p>
-                </ul>
-            {% endif %}
+            </li>
         {% endfor %}
         </ul>
     {% else %}
