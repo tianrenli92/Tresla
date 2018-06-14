@@ -1,7 +1,9 @@
-from django.shortcuts import render,get_list_or_404, redirect
+from django.shortcuts import render,get_list_or_404, redirect, get_object_or_404
 from .models import Project, ProjectForm
 from django.contrib.auth.models import User
+from django.http import Http404
 # Create your views here.
+
 
 
 def project_index(request):
@@ -24,3 +26,21 @@ def project_create(request):
     else:
         form=ProjectForm()
         return render(request, 'project/project_create.html', {'form':form})
+
+
+def project_delete(request, project_id):
+    try:
+        instance=Project.objects.get(id=project_id)
+    except Project.DoesNotExist:
+        raise Http404("No such project.")
+    instance.delete()
+    return redirect('project:project_index')
+
+
+def project_edit(request, project_id):
+    project = get_object_or_404(Project, id=project_id)
+    form = ProjectForm(request.POST or None, instance=project)
+    if form.is_valid():
+        form.save()
+        return redirect('project:project_index')
+    return render(request, 'project/project_edit.html', {'form': form})
