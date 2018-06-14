@@ -7,11 +7,10 @@
      <p>Issue list of project {{ project_id }}</p>
     <div class="row">
         <div class="col-md-8">
-            <div class="page-header"><h1>Our lastest issues</h1></div>
             <button class="btn btn-default"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}">New issues</a></button>
      {% for issue in issues %}
          <h2><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h2>
-         <small>Written by {{ issue.author }} on {{ issue.published}} in <a href="{{issue.project.get_absolute_url}}">{{issue.project}}</a></small>
+         <small>Written by {{ issue.author }} on {{ issue.published}}</small>
          <hr>
          {{ issue.content | truncatewords:40 | linebreaks}}
         
@@ -19,10 +18,4 @@
         {% include 'issue_tracker/paginator.html' with page=issues %}
   
     </div>
-    <div class="col-md-4">
-        <div class="page-header">
-     <h1>Use info/project info</h1>
-     </div>
-    </div>
-    </div>     
 {% endblock %}
