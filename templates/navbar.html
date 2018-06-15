@@ -1,15 +1,21 @@
 <h1><a href="{% url 'index' %}">Tresla</a></h1>
 <nav>
     {% if user.is_authenticated %}
-    {% if project_id %}
-        <p>Project {{ project_id }}</p>
-        <a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a>
-        <a href="{% url 'project:communication_channel:channel' project_id=project_id %}">Channels</a>
-        <a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a>
-    {% endif %}
-       <a href="{% url 'logout' %}">logout</a>
+        <p>
+            Welcome, {{ request.user.username }}
+            <a href="{% url 'logout' %}">logout</a>
+        </p>
+       {% if project_id %}
+            <p>
+                <a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a>
+                |
+                <a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a>
+                <a href="{% url 'project:communication_channel:channel' project_id=project_id %}">Channels</a>
+                <a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a>
+            </p>
+        {% endif %}
     {% else %}
-       <a href="{% url 'login' %}">login</a> / <a href="{% url 'signup' %}">signup</a>
-    {% endif %}
+        <p><a href="{% url 'signup' %}">signup</a> | <a href="{% url 'login' %}">login</a></p>
+   {% endif %}
     <hr>
 </nav>

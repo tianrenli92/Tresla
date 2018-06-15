@@ -33,7 +33,7 @@ class Task(models.Model):
 
 
 class TaskForm(ModelForm):
-    description = forms.CharField(widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}))
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}))
 
     class Meta:
         model=Task
