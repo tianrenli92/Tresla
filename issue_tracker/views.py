@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Issue, Project
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CommentForm, IssueForm
+from .forms import CommentForm, IssueForm,NewIssueForm
 
 
 
@@ -70,17 +70,26 @@ def new_issue(request, project_id):
 def edit_issue(request, project_id,issue_id):
     issue = get_object_or_404(Issue, id=issue_id)
     if request.method == 'POST':
-        form = IssueForm(request.POST,instance=issue)
+        form = NewIssueForm(request.POST,instance=issue)
         if form.is_valid():
             issue = form.save(commit=False)
             issue.author = request.user
             issue.save()
             return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue_id)
     else:
-        form = IssueForm()
-    template = 'issue_tracker/issue/new_issue.html'
+        form = NewIssueForm(instance=issue)
+    template = 'issue_tracker/issue/edit_issue.html'
     context = {'form': form}
     return render(request, template, context)
+
+
+def delete_issue(request, project_id):
+    try:
+        instance=Project.objects.get(id=project_id)
+    except Project.DoesNotExist:
+        raise Http404("No such project.")
+    instance.delete()
+    return redirect('project:project_index')
 
 
 
