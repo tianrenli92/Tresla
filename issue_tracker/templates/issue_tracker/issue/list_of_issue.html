@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
 
-{% block description %}This is the description{% endblock %}
 {% block title %}List of Issue{% endblock %}
 
 {% block content %}
      <p>Issue list of project {{ project_id }}</p>
     <div class="row">
-        <div class="col-md-8">
-            <button class="btn btn-default"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}">New issues</a></button>
-     {% for issue in issues %}
-         <h2><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h2>
-         <small>Written by {{ issue.author }} on {{ issue.published}}</small>
-         <hr>
+        <div class="col-md-10">
+            <button class="btn float-right btnbackground" style="margin: -40px 0;"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}" class='btnfont'>New issues</a></button>
+
+            {% for issue in issues %}
+         <div class="panel panel-default">
+         <h3 ><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
          {{ issue.content | truncatewords:40 | linebreaks}}
-        
+             <small>Written by {{ issue.author }} on {{ issue.published}}</small>
+         </div>
      {% endfor %}
         {% include 'issue_tracker/paginator.html' with page=issues %}
   

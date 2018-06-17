@@ -3,11 +3,12 @@
 
 {% block content %}
          <h2>{{ issue.title}}</h2>
-         <p>Written by {{issue.author }} on {{issue.published}}</p>
          <p>{{issue.content|linebreaks}}</p>
-         <a href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a>
-         <a href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a>
-         <hr>
+         <p class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</p>
+    <div style="padding: 3% 6%">
+         <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;" href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a></div>
+         <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;" href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a></div>
+    </div>
          <div class="page-header">
          <h3>Leave a comment</h3>
          <small>Total comments: {{issue.Comment.count }}</small>

@@ -13,7 +13,7 @@
             <div class="collapse navbar-collapse" id="myNavbar">
        {% if project_id %}
              <ul class="nav navbar-nav fontt" style="display: inline;margin: 0 -42px;" >
-                <li class="active"><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
+                <li><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
                 <li><a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a></li>
                 <li><a href="{% url 'project:private_channel:channel' project_id=project_id %}">Channels</a></li>
                 <li><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a></li>

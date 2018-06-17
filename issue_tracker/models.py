@@ -12,11 +12,11 @@ class Issue(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    project = models.ForeignKey(Project, on_delete=models.PROTECT)
+    project = models.ForeignKey(Project,on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
     content = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.PROTECT)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -34,7 +34,7 @@ class Issue(models.Model):
 
 
 class Comment(models.Model):
-    issue = models.ForeignKey(Issue, related_name='Comment', on_delete=models.PROTECT)
+    issue = models.ForeignKey(Issue, related_name='Comment', on_delete=models.CASCADE)
     user = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
     body = models.TextField()

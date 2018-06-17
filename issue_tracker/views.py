@@ -51,7 +51,7 @@ def add_comment(request, issue_id, project_id):
     else:
         form = CommentForm()
     template = 'issue_tracker/issue/add_comment.html'
-    context = {'form': form}
+    context = {'form': form,'project_id':project_id}
     return render(request, template, context)
 
 
@@ -66,7 +66,7 @@ def new_issue(request, project_id):
     else:
         form = IssueForm()
     template = 'issue_tracker/issue/new_issue.html'
-    context = {'form': form}
+    context = {'form': form,'project_id':project_id}
     return render(request, template, context)
 
 def edit_issue(request, project_id,issue_id):
