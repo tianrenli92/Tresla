@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'main',
     'project',
     'task_tracker',
-    'communication_channel',
+    'private_channel',
     'issue_tracker',
 ]
 
