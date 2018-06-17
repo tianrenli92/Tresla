@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django import forms
 from django.forms import ModelForm
 from project.models import Project
 
@@ -32,6 +33,8 @@ class Task(models.Model):
 
 
 class TaskForm(ModelForm):
+    description = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}))
+
     class Meta:
         model=Task
         fields = ['task_list','topic','description']
