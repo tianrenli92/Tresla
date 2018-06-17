@@ -4,7 +4,7 @@
 {% block content %}
          <h2>{{ issue.title}}</h2>
          <p>Written by {{issue.author }} on {{issue.published}}</p>
-         <a href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a>
+        
          <p>{{issue.content|linebreaks}}</p>
          <hr>
          <div class="page-header">

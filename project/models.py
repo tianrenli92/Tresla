@@ -3,7 +3,6 @@ from django.db import models
 from django.urls import reverse
 from django.forms import ModelForm
 
-
 class Project(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)

@@ -2,7 +2,7 @@
 
 {% block content %}
     <p>Tasks of project {{ project_id }}:</p>
-    <p><a href="{% url 'project:task_tracker:task_list_create' project_id=project_id %}">[new task list]</a></p>
+    <a href="{% url 'project:task_tracker:task_list_create' project_id=project_id %}">new task list</a>
     {% if task_list_list %}
         <ul>
         {% for task_list in task_list_list %}
@@ -12,15 +12,15 @@
                     <a href="{% url 'project:task_tracker:task_list_delete' project_id=project_id task_list_id=task_list.id%}">[del]</a>
                     :
                 </p>
-                <p><a href="{% url 'project:task_tracker:task_create' project_id=project_id task_list_id=task_list.id%}">[new task]</a></p>
                 <ul>
+                    <a href="{% url 'project:task_tracker:task_create' project_id=project_id task_list_id=task_list.id%}">new task</a>
                     {% if task_list.tasks.all %}
                          {% for task in task_list.tasks.all %}
-                            <li><p>
+                            <p>
                                 {{ task.topic }}
                                 <a href="{% url 'project:task_tracker:task_update' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[edit]</a>
                                 <a href="{% url 'project:task_tracker:task_delete' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[del]</a>
-                            </p></li>
+                            </p>
                         {%  endfor %}
                     {% endif %}
                 </ul>

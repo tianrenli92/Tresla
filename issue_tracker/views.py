@@ -28,7 +28,7 @@ def list_of_issue(request,project_id):
 
 
 def issue_detail(request, issue_id, project_id):
-    issue = get_object_or_404(Issue,id=issue_id)
+    issue = get_object_or_404(Issue, id=issue_id)
     context = {'issue': issue,'issue_id':issue_id,'project_id':project_id}
     if issue.status == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
@@ -61,21 +61,6 @@ def new_issue(request, project_id):
             issue.author = request.user
             issue.save()
             return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue.id)
-    else:
-        form = IssueForm()
-    template = 'issue_tracker/issue/new_issue.html'
-    context = {'form': form}
-    return render(request, template, context)
-
-def edit_issue(request, project_id,issue_id):
-    issue = get_object_or_404(Issue, id=issue_id)
-    if request.method == 'POST':
-        form = IssueForm(request.POST,instance=issue)
-        if form.is_valid():
-            issue = form.save(commit=False)
-            issue.author = request.user
-            issue.save()
-            return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue_id)
     else:
         form = IssueForm()
     template = 'issue_tracker/issue/new_issue.html'

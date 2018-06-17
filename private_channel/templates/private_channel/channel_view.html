@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
     <div class="section" style="height: 80vh;">
-<<<<<<< HEAD:private_channel/templates/private_channel/channel_view.html
     <div class="row">
         <div class="col-sm-2">
         <div class="card">
@@ -22,45 +21,23 @@
             <div id="board" class="alert alert-dark" role="alert" style="height: 68vh; padding: 5px; overflow-y: scroll">
                 {% block messages %}
                 {% endblock %}
-=======
-        <div class="row">
-            <div class="col-sm-3">
-            <div class="card">
-                <div class="collection">
-                    {% for user in users %}
-                    <a href="{% url 'project:communication_channel:channel' project_id=project_id %}" id="user{{ user.id }}" class="list-group-item list-group-item-action row">
-                        <img src="https://frontend-1.adjust.com/new-assets/images/site-images/interface/user.svg" class="col-sm-4">
-                        <div class="col-sm-8">
-                        <span class="title" style="font-weight: bolder;">{{ user.username }}</span>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
             </div>
->>>>>>> 83d665242ef68179dde7abf6bf5f6b3a5c229407:communication_channel/templates/communication_channel/channel_view.html
-            </div>
-            <div class="col-sm-9">
-                <div class="card">
-                <div id="board" class="#eeeeee grey lighten-3" style="height: 68vh; padding: 5px; overflow-y: scroll">
-                    {% block messages %}
-                    {% endblock %}
-                </div>
-                <form id="chat-box" class="form-group" method="post">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-sm-11">
-                            <div class="input-field">
-                                <input id="id_message" name="message" type="text" placeholder="Type your message..">
-                            </div>
-                        </div>
-                        <div class="col-sm-11" style="line-height: 80px">
-                            <button class="btn btn-floating blue lighten-3 waves-effect waves-light">send</button>
+            <form id="chat-box" class="form-group" method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-sm-11">
+                        <div class="input-field">
+                            <input id="id_message" name="message" type="text" placeholder="Type your message..">
                         </div>
                     </div>
-                </form>
+                    <div class="col-sm-11" style="line-height: 80px">
+                        <button class="btn btn-floating blue lighten-3 waves-effect waves-light">send</button>
+                    </div>
                 </div>
+            </form>
             </div>
         </div>
+    </div>
     </div>
     {% load staticfiles %}
     <script src="{% static 'js/message.js' %}"></script>
