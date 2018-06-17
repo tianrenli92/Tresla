@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Issue, Project
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, IssueForm,NewIssueForm
+from django.http import Http404,HttpResponseRedirect
+from django.shortcuts import render_to_response
 
 
 
@@ -83,14 +85,13 @@ def edit_issue(request, project_id,issue_id):
     return render(request, template, context)
 
 
-def delete_issue(request, project_id):
-    try:
-        instance=Project.objects.get(id=project_id)
-    except Project.DoesNotExist:
-        raise Http404("No such project.")
-    instance.delete()
-    return redirect('project:project_index')
 
+def delete_issue(request,project_id,issue_id):
+    if not request.user.is_staff or not request.user.is_superuser:
+        raise Http404
+    issue = get_object_or_404(Issue,id=issue_id)
+    issue.delete()
+    return redirect('project:issue_tracker:success_deletion',project_id=project_id,issue_id=issue_id)
 
 
 
