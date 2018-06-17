@@ -1,4 +1,10 @@
 <style>
+    .link{
+        color: gainsboro;
+    }
+    .fontt{
+        font-size: 20px;
+    }
 </style>
 <h1><a href="{% url 'index' %}">Tresla</a></h1>
 <nav class="navbar navbar-inverse">
@@ -6,7 +12,7 @@
           <div class="container-fluid">
             <div class="collapse navbar-collapse" id="myNavbar">
        {% if project_id %}
-             <ul class="nav navbar-nav" style="display: inline;margin: 0 -42px;">
+             <ul class="nav navbar-nav fontt" style="display: inline;margin: 0 -42px;" >
                 <li class="active"><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
                 <li><a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a></li>
                 <li><a href="{% url 'project:private_channel:channel' project_id=project_id %}">Channels</a></li>
@@ -16,8 +22,11 @@
              <ul class="nav navbar-nav navbar-right">
                 <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
               </ul>
+       {% else %}
+           <p class="fontt"><a href="{% url 'signup' %}" class="link">signup</a> | <a href="{% url 'login' %}" class="link">login</a></p>
         {% endif %}
    {% endif %}
+
      </div>
     </div>
 </nav>
