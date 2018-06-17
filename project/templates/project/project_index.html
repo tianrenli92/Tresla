@@ -1,19 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Project list</p>
-    <hr>
-    <a href="{% url 'project:project_create'%}">new project</a>
+    <p>Project list:</p>
+    <p><a href="{% url 'project:project_create'%}">[new project]</a></p>
     {% if project_list %}
-        <ul>
         {% for project in project_list %}
             <p><a href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a>
                 <a href="{% url 'project:project_edit' project_id=project.id%}">[edit]</a>
                 <a href="{% url 'project:project_delete' project_id=project.id%}">[del]</a>
             </p>
         {% endfor %}
-        </ul>
-
     {% else %}
         <p>No project are available.</p>
     {% endif %}
