@@ -2,6 +2,7 @@
 
 
 {% block content %}
+    <div style="background:#fffbdb">
          <h2>{{ issue.title}}</h2>
          <p>{{issue.content|linebreaks}}</p>
          <p class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</p>
@@ -9,13 +10,14 @@
          <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;" href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a></div>
          <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;" href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a></div>
     </div>
+    </div>
          <div class="page-header">
          <h3>Leave a comment</h3>
          <small>Total comments: {{issue.Comment.count }}</small>
          </div>
-         <p><button type="button" class="btn btn-default"><a href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button></p>
-         <p><button type="button" class="btn btn-default"><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button></p>
-         
+         <p><button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button></p>
+         <p><button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button></p>
+
          {% for comment in issue.Comment.all %}
          <div class="panel panel-default">
                   <div class="panel panel-heading" style="background:gainsboro">User: {{comment.user}},Created: {{comment.created}}</div>

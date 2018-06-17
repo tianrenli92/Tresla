@@ -9,7 +9,7 @@
             <button class="btn float-right btnbackground" style="margin: -40px 0;"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}" class='btnfont'>New issues</a></button>
 
             {% for issue in issues %}
-         <div class="panel panel-default">
+         <div class="panel panel-default" style="background:#fffbdb">
          <h3 ><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
          {{ issue.content | truncatewords:40 | linebreaks}}
              <small>Written by {{ issue.author }} on {{ issue.published}}</small>
