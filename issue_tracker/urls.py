@@ -12,5 +12,5 @@ urlpatterns =[
     path('new_issue/',views.new_issue,name='new_issue'),
     path('<int:issue_id>/edit_issue/',views.edit_issue,name='edit_issue'),
     path('<int:issue_id>/delete_issue/',views.delete_issue,name='delete_issue'),
-    path('<int:issue_id>/delete', TemplateView.as_view(template_name="nice_delete.html"), name='success_deletion'),
+    path('<int:issue_id>/delete', TemplateView.as_view(template_name="/Users/sumeixu/Desktop/Tresla/Tresla/issue_tracker/templates/issue_tracker/issue/nice_delete.html"), name='success_deletion'),
 ]

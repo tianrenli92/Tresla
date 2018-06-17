@@ -13,7 +13,7 @@
          <small>Total comments: {{issue.Comment.count }}</small>
          </div>
          <p><button type="button" class="btn btn-default"><a href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button></p>
-         <p><button type="button" class="btn btn-default"><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Home Page</a></button></p>
+         <p><button type="button" class="btn btn-default"><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button></p>
          
          {% for comment in issue.Comment.all %}
          <div class="panel panel-default">
