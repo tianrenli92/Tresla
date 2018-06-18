@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'main',
     'project',
     'task_tracker',
-    'communicaiton_channel',
+    'communication_channel',
     'issue_tracker',
     'channels',
 ]
@@ -158,3 +158,5 @@ CRISPY_TEMPLATE_PACK='bootstrap3'
 
 # Channels
 ASGI_APPLICATION = 'tresla.routing.application'
+
+CSRF_COOKIE_SECURE = None

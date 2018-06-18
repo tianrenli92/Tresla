@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+    What channel would you like to enter?<br/>
+    {% csrf_token %}
+    <form method="post" action={% url 'project:communication_channel:channel_index' project_id=project_id%}>
+        <input type="text" name="channel_id" size="100"/><br/>
+        <input type="submit" value="Submit"/>
+    </form>
+{% endblock %}
+{% block sc %}
+{#document.querySelector('#channel-id-input').focus();#}
+{#    document.querySelector('#channel-id-input').onkeyup = function(e) {#}
+{#        if (e.keyCode === 13) {  // enter, return#}
+{#            document.querySelector('#channel-id-submit').click();#}
+{#        }#}
+{#    };#}
+{##}
+{#    document.querySelector('#channel-id-submit').onclick = function(e) {#}
+{#        var channelId = document.querySelector('#channel-id-input').value;#}
+{#        window.location.pathname = {% url 'project:communication_channel:channel_view' project_id=project_id channel_id=form.%};#}
+{#    };#}
+{% endblock %}

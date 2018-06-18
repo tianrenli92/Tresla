@@ -2,32 +2,36 @@
     .link{
         color: gainsboro;
     }
-    .fontt{
-        font-size: 20px;
+    .font_larger{
+        font-size: 16px;
+        display: inline;
+        margin: 0 -42px;
     }
 </style>
 <h1><a href="{% url 'index' %}">Tresla</a></h1>
 <nav class="navbar navbar-inverse">
-    {% if user.is_authenticated %}
-          <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="myNavbar">
-       {% if project_id %}
-             <ul class="nav navbar-nav fontt" style="display: inline;margin: 0 -42px;" >
-                <li><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
-                <li><a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a></li>
-                <li><a href="{% url 'project:communication_channel:channel_index' project_id=project_id %}">Channels</a></li>
-                <li><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a></li>
-
-            </ul>
-             <ul class="nav navbar-nav navbar-right">
-                <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
-              </ul>
-       {% else %}
-           <p class="fontt"><a href="{% url 'signup' %}" class="link">signup</a> | <a href="{% url 'login' %}" class="link">login</a></p>
-        {% endif %}
-   {% endif %}
-
-     </div>
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="myNavbar">
+            {% if user.is_authenticated %}
+                        {% if project_id %}
+                            <ul class="nav navbar-nav font_larger">
+                                <li><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
+                                <li><a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a></li>
+                                <li><a href="{% url 'project:communication_channel:channel_index' project_id=project_id %}">Channels</a></li>
+                                <li><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a></li>
+                            </ul>
+                        {% endif %}
+                            <ul class="nav navbar-nav navbar-right font_larger">
+                                <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
+                            </ul>
+            {% else %}
+                <ul class="nav navbar-nav font_larger">
+                    <li><a href="{% url 'signup' %}" class="link">signup</a></li>
+                    <li><a href="{% url 'login' %}" class="link">login</a></li>
+                </ul>
+           {% endif %}
+        </div>
     </div>
+
 </nav>
 
