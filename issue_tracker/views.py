@@ -81,7 +81,7 @@ def edit_issue(request, project_id,issue_id):
     else:
         form = NewIssueForm(instance=issue)
     template = 'issue_tracker/issue/edit_issue.html'
-    context = {'form': form}
+    context = {'form': form,'project_id':project_id}
     return render(request, template, context)
 
 
