@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tz %}
 
 {% block title %}List of Issue{% endblock %}
 
@@ -12,7 +13,7 @@
          <div class="panel panel-default" style="background:#fffbdb">
          <h3 ><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
          {{ issue.content | truncatewords:40 | linebreaks}}
-             <small>Written by {{ issue.author }} on {{ issue.published}}</small>
+             <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %} {{ issue.published}} {% endtimezone %}</small>
          </div>
      {% endfor %}
         {% include 'issue_tracker/paginator.html' with page=issues %}
