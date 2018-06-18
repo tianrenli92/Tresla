@@ -11,7 +11,7 @@ def channel_view(request,project_id):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
-        return render(request, 'private_channel/channel_view.html',
+        return render(request, 'communicaiton_channel/channel_view.html',
                       {'users': User.objects.exclude(username=request.user.username),
                        'project_id': project_id,
                        }
@@ -21,7 +21,7 @@ def message_view(request, sender, receiver):
     if not request.user.is_authenticated:
         return redirect('login')
     if request.method == "GET":
-        return render(request, "private_channel/messages.html",
+        return render(request, "communicaiton_channel/messages.html",
                       {'users': User.objects.exclude(username=request.user.username), #List of users
                        'receiver': User.objects.get(id=receiver), # Receiver context user object for using in template
                        'messages': Message.objects.filter(sender_id=sender, receiver_id=receiver) |

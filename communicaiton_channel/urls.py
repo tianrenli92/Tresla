@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-app_name = 'private_channel'
+app_name = 'communicaiton_channel'
 
 urlpatterns = [
 

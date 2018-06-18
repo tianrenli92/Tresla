@@ -43,8 +43,9 @@ INSTALLED_APPS = [
     'main',
     'project',
     'task_tracker',
-    'private_channel',
+    'communicaiton_channel',
     'issue_tracker',
+    'channels'
 ]
 
 MIDDLEWARE = [

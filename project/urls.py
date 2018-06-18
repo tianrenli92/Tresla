@@ -13,5 +13,5 @@ urlpatterns = [
 
     path('<int:project_id>/task/', include('task_tracker.urls')),
     path('<int:project_id>/issue/', include('issue_tracker.urls',namespace='issue_tracker')),
-    path('<int:project_id>/channel/', include('private_channel.urls')),
+    path('<int:project_id>/channel/', include('communicaiton_channel.urls')),
 ]

@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="collection h-25">
                     {% for user in users %}
-                    <a href="{% url 'project:private_channel:channel' project_id=project_id %}" id="{{ request.user.username }}" class="list-group-item list-group-item-action row">
+                    <a href="{% url 'project:communicaiton_channel:channel' project_id=project_id %}" id="{{ request.user.username }}" class="list-group-item list-group-item-action row">
                         <img src="https://frontend-1.adjust.com/new-assets/images/site-images/interface/user.svg" class="col-sm-4   ">
                         <div class="col-sm-8">
                         <span class="title" style="font-weight: bolder;">{{ user.username }}</span>
