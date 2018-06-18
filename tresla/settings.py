@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'task_tracker',
     'communicaiton_channel',
     'issue_tracker',
-    'channels'
 ]
 
 MIDDLEWARE = [
