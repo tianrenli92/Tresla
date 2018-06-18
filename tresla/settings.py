@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'task_tracker',
     'communicaiton_channel',
     'issue_tracker',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -155,5 +156,5 @@ LOGIN_REDIRECT_URL = 'project:project_index'
 
 CRISPY_TEMPLATE_PACK='bootstrap3'
 
-
-
+# Channels
+ASGI_APPLICATION = 'tresla.routing.application'
