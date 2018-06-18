@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
     What channel would you like to enter?<br/>
-    {% csrf_token %}
     <form method="post" action={% url 'project:communication_channel:channel_index' project_id=project_id%}>
+        {% csrf_token %}
         <input type="text" name="channel_id" size="100"/><br/>
         <input type="submit" value="Submit"/>
     </form>

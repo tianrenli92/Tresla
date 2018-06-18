@@ -14,8 +14,8 @@ def channel_index(request,project_id):
                       )
 
 
-def channel_view(request,project_id,room_name):
+def channel_view(request, project_id, channel_id):
     return render(request, 'communication_channel/channel_view.html', {
-        'room_name_json': mark_safe(json.dumps(room_name)),
+        'room_name_json': mark_safe(json.dumps(channel_id)),
         'project_id': project_id,
     })
