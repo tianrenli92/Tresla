@@ -64,7 +64,8 @@ def new_issue(request, project_id):
             issue.save()
             return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue.id)
     else:
-        form = IssueForm()
+        form = IssueForm(initial={'project': project_id})
+        form.fields['project'].widget.attrs['readonly'] = True
     template = 'issue_tracker/issue/new_issue.html'
     context = {'form': form,'project_id':project_id}
     return render(request, template, context)
