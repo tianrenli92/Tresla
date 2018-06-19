@@ -8,6 +8,7 @@
             <p><a href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a>
                 <a href="{% url 'project:project_edit' project_id=project.id%}">[edit]</a>
                 <a href="{% url 'project:project_delete' project_id=project.id%}">[del]</a>
+            <p>{{ project.timestamp }}</p>
             </p>
         {% endfor %}
     {% else %}
