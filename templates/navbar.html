@@ -20,15 +20,17 @@
                                 <li><a href="{% url 'project:communication_channel:channel_index' project_id=project_id %}">Channels</a></li>
                                 <li><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a></li>
                             </ul>
-                        {% endif %}
+
                             <ul class="nav navbar-nav navbar-right font_larger">
                                 <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
                             </ul>
+
             {% else %}
                 <ul class="nav navbar-nav font_larger">
                     <li><a href="{% url 'signup' %}" class="link">signup</a></li>
                     <li><a href="{% url 'login' %}" class="link">login</a></li>
                 </ul>
+                        {% endif %}
            {% endif %}
         </div>
     </div>
