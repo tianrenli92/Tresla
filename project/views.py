@@ -47,5 +47,11 @@ def project_edit(request, project_id):
     return render(request, 'project/project_edit.html', {'form': form})
 
 
+def member_select(request):
+    if request.method == 'GET':
+        selection = request.GET.get('id',None)
+        if selection:
+            selected_member = User.objects.filter(pk=selection)
+            return selected_member
 
 

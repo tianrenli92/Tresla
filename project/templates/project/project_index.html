@@ -10,14 +10,20 @@
             <div class="btn btn-default oval" style="background: honeydew;width: 20%;padding: 5%;margin: 2%"><a style="font-size: 40px" href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a></div>
                 <div class="btn btn-default oval" style="width: 10%"><a href="{% url 'project:project_edit' project_id=project.id%}">Edit</a></div>
                 <div class="btn btn-default oval"style="width: 10%"><a href="{% url 'project:project_delete' project_id=project.id%}">Delete</a></div>
-                <div>
-                    {% for use in user %}
-                        <p>{{ use }}</p>
+                <div class="btn btn-default oval"style="width: 10%">Members</div>
+                <form action="" method="GET" id="selection-form">
+                  {% csrf_token %}
+                    <select id="member_list">
+                            {% for user in user %}
+                        <option>
+                            {{ user.username }}
+                        </option>
+                            {% endfor %}
+                    </select>
+                     <input type="button" value="Add member" id="selection-button">
+                     </form>
 
-                        {% endfor %}
 
-
-                </div>
             </div>
                  <small>{{ project.timestamp }}</small>
         {% endfor %}
