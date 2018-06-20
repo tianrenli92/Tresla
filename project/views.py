@@ -34,7 +34,7 @@ def project_delete(request, project_id):
     except Project.DoesNotExist:
         raise Http404("No such project.")
     instance.delete()
-    return redirect('project:project_index')
+    return redirect('project:success_deletion_project',project_id=project_id)
 
 
 def project_edit(request, project_id):
@@ -44,3 +44,5 @@ def project_edit(request, project_id):
         form.save()
         return redirect('project:project_index')
     return render(request, 'project/project_edit.html', {'form': form})
+
+

@@ -57,7 +57,8 @@ def add_comment(request, issue_id, project_id):
 
 def new_issue(request, project_id):
     if request.method == 'POST':
-        form = IssueForm(request.POST)
+        form = IssueForm(request.POST,initial={'project': project_id})
+        form.fields['project'].disabled=True
         if form.is_valid():
             issue = form.save(commit=False)
             issue.author = request.user
@@ -65,7 +66,7 @@ def new_issue(request, project_id):
             return redirect('project:issue_tracker:issue_detail',project_id=project_id,issue_id=issue.id)
     else:
         form = IssueForm(initial={'project': project_id})
-        form.fields['project'].widget.attrs['readonly'] = True
+        form.fields['project'].disabled = True
     template = 'issue_tracker/issue/new_issue.html'
     context = {'form': form,'project_id':project_id}
     return render(request, template, context)
