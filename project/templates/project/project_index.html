@@ -8,10 +8,18 @@
         {% for project in project_list %}
             <div style="margin: 10px 10px">
             <div class="btn btn-default oval" style="background: honeydew;width: 20%;padding: 5%;margin: 2%"><a style="font-size: 40px" href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a></div>
-                <div class="btn btn-default" ><a href="{% url 'project:project_edit' project_id=project.id%}">edit</a></div>
-                <div class="btn btn-default"><a href="{% url 'project:project_delete' project_id=project.id%}">del</a></div>
-            <p>{{ project.timestamp }}</p>
+                <div class="btn btn-default oval" style="width: 10%"><a href="{% url 'project:project_edit' project_id=project.id%}">Edit</a></div>
+                <div class="btn btn-default oval"style="width: 10%"><a href="{% url 'project:project_delete' project_id=project.id%}">Delete</a></div>
+                <div>
+                    {% for use in user %}
+                        <p>{{ use }}</p>
+
+                        {% endfor %}
+
+
+                </div>
             </div>
+                 <small>{{ project.timestamp }}</small>
         {% endfor %}
     {% else %}
         <p>No project are available.</p>

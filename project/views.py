@@ -1,14 +1,15 @@
 from django.shortcuts import render,get_list_or_404, redirect, get_object_or_404
 from .models import Project, ProjectForm
 from django.contrib.auth.models import User
-from django.http import Http404
+from django.http import Http404,HttpResponse
 # Create your views here.
 
 
 
 def project_index(request):
     project_list=get_list_or_404(Project)
-    return render(request, 'project/project_index.html', {'project_list':project_list})
+    user = User.objects.all()
+    return render(request, 'project/project_index.html', {'project_list':project_list,'user':user})
 
 
 def project_detail(request, project_id):
@@ -44,5 +45,7 @@ def project_edit(request, project_id):
         form.save()
         return redirect('project:project_index')
     return render(request, 'project/project_edit.html', {'form': form})
+
+
 
 
