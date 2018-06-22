@@ -4,7 +4,7 @@
     <form method="post" action={% url 'project:communication_channel:channel_index' project_id=project_id%}>
         {% csrf_token %}
         <input type="text" name="channel_id" size="100"/><br/>
-        <input type="submit" value="Submit"/>
+        <input type="submit" class="btn btn-success" value="Submit"/>
     </form>
 {% endblock %}
 {% block sc %}
