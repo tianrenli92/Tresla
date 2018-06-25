@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8"/>
-    <title>Chat Room</title>
-</head>
-<body>
+
+{% extends 'base.html' %}
+
+    {% block title %}Chat Room{% endblock %}
+
+{% block content %}
     <textarea id="communication-log" cols="100" rows="20"></textarea><br/>
     <input id="communication-message-input" type="text" size="93"/>
     <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
-</body>
-<script>
+{% endblock %}
+{% block script %}
     var channelId = {{ channel_id_json }};
 
     var communicationSocket = new WebSocket(
@@ -42,5 +41,4 @@
 
         messageInputDom.value = '';
     };
-</script>
-</html>
+{% endblock %}
