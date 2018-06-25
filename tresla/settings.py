@@ -158,3 +158,11 @@ CRISPY_TEMPLATE_PACK='bootstrap3'
 
 # Channels
 ASGI_APPLICATION = 'tresla.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
