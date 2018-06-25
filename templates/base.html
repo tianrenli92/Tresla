@@ -44,28 +44,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
   </body>
   <script>
-      {% block sc %}
+      {% block script %}
       {% endblock %}
-  </script>
-  <script>
-      var url = $( '#selection-form' ).attr( 'action' );
-        $("selection-button").onclick(function (e) {
-            e.preventDefault();
-            $.ajax({
-                type:'GET',
-                url:url,
-                data:{
-                    id:$('#member_list').val()
-                },
-                success:function (result) {
-                    alert('okay');
-                },
-                error:function (result) {
-                    alert('error');
-                }
-
-            });
-        });
-
   </script>
 </html>

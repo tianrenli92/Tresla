@@ -1,20 +1,25 @@
 from django.shortcuts import render,get_list_or_404, redirect, get_object_or_404
-from .models import Project, ProjectForm
+from .models import Project, ProjectForm,UserSerializer
 from django.contrib.auth.models import User
 from django.http import Http404,HttpResponse
-# Create your views here.
-
+from django.core import serializers
+from .serializers import UserSerializers
+from rest_framework import generics
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from django.http import HttpResponse,JsonResponse
 
 
 def project_index(request):
     project_list=get_list_or_404(Project)
-    user = User.objects.all()
-    return render(request, 'project/project_index.html', {'project_list':project_list,'user':user})
+    users = User.objects.all()
+    return render(request, 'project/project_index.html', {'project_list':project_list,'users':users})
 
 
 def project_detail(request, project_id):
 
     return render(request, 'project/project_detail.html', {'project_id':project_id})
+
 
 def project_create(request):
     if request.method == 'POST':
@@ -35,7 +40,7 @@ def project_delete(request, project_id):
     except Project.DoesNotExist:
         raise Http404("No such project.")
     instance.delete()
-    return redirect('project:success_deletion_project',project_id=project_id)
+    return redirect('project:delete_result',project_id=project_id)
 
 
 def project_edit(request, project_id):
@@ -47,11 +52,9 @@ def project_edit(request, project_id):
     return render(request, 'project/project_edit.html', {'form': form})
 
 
-def member_select(request):
-    if request.method == 'GET':
-        selection = request.GET.get('id',None)
-        if selection:
-            selected_member = User.objects.filter(pk=selection)
-            return selected_member
-
+def member_list(request):
+    if request.method=='GET':
+        members = User.objects.all()
+        serializer = UserSerializer()
+        return JsonResponse(serializer.data,safe=False)
 

@@ -35,3 +35,10 @@ class ProjectForm(ModelForm):
     class Meta:
         model=Project
         fields = ['name']
+
+class UserSerializer:
+    class Meta:
+        model = User
+        fields = ('pk', 'username')
+    def create(self,validated_data):
+        return User(**validated_data)

@@ -25,13 +25,16 @@
                                 <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
                             </ul>
 
+
+
             {% else %}
                 <ul class="nav navbar-nav font_larger">
                     <li><a href="{% url 'signup' %}" class="link">signup</a></li>
                     <li><a href="{% url 'login' %}" class="link">login</a></li>
                 </ul>
-                        {% endif %}
-           {% endif %}
+                             {% endif %}
+         {% endif %}
+
         </div>
     </div>
 

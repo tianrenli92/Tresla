@@ -14,14 +14,17 @@
                 <form action="" method="GET" id="selection-form">
                   {% csrf_token %}
                     <select id="member_list">
-                            {% for user in user %}
-                        <option>
+                            {% for user in users %}
+                        <option value="{{user }} ">
                             {{ user.username }}
                         </option>
-                            {% endfor %}
+                   {% endfor %}
                     </select>
+
                      <input type="button" value="Add member" id="selection-button">
                      </form>
+
+                    <div id="res"> </div>
 
 
             </div>
@@ -32,3 +35,26 @@
     {% endif %}
     </div>
 {% endblock %}
+
+{% block script %}
+    var url = $( '#selection-button' ).attr( 'action' );
+    $("#selection-button").on('click', function(e) {
+        e.preventDefault();
+        var value =$('#member_list').val();
+        $.ajax({
+            type:'GET',
+            url:'.',
+            data:{
+                 id:value,
+            },
+            success:function (result) {
+                $("#res").append(value);
+                console.info(value)
+            },
+            error:function (result) {
+              alert('error');
+            }
+        });
+    });
+
+{%  endblock %}
