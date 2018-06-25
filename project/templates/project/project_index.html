@@ -15,7 +15,7 @@
                   {% csrf_token %}
                     <select id="member_list">
                             {% for user in users %}
-                        <option value="{{user }} ">
+                        <option value="{{user.id}}">
                             {{ user.username }}
                         </option>
                    {% endfor %}
@@ -42,11 +42,8 @@
         e.preventDefault();
         var value =$('#member_list').val();
         $.ajax({
-            type:'GET',
-            url:'.',
-            data:{
-                 id:value,
-            },
+            type:'POST',
+            url:'add_member/'+value+'/',
             success:function (result) {
                 $("#res").append(value);
                 console.info(value)

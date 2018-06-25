@@ -52,9 +52,8 @@ def project_edit(request, project_id):
     return render(request, 'project/project_edit.html', {'form': form})
 
 
-def member_list(request):
-    if request.method=='GET':
+def add_member(request):
+    if request.method=='POST':
         members = User.objects.all()
         serializer = UserSerializer()
         return JsonResponse(serializer.data,safe=False)
-
