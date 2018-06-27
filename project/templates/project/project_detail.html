@@ -2,4 +2,43 @@
 
 {% block content %}
   <p>Project {{ project_id }} detail</p>
+    <div class="btn btn-default oval" style="width: 10%"><a href="{% url 'project:project_edit' project_id=project_id%}">Edit</a></div>
+    <div class="btn btn-default oval"style="width: 10%"><a href="{% url 'project:project_delete' project_id=project_id%}">Delete</a></div>
+    <div class="btn btn-default oval"style="width: 10%">Members</div>
+     <form action="" method="POST" id="selection-form">
+                  {% csrf_token %}
+                    <select id="member_list">
+                            {% for user in users %}
+                        <option value="{{user.id}}">
+                            {{ user.username }}
+                        </option>
+                   {% endfor %}
+                    </select>
+
+                     <input type="button" value="Add member" id="selection-button">
+                     </form>
+
+                    <div id="res"> </div>
+
+
 {% endblock %}
+
+
+{% block script %}
+    var url = $( '#selection-button' ).attr( 'action' );
+    $("#selection-button").on('click', function(e) {
+        e.preventDefault();
+        var value =$('#member_list').val();
+        $.ajax({
+            type:'POST',
+            url:'add_member/'+value+'/',
+            success:function (result) {
+                $("#res").append(value);
+            },
+            error:function (result) {
+              alert('error');
+            }
+        });
+    });
+
+{%  endblock %}

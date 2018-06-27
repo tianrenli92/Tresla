@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_list_or_404, redirect, get_object_or_404
-from .models import Project, ProjectForm,UserSerializer
+from .models import Project, ProjectForm,UserSerializer,User
 from django.contrib.auth.models import User
 from django.http import Http404,HttpResponse
 from django.core import serializers
@@ -8,17 +8,17 @@ from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from django.http import HttpResponse,JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 def project_index(request):
     project_list=get_list_or_404(Project)
-    users = User.objects.all()
-    return render(request, 'project/project_index.html', {'project_list':project_list,'users':users})
+    return render(request, 'project/project_index.html', {'project_list':project_list})
 
 
 def project_detail(request, project_id):
-
-    return render(request, 'project/project_detail.html', {'project_id':project_id})
+    users = User.objects.all()
+    return render(request, 'project/project_detail.html', {'project_id':project_id,'users':users})
 
 
 def project_create(request):
@@ -51,9 +51,17 @@ def project_edit(request, project_id):
         return redirect('project:project_index')
     return render(request, 'project/project_edit.html', {'form': form})
 
-
-def add_member(request):
+@csrf_exempt
+def add_member(request,project_id,user_id):
+    project = get_object_or_404(Project, id=project_id)
+    user = get_object_or_404(User, id=user_id)
+    form = request.POST.get(User,None)
     if request.method=='POST':
-        members = User.objects.all()
-        serializer = UserSerializer()
-        return JsonResponse(serializer.data,safe=False)
+        form = request.GET.get(User, None)
+        if form.is_valid():
+            form.save()
+            return redirect('project:delete_index')
+        else:
+            form = User()
+
+    return render(request,'project/project_add_member.html',{'form':form,'project_id':project_id,'user_id':user_id})

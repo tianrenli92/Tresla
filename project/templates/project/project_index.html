@@ -2,56 +2,17 @@
 
 {% block content %}
     <h2 style="color: #9d9d9d">Project:</h2>
-    <button class="btn btn-default btnbackground oval" ><a class="btnfont" href="{% url 'project:project_create'%}">Create new project</a></button>
+    <button class="btn btn-default btnbackground oval" style="margin: 0 0 5% 0" ><a class="btnfont" href="{% url 'project:project_create'%}">Create new project</a></button>
     <div>
     {% if project_list %}
         {% for project in project_list %}
-            <div style="margin: 10px 10px">
-            <div class="btn btn-default oval" style="background: honeydew;width: 20%;padding: 5%;margin: 2%"><a style="font-size: 40px" href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a></div>
-                <div class="btn btn-default oval" style="width: 10%"><a href="{% url 'project:project_edit' project_id=project.id%}">Edit</a></div>
-                <div class="btn btn-default oval"style="width: 10%"><a href="{% url 'project:project_delete' project_id=project.id%}">Delete</a></div>
-                <div class="btn btn-default oval"style="width: 10%">Members</div>
-                <form action="" method="GET" id="selection-form">
-                  {% csrf_token %}
-                    <select id="member_list">
-                            {% for user in users %}
-                        <option value="{{user.id}}">
-                            {{ user.username }}
-                        </option>
-                   {% endfor %}
-                    </select>
-
-                     <input type="button" value="Add member" id="selection-button">
-                     </form>
-
-                    <div id="res"> </div>
-
-
-            </div>
-                 <small>{{ project.timestamp }}</small>
+            <div class="col-sm-4">
+                <div class="btn btn-default oval d-inline"><a href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a></div>
+                <div><small>{{ project.timestamp }}</small></div>
+             </div>
         {% endfor %}
     {% else %}
         <p>No project are available.</p>
     {% endif %}
     </div>
 {% endblock %}
-
-{% block script %}
-    var url = $( '#selection-button' ).attr( 'action' );
-    $("#selection-button").on('click', function(e) {
-        e.preventDefault();
-        var value =$('#member_list').val();
-        $.ajax({
-            type:'POST',
-            url:'add_member/'+value+'/',
-            success:function (result) {
-                $("#res").append(value);
-                console.info(value)
-            },
-            error:function (result) {
-              alert('error');
-            }
-        });
-    });
-
-{%  endblock %}
