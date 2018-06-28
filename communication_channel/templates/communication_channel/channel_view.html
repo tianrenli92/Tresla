@@ -4,7 +4,7 @@
     {% block title %}Chat Room{% endblock %}
 
 {% block content %}
-    <textarea id="communication-log" cols="100" rows="20"></textarea><br/>
+    <textarea id="communication-log" cols="100" rows="20" readonly></textarea><br/>
     <input id="communication-message-input" type="text" size="93"/>
     <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
 {% endblock %}
@@ -18,7 +18,7 @@
     communicationSocket.onmessage = function(e) {
         var data = JSON.parse(e.data);
         var message = data['message'];
-        document.querySelector('#communication-log').value += (message + '\n');
+        document.querySelector('#communication-log').value += ( message + '\n');
     };
 
     communicationSocket.onclose = function(e) {
@@ -34,7 +34,7 @@
 
     document.querySelector('#communication-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#communication-message-input');
-        var message = messageInputDom.value;
+        var message = '{{ request.user.username }}\:'+messageInputDom.value;
         communicationSocket.send(JSON.stringify({
             'message': message
         }));
