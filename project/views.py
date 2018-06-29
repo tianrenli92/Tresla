@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_list_or_404, redirect, get_object_or_404
-from .models import Project, ProjectForm,UserSerializer,User
+from .models import Project, ProjectForm, ProjectMember, UserSerializer,User
 from django.contrib.auth.models import User
 from django.http import Http404,HttpResponse
 from django.core import serializers
@@ -52,16 +52,15 @@ def project_edit(request, project_id):
     return render(request, 'project/project_edit.html', {'form': form})
 
 @csrf_exempt
-def add_member(request,project_id,user_id):
-    project = get_object_or_404(Project, id=project_id)
-    user = get_object_or_404(User, id=user_id)
-    form = request.POST.get(User,None)
-    if request.method=='POST':
-        form = request.GET.get(User, None)
-        if form.is_valid():
-            form.save()
-            return redirect('project:delete_index')
-        else:
-            form = User()
+def add_member(request,project_id):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id', '')
+        project_member=ProjectMember(project_id=project_id,member_id=user_id)
+        return JsonResponse({'success':True})
 
-    return render(request,'project/project_add_member.html',{'form':form,'project_id':project_id,'user_id':user_id})
+
+@csrf_exempt
+def add_members(request,project_id,user_id):
+        user_id = get_object_or_404(User,id=user_id)
+        project_member=get_object_or_404(Project, id=project_id)
+        return render(request,'project/project_add_member.html',{'project_id':project_id,'user_id':user_id,'project_member':project_member})

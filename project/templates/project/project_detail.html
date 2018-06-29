@@ -18,7 +18,7 @@
                      <input type="button" value="Add member" id="selection-button">
                      </form>
 
-                    <div id="res"> </div>
+                    <div class="res"></div>
 
 
 {% endblock %}
@@ -26,17 +26,20 @@
 
 {% block script %}
     var url = $( '#selection-button' ).attr( 'action' );
+    var storage='';
     $("#selection-button").on('click', function(e) {
         e.preventDefault();
         var value =$('#member_list').val();
         $.ajax({
             type:'POST',
-            url:'add_member/'+value+'/',
+            url: '{% url 'project:project_add_member' project_id=project_id %}',
+            data: { user_id:value },
             success:function (result) {
-                $("#res").append(value);
+                location.href='{% url 'project:project_add_members' project_id=project_id user_id=user.id %}'
             },
             error:function (result) {
               alert('error');
+              console.info(data);
             }
         });
     });
