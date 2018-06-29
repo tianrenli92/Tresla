@@ -7,8 +7,7 @@
     {% if project_list %}
         {% for project in project_list %}
             <div class="col-sm-4">
-                <div class="btn btn-default oval d-inline"><a href={% url 'project:project_detail' project_id=project.id%}>{{ project.name }}</a></div>
-                <div><small>{{ project.timestamp }}</small></div>
+                <div class="alert alert-dismissible alert-success text-center"><a href={% url 'project:project_detail' project_id=project.id %}><span class="font-size">{{ project.name }}</span></a><div><small>{{ project.timestamp }}</small></div></div>
              </div>
         {% endfor %}
     {% else %}

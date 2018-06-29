@@ -6,7 +6,7 @@ from django.forms import ModelForm
 
 class Project(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=10)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
