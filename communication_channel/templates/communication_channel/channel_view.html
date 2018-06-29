@@ -1,7 +1,8 @@
 
 {% extends 'base.html' %}
 
-    {% block title %}Chat Room{% endblock %}
+{% block title %}Chat Room{% endblock %}
+
 
 {% block content %}
     <textarea id="communication-log" cols="100" rows="20" readonly></textarea><br/>
@@ -9,6 +10,7 @@
     <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
 {% endblock %}
 {% block script %}
+
     var channelId = {{ channel_id_json }};
 
     var communicationSocket = new WebSocket(
@@ -34,7 +36,7 @@
 
     document.querySelector('#communication-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#communication-message-input');
-        var message = '{{ request.user.username }}\:'+messageInputDom.value;
+    var message = '{{ request.user.username }}\:'+messageInputDom.value;
         communicationSocket.send(JSON.stringify({
             'message': message
         }));
