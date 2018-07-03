@@ -5,11 +5,20 @@
 
 
 {% block content %}
-    <textarea id="communication-log" cols="100" rows="20" readonly></textarea><br/>
-    <input id="communication-message-input" type="text" size="93"/>
+    <textarea id="communication-log" cols="100" rows="20" readonly style="border:groove 6px orange;"></textarea><br/>
+    <input id="communication-message-input" type="text" size="93" autofocus style="border:solid 1px orange;"/>
     <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
 {% endblock %}
 {% block script %}
+    function msToTime(duration) {
+    var minutes = parseInt((duration / (1000 * 60)) % 60),
+        hours = parseInt((duration / (1000 * 60 * 60)) % 24-4);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+
+    return hours + ":" + minutes;
+}
 
     var channelId = {{ channel_id_json }};
 
@@ -36,7 +45,7 @@
 
     document.querySelector('#communication-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#communication-message-input');
-    var message = '{{ request.user.username }}\:'+messageInputDom.value;
+    var message = '{{ request.user.username }}\:'+messageInputDom.value+'---'+msToTime(Date.now());
         communicationSocket.send(JSON.stringify({
             'message': message
         }));
