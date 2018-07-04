@@ -1,42 +1,49 @@
 <style>
-    .link{
+    .link {
         color: gainsboro;
     }
-    .font_larger{
-        font-size: 16px;
-        display: inline;
-        margin: 0 -42px;
-    }
+
 </style>
-<h1><a href="{% url 'index' %}">Tresla</a></h1>
-<nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-        <div class="collapse navbar-collapse" id="myNavbar">
-            {% if user.is_authenticated %}
-                        {% if project_id %}
-                            <ul class="nav navbar-nav font_larger">
-                                <li><a href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a></li>
-                                <li><a href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a></li>
-                                <li><a href="{% url 'project:communication_channel:channel_index' project_id=project_id %}">Channels</a></li>
-                                <li><a href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a></li>
-                            </ul>
 
-                            <ul class="nav navbar-nav navbar-right font_larger">
-                                <li><a href="{% url 'logout' %}"> Welcome, {{ request.user.username }}&nbsp &nbsp &nbsp <span class="glyphicon glyphicon-log-in"></span> logout</a></li>
-                            </ul>
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <a href="{% url 'index' %}" class="navbar-brand">Tresla</a>
 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-
-            {% else %}
-                <ul class="nav navbar-nav font_larger">
-                    <li><a href="{% url 'signup' %}" class="link">signup</a></li>
-                    <li><a href="{% url 'login' %}" class="link">login</a></li>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        {% if user.is_authenticated %}
+            {% if project_id %}
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                           href="{% url 'project:project_detail' project_id=project_id %}">Project {{ project_id }}</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                           href="{% url 'project:task_tracker:task_list_index' project_id=project_id %}">Tasks</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                           href="{% url 'project:communication_channel:channel_index' project_id=project_id %}">Channels</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link"
+                           href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Issues</a>
+                    </li>
                 </ul>
-                             {% endif %}
-         {% endif %}
-
-        </div>
+            {% endif %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active"><a class="nav-link">Welcome, {{ request.user.username }}</a></li>
+                <li class="nav-item active"><a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> logout</a></li>
+            </ul>
+        {% else %}
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active"><a class="nav-link" href="{% url 'signup' %}" class="link">signup</a></li>
+                <li class="nav-item active"><a class="nav-link" href="{% url 'login' %}" class="link">login</a></li>
+            </ul>
+        {% endif %}
     </div>
-
 </nav>
 

@@ -4,9 +4,10 @@ from django.http import Http404
 
 
 def task_list_index(request, project_id):
+    project = Project.objects.get(id=project_id)
     task_list_list = TaskList.objects.filter(project_id=project_id)
     return render(request, 'task_tracker/task_list_index.html',
-                  {'project_id': project_id, 'task_list_list': task_list_list})
+                  {'project_id': project_id, 'project': project, 'task_list_list': task_list_list})
 
 
 def task_list_create(request, project_id):
