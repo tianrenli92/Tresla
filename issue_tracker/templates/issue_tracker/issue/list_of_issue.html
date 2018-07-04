@@ -4,19 +4,18 @@
 {% block title %}List of Issue{% endblock %}
 
 {% block content %}
-     <p>Issue list of project {{ project_id }}</p>
     <div class="row">
         <div class="col-md-10">
-            <button class="btn float-right btnbackground" style="margin: -40px 0;"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}" class='btnfont'>New issues</a></button>
-
             {% for issue in issues %}
-         <div class="panel panel-default" style="background:#fffbdb">
-         <h3 ><a href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
+         <div style="background:#fffbdb" class="issue-padding">
+         <h3  class="btn-position"><a  style="color: #e0a800e8" href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
+         <hr>
          {{ issue.content | truncatewords:40 | linebreaks}}
              <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %} {{ issue.published}} {% endtimezone %}</small>
          </div>
      {% endfor %}
         {% include 'issue_tracker/paginator.html' with page=issues %}
-  
+   <button class="btn float-right btnbackground btn-position"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project_id %}" class='btnfont'>New issues</a></button>
     </div>
+
 {% endblock %}

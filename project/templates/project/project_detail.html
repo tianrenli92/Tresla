@@ -3,25 +3,30 @@
 {% block content %}
     <div class="container-fluid">
         <h3 class="my-3">Project {{ project_id }} detail</h3>
-        <a class="btn btn-primary my-3" role="button"
+    <div class="display-inline">
+        <a class="btn btn-success" role="button"
                 href="{% url 'project:project_edit' project_id=project_id %}">Edit</a>
-        <a class="btn btn-primary my-3" role="button"
+    </div>
+    <div class="display-inline">
+        <a class="btn btn-success" role="button"
                 href="{% url 'project:project_delete' project_id=project_id %}">Delete</a>
-       <p>Members</p>
+    </div>
+    <div class="display-inline">
         <form action="" method="POST" id="selection-form">
             {% csrf_token %}
-            <select id="member_list">
+            <select class="btn btn-secondary dropdown-toggle" id="member_list">
                 {% for user in users %}
-                    <option value="{{ user.id }}">
+                    <option class="dropdown-item" value="{{ user.id }}">
                         {{ user.username }}
                     </option>
                 {% endfor %}
+
             </select>
 
-            <input type="button" value="Add member" id="selection-button">
-        </form>
 
-        <div class="res"></div>
+            <input class="btn btn-success" type="button" value="Add member" id="selection-button">
+        </form>
+</div>
     </div>
 
 {% endblock %}

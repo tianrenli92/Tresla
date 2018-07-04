@@ -2,29 +2,37 @@
 
 
 {% block content %}
-    <div style="background:#fffbdb">
-         <h2>{{ issue.title}}</h2>
+    <div class="issue-padding btn-position" style="background:#fffbdb">
+         <h2 style="color: #e0a800e8">{{ issue.title}}</h2>
+        <hr>
          <p>{{issue.content|linebreaks}}</p>
-         <p class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</p>
+
+         <small class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</small>
     <div style="padding: 3% 6%">
          <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;" href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a></div>
          <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;" href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a></div>
     </div>
     </div>
+  <br>
+    <br>
+    <br>
+   <br>
          <div class="page-header">
          <h3>Leave a comment</h3>
-         <small>Total comments: {{issue.Comment.count }}</small>
+          <small class="float-right">Total comments: {{issue.Comment.count }}</small>
          </div>
-         <p><button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button></p>
-         <p><button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button></p>
-
+         <button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button>
+         <button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button>
+    <div class="border btn-position">
          {% for comment in issue.Comment.all %}
-         <div class="panel panel-default">
-                  <div class="panel panel-heading" style="background:gainsboro">User: {{comment.user}},Created: {{comment.created}}</div>
-                  <div class="panel panel-body">{{comment.body}}</div>
+                  <div style="background:gainsboro">User: {{user}},Created: {{comment.created}}</div>
+                  <div>{{comment.body}}</div>
+             <br>
          {% empty %}
                <p>This is no comment</p>    
-            </div>  
+
          {% endfor %}
-      
+
+       </div>
+
 {% endblock %}
