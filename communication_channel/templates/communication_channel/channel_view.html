@@ -1,14 +1,7 @@
 
 {% extends 'base.html' %}
 
-{% block title %}
-    Chat Room
-    <style>
-    body {
-        background-image: url(https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg?auto=compress&cs=tinysrgb&h=350);
-    }
-    </style>
-{% endblock %}
+{% block title %}Chat Room{% endblock %}
 
 {% block content %}
     <div style="background:url(https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg?auto=compress&cs=tinysrgb&h=350); background-repeat:no-repeat;">
@@ -71,5 +64,9 @@
             messageInputDom.value = '';
         };
     </script>
-
+    <style>
+        body {
+         background-image: url(https://www.planwallpaper.com/static/images/backgrounds_2.jpg); background-repeat: no-repeat;
+        }
+    </style>
 {% endblock %}
