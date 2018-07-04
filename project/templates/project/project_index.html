@@ -1,17 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2 style="color: #9d9d9d">Project:</h2>
-    <button class="btn btn-default btnbackground oval" style="margin: 0 0 5% 0" ><a class="btnfont" href="{% url 'project:project_create'%}">Create new project</a></button>
-    <div>
-    {% if project_list %}
-        {% for project in project_list %}
-            <div class="col-sm-4">
-                <div class="alert alert-dismissible alert-success text-center"><a href={% url 'project:project_detail' project_id=project.id %}><span class="font-size">{{ project.name }}</span></a><div><small>{{ project.timestamp }}</small></div></div>
-             </div>
-        {% endfor %}
-    {% else %}
-        <p>No project are available.</p>
-    {% endif %}
+    <div class="container-fluid">
+        <h3 class="my-3">Project List</h3>
+        <a class="btn btn-primary my-3" role="button" href="{% url 'project:project_create' %}">Create new project</a>
+        {% if project_list %}
+            <div class="row">
+                {% for project in project_list %}
+                    <div class="col-sm-4" style="padding: 5px;">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <a class="card-link" href={% url 'project:project_detail' project_id=project.id %}>{{ project.name }}</a>
+                                <div class="card-text">
+                                    <small>{{ project.timestamp }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No project are available.</p>
+        {% endif %}
     </div>
 {% endblock %}
