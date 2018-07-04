@@ -9,7 +9,7 @@
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <style>
         .btnbackground {
-            background: #34d058;
+            background-color: #34d058;
         }
         .btnfont {
             color: white;
@@ -34,6 +34,13 @@
             padding: 0 2%;
         }
     </style>
+{% block style %}
+    <style>
+    body {
+    background-color:#fbf198;
+    }
+    </style>
+{% endblock %}
     <title>{% block title %}Tresla{% endblock %}</title>
 </head>
 
