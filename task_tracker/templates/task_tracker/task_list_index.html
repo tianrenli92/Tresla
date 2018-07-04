@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container-fluid">
-        <p class="my-3">Tasks of {{ project.name }}:</p>
+        <h3 class="my-3">Tasks of {{ project.name }}</h3>
 
         <a class="btn btn-primary my-3" role="button" href="{% url 'project:task_tracker:task_list_create' project_id=project.id %}">new task list</a>
 
@@ -40,7 +40,7 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p>There is no task list.</p>
+            <p class="my-3">There is no task list.</p>
         {% endif %}
     </div>
 {% endblock %}
