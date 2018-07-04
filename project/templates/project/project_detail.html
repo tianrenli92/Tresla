@@ -1,52 +1,51 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <p>Project {{ project_id }} detail</p>
-    <div class="btn btn-default oval" style="width: 10%"><a href="{% url 'project:project_edit' project_id=project_id%}">Edit</a></div>
-    <div class="btn btn-default oval"style="width: 10%"><a href="{% url 'project:project_delete' project_id=project_id%}">Delete</a></div>
-    <div class="btn btn-default oval"style="width: 10%">Members</div>
-     <form action="" method="POST" id="selection-form">
-                  {% csrf_token %}
-                    <select id="member_list">
-                            {% for user in users %}
-                        <option value="{{user.id}}">
-                            {{ user.username }}
-                        </option>
-                   {% endfor %}
-                    </select>
+    <div class="container-fluid">
+        <h3 class="my-3">Project {{ project_id }} detail</h3>
+        <a class="btn btn-primary my-3" role="button"
+                href="{% url 'project:project_edit' project_id=project_id %}">Edit</a>
+        <a class="btn btn-primary my-3" role="button"
+                href="{% url 'project:project_delete' project_id=project_id %}">Delete</a>
+       <p>Members</p>
+        <form action="" method="POST" id="selection-form">
+            {% csrf_token %}
+            <select id="member_list">
+                {% for user in users %}
+                    <option value="{{ user.id }}">
+                        {{ user.username }}
+                    </option>
+                {% endfor %}
+            </select>
 
-                     <input type="button" value="Add member" id="selection-button">
-                     </form>
+            <input type="button" value="Add member" id="selection-button">
+        </form>
 
-                    <div class="res"></div>
-
-
+        <div class="res"></div>
+    </div>
 
 {% endblock %}
 
-{% block script %}
-    <style>
-              body {
-                  background-color:#fbf198;
-              }
 
-    var url = $( '#selection-button' ).attr( 'action' );
-    var storage='';
-    $("#selection-button").on('click', function(e) {
-        e.preventDefault();
-        var value =$('#member_list').val();
-        $.ajax({
-            type:'POST',
-            url: '{% url 'project:project_add_member' project_id=project_id %}',
-            data: { user_id:value },
-            success:function (result) {
-                location.href='{% url 'project:project_add_members' project_id=project_id user_id=user.id %}'
-            },
-            error:function (result) {
-              alert('error');
-              console.info(data);
-            }
+{% block script %}
+    <script>
+        var url = $('#selection-button').attr('action');
+        var storage = '';
+        $("#selection-button").on('click', function (e) {
+            e.preventDefault();
+            var value = $('#member_list').val();
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'project:project_add_member' project_id=project_id %}',
+                data: {user_id: value},
+                success: function (result) {
+                    location.href = '{% url 'project:project_add_members' project_id=project_id user_id=user.id %}'
+                },
+                error: function (result) {
+                    alert('error');
+                    console.info(data);
+                }
+            });
         });
-    });
-    </style>
-{%  endblock %}
+    </script>
+{% endblock %}
