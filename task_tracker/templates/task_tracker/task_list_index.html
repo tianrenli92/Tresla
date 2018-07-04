@@ -1,33 +1,46 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p>Tasks of project {{ project_id }}:</p>
-    <p><a href="{% url 'project:task_tracker:task_list_create' project_id=project_id %}">[new task list]</a></p>
-    {% if task_list_list %}
-        <ul>
-        {% for task_list in task_list_list %}
-            <li>
-                <p>{{ task_list.name }}
-                    <a href="{% url 'project:task_tracker:task_list_update' project_id=project_id task_list_id=task_list.id%}">[edit]</a>
-                    <a href="{% url 'project:task_tracker:task_list_delete' project_id=project_id task_list_id=task_list.id%}">[del]</a>
-                    :
-                </p>
-                <p><a href="{% url 'project:task_tracker:task_create' project_id=project_id task_list_id=task_list.id%}">[new task]</a></p>
-                <ul>
-                    {% if task_list.tasks.all %}
-                         {% for task in task_list.tasks.all %}
-                            <li><p>
-                                {{ task.topic }}
-                                <a href="{% url 'project:task_tracker:task_update' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[edit]</a>
-                                <a href="{% url 'project:task_tracker:task_delete' project_id=project_id task_list_id=task_list.id task_id=task.id%}">[del]</a>
-                            </p></li>
-                        {%  endfor %}
-                    {% endif %}
-                </ul>
-            </li>
-        {% endfor %}
-        </ul>
-    {% else %}
-        <p>There is no task list.</p>
-    {% endif %}
+    <div class="container-fluid">
+        <p class="my-3">Tasks of {{ project.name }}:</p>
+
+        <a class="btn btn-primary my-3" role="button" href="{% url 'project:task_tracker:task_list_create' project_id=project.id %}">new task list</a>
+
+        {% if task_list_list %}
+            <div class="card">
+                {% for task_list in task_list_list %}
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <div class="my-auto">
+                                {{ task_list.name }}
+                            </div>
+                            <div class="ml-auto">
+                                <a class="btn btn-primary" role="button"
+                                   href="{% url 'project:task_tracker:task_list_update' project_id=project.id task_list_id=task_list.id %}">edit</a>
+                                &nbsp;
+                                <a class="btn btn-primary" role="button"
+                                   href="{% url 'project:task_tracker:task_list_delete' project_id=project.id task_list_id=task_list.id %}">delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p><a href="{% url 'project:task_tracker:task_create' project_id=project.id task_list_id=task_list.id%}">[new task]</a></p>
+                        <ul>
+                            {% if task_list.tasks.all %}
+                                 {% for task in task_list.tasks.all %}
+                                    <li><p>
+                                        {{ task.topic }}
+                                        <a href="{% url 'project:task_tracker:task_update' project_id=project.id task_list_id=task_list.id task_id=task.id%}">[edit]</a>
+                                        <a href="{% url 'project:task_tracker:task_delete' project_id=project.id task_list_id=task_list.id task_id=task.id%}">[del]</a>
+                                    </p></li>
+                                {%  endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>There is no task list.</p>
+        {% endif %}
+    </div>
 {% endblock %}
