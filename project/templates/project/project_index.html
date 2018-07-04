@@ -2,17 +2,16 @@
 
 {% block content %}
     <div class="container-fluid">
-        <a class="btn btn-success btn-position" role="button" href="{% url 'project:project_create' %}">Create new project</a>
+        <a class="btn btn-success btn-position" role="button" href="{% url 'project:project_create' %}">Create new
+            project</a>
         {% if project_list %}
             <div class="row">
                 {% for project in project_list %}
-                    <div class="col-sm-4" style="padding: 5px;">
-                        <div class="card text-white bg-project mb-3" style="max-width: 18rem;">
-                            <div class="card-body text-center">
-                                <a class="card-title font-color-project font-size-project" href={% url 'project:project_detail' project_id=project.id %}>{{ project.name }}</a>
-                                <div class="card-text">
-                                    <small>{{ project.timestamp }}</small>
-                                </div>
+                    <div class="col-sm-2" style="padding: 5px;">
+                        <div class="card bg-project text-center">
+                            <div class="card-body">
+                                    <a class="card-link text-project"
+                                       href={% url 'project:project_detail' project_id=project.id %}>{{ project.name }}</a>
                             </div>
                         </div>
                     </div>
