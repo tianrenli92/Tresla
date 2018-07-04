@@ -24,8 +24,12 @@
 
 {% endblock %}
 
-
 {% block script %}
+    <style>
+              body {
+                  background-color:#fbf198;
+              }
+
     var url = $( '#selection-button' ).attr( 'action' );
     var storage='';
     $("#selection-button").on('click', function(e) {
@@ -44,5 +48,5 @@
             }
         });
     });
-
+    </style>
 {%  endblock %}
