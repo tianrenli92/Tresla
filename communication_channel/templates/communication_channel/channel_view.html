@@ -1,24 +1,41 @@
 
 {% extends 'base.html' %}
 
-{% block title %}Chat Room{% endblock %}
-
+{% block title %}
+    Chat Room
+    <style>
+    body {
+        background-image: url(https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg?auto=compress&cs=tinysrgb&h=350);
+    }
+    </style>
+{% endblock %}
 
 {% block content %}
-    <textarea id="communication-log" cols="100" rows="20" readonly style="border:groove 6px orange;"></textarea><br/>
-    <input id="communication-message-input" type="text" size="93" autofocus style="border:solid 1px orange;"/>
-    <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
+    <div style="background:url(https://images.pexels.com/photos/352096/pexels-photo-352096.jpeg?auto=compress&cs=tinysrgb&h=350); background-repeat:no-repeat;">
+
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <textarea style="background:whitesmoke !important;border:double 4px orange" id="communication-log" cols="100%" rows="20%" readonly></textarea><br/>
+        <input id="communication-message-input" type="text" size="94" autofocus placeholder="Type a message" style="border:solid 1px orange;"/>
+        <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
+    </div>
+    <div class="col-sm-2"></div>
+    </div>
+
 {% endblock %}
 {% block script %}
-    function msToTime(duration) {
-    var minutes = parseInt((duration / (1000 * 60)) % 60),
-        hours = parseInt((duration / (1000 * 60 * 60)) % 24-4);
-
-    hours = (hours < 10) ? "0" + hours : hours;
-    minutes = (minutes < 10) ? "0" + minutes : minutes;
-
-    return hours + ":" + minutes;
+    function formatAMPM(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
 }
+
+
 
     var channelId = {{ channel_id_json }};
 
@@ -45,7 +62,7 @@
 
     document.querySelector('#communication-message-submit').onclick = function(e) {
         var messageInputDom = document.querySelector('#communication-message-input');
-    var message = '{{ request.user.username }}\:'+messageInputDom.value+'---'+msToTime(Date.now());
+    var message = '{{ request.user.username }}\:'+messageInputDom.value+'---'+formatAMPM(new Date());
         communicationSocket.send(JSON.stringify({
             'message': message
         }));
