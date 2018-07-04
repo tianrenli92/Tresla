@@ -5,7 +5,14 @@
 {% block style %}
     <style>
     body {
-        background:url(https://www.planwallpaper.com/static/images/elegant-grey-illumination-background-presentations-powerpoint-backgrounds.jpg); background-size:cover; background-repeat:repeat;
+        background:#333 url(https://static.tumblr.com/maopbtg/a5emgtoju/inflicted.png) repeat;
+        }
+    textarea {
+        border:none;
+        overflow:hidden;
+        font-weight:normal;
+        background-image:url(https://static.tumblr.com/maopbtg/nBUmgtogx/paper.png);
+        background-repeat:repeat;
     }
     </style>
 {% endblock %}
@@ -16,8 +23,8 @@
         <div class="row justify-content-md-center">
             <div class="col col-sm-2"></div>
             <div class="col-sm-8">
-                <textarea style="background:whitesmoke !important;border:double 4px orange" id="communication-log" cols="100%" rows="20%" readonly></textarea><br/><br/>
-                <input id="communication-message-input" type="text" size="102" autofocus placeholder="Type a message" style="border:solid 1px orange;"/><br/><br/>
+                <textarea id="communication-log" cols="100%" rows="20%" readonly></textarea><br/><br/>
+                <input id="communication-message-input" type="text" size="102" autofocus placeholder="Type a message"height:auto; style="border:solid 1px orange;"/><br/><br/>
                 <input id="communication-message-submit" type="button" class="btn btn-success" value="Send"/>
             </div>
             <div class="col col-sm-2"></div>
