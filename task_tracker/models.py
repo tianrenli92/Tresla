@@ -6,7 +6,7 @@ from project.models import Project
 
 
 class TaskList(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='tasklists')
     name = models.CharField(max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
 

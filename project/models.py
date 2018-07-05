@@ -5,7 +5,7 @@ from django.forms import ModelForm
 
 
 class Project(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_projects')
     name = models.CharField(max_length=10)
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -20,8 +20,8 @@ class Project(models.Model):
 
 
 class ProjectMember(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    member = models.ForeignKey(User, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='members')
+    member = models.ForeignKey(User, on_delete=models.CASCADE, related_name='joined_projects')
 
     class Meta:
         ordering = ('project','member',)

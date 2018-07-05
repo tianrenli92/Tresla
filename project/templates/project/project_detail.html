@@ -2,49 +2,84 @@
 
 {% block content %}
     <div class="container-fluid">
-        <h3 class="my-3">Project {{ project_id }} detail</h3>
-    <div class="display-inline">
-        <a class="btn btn-success" role="button"
-                href="{% url 'project:project_edit' project_id=project_id %}">Edit</a>
+        <h3 class="my-3"> Project Detail</h3>
+        <ul class="list-group">
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-2">Name: {{ project.name }}</div>
+                    <div class="col-2">
+                        <a class="btn btn-success" role="button"
+                           href="{% url 'project:project_edit' project_id=project_id %}">Edit Name</a>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group-item">
+                <div class="row align-items-center">
+                    <div class="col-2">Owner: {{ project.owner }}</div>
+                    <div class="col-2">
+                        <a class="btn btn-danger" role="button"
+                           href="{% url 'project:project_delete' project_id=project_id %}">Delete Project</a>
+                    </div>
+                </div>
+            </div>
+            <div class="list-group-item">
+                Create Time: {{ project.timestamp }}
+            </div>
+            <div class="list-group-item">
+                <div class="card">
+                    <div class="card-header">Members:</div>
+                    <div class="card-body">
+                        {% if project.members.all %}
+                            {% for member_schema in project.members.all %}
+                                <div class="row my-1 align-items-center">
+                                    <div class="col-2">{{ member_schema.member.username }}</div>
+                                    <div class="col-2">
+                                        <a class="btn btn-danger" role="button"
+                                           href="{% url 'project:project_member_delete' project_id=project_id %}">Delete</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            There is no member.
+                        {% endif %}
+                    </div>
+                    <div class="card-footer">
+                        <form action="" method="POST" id="selection-form">
+                            {% csrf_token %}
+                            <select class="btn btn-secondary dropdown-toggle" id="member_list">
+                                {% for user in users %}
+                                    <option class="dropdown-item" value="{{ user.id }}">
+                                        {{ user.username }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                            <input class="btn btn-success" type="button" value="Add Member" id="add-member">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </ul>
     </div>
-    <div class="display-inline">
-        <a class="btn btn-success" role="button"
-                href="{% url 'project:project_delete' project_id=project_id %}">Delete</a>
-    </div>
-    <div class="display-inline">
-        <form action="" method="POST" id="selection-form">
-            {% csrf_token %}
-            <select class="btn btn-secondary dropdown-toggle" id="member_list">
-                {% for user in users %}
-                    <option class="dropdown-item" value="{{ user.id }}">
-                        {{ user.username }}
-                    </option>
-                {% endfor %}
-
-            </select>
 
 
-            <input class="btn btn-success" type="button" value="Add member" id="selection-button">
-        </form>
-</div>
-    </div>
+
 
 {% endblock %}
 
 
 {% block script %}
     <script>
-        var url = $('#selection-button').attr('action');
+        var url = $('#add-member').attr('action');
         var storage = '';
-        $("#selection-button").on('click', function (e) {
+        $("#add-member").on('click', function (e) {
             e.preventDefault();
             var value = $('#member_list').val();
             $.ajax({
                 type: 'POST',
-                url: '{% url 'project:project_add_member' project_id=project_id %}',
+                url: '{% url 'project:project_member_create' project_id=project_id %}',
                 data: {user_id: value},
                 success: function (result) {
-                    location.href = '{% url 'project:project_add_members' project_id=project_id user_id=user.id %}'
+                    location.href = '{% url 'project:project_detail' project_id=project.id %}'
                 },
                 error: function (result) {
                     alert('error');
