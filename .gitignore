@@ -97,3 +97,4 @@ dbschema.dbs.bak
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+tresla-docker-redis.pem

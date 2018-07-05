@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'rest_framework',
     'widget_tweaks',
     'crispy_forms',
@@ -173,7 +172,8 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [('ec2-18-219-56-164.us-east-2.compute.amazonaws.com', 6379)],
+            #"hosts": ["redis://(ec2-18-219-56-164.us-east-2.compute.amazonaws.com, 6379)"],
         },
     },
 }
