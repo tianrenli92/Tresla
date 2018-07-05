@@ -25,7 +25,7 @@ SECRET_KEY = '1=unk4a^9e378x4i51&e8y1#nz^ziog+498)%9_7#(d23nu^g2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['tresla-env-0.ue3uti9tnz.us-east-2.elasticbeanstalk.com']
 
 
 # Application definition
