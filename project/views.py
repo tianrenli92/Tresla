@@ -12,7 +12,10 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def project_index(request):
-    project_list = Project.objects.filter(owner=request.user.id)
+    user=request.user
+    owned_project = [x for x in user.owned_projects.all()]
+    joined_project = [x.project for x in user.joined_projects.all()]
+    project_list=owned_project+joined_project
     return render(request, 'project/project_index.html', {'project_list': project_list})
 
 
@@ -42,7 +45,7 @@ def project_delete(request, project_id):
     except Project.DoesNotExist:
         raise Http404("No such project.")
     instance.delete()
-    return redirect('project:delete_result', project_id=project_id)
+    return redirect('project:project_index')
 
 
 def project_edit(request, project_id):
@@ -57,8 +60,14 @@ def project_edit(request, project_id):
 @csrf_exempt
 def project_member_create(request, project_id):
     if request.method == 'POST':
+        try:
+            project = Project.objects.get(id=project_id)
+        except Project.DoesNotExist:
+            raise Http404("No such project.")
+
         user_id = request.POST.get('user_id', '')
-        ProjectMember.objects.get_or_create(project_id=project_id, member_id=user_id)
+        if user_id != str(project.owner.id):
+            ProjectMember.objects.get_or_create(project_id=project_id, member_id=user_id)
         return JsonResponse({'success': True})
 
 
