@@ -25,7 +25,7 @@ SECRET_KEY = '1=unk4a^9e378x4i51&e8y1#nz^ziog+498)%9_7#(d23nu^g2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['tresla-env-0.ue3uti9tnz.us-east-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['tresla-env-0.ue3uti9tnz.us-east-2.elasticbeanstalk.com', '127.0.0.1']
 
 
 # Application definition
@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.sites',
+
     'rest_framework',
     'widget_tweaks',
     'crispy_forms',
