@@ -7,8 +7,8 @@
     <div class="row">
         <div class="col-md-10">
             {% for issue in issues %}
-         <div style="background:#fffbdb" class="issue-padding">
-         <h3  class="btn-position"><a  style="color: #e0a800e8" href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
+         <div style="background:#e9ecef" class="issue-padding">
+         <h3  class="btn-position"><a  style="color: darkgoldenrod" href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
          <hr>
          {{ issue.content | truncatewords:40 | linebreaks}}
              <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %} {{ issue.published}} {% endtimezone %}</small>
