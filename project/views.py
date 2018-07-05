@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def project_index(request):
-    project_list = get_list_or_404(Project)
+    project_list = Project.objects.filter(owner=request.user.id)
     return render(request, 'project/project_index.html', {'project_list': project_list})
 
 
