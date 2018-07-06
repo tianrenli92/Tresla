@@ -3,7 +3,7 @@ from .models import TaskList,Task
 
 
 class TaskListAdmin(admin.ModelAdmin):
-    list_display = ('name','project')
+    list_display = ('name','project','timestamp')
 
 
 class TaskAdmin(admin.ModelAdmin):

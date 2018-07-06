@@ -3,7 +3,7 @@ from .models import Project,ProjectMember
 
 
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('name', 'owner')
+    list_display = ('name', 'owner', 'timestamp')
 
 
 class ProjectMemberAdmin(admin.ModelAdmin):
