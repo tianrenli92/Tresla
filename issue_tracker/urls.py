@@ -13,4 +13,6 @@ urlpatterns =[
     path('<int:issue_id>/edit_issue/',views.edit_issue,name='edit_issue'),
     path('<int:issue_id>/delete_issue/',views.delete_issue,name='delete_issue'),
     path('<int:issue_id>/delete', TemplateView.as_view(template_name="issue_tracker/issue/nice_delete.html"), name='success_deletion'),
+    path('<int:issue_id>/assignee/', views.assignee, name='assignee'),
+    path('<int:issue_id>/statusissue/', views.statusissue, name='statusissue'),
 ]

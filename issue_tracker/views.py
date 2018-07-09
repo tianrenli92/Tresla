@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Issue, Project
+from .models import Issue, Project,assignee_issue,Issue_status
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .forms import CommentForm, IssueForm,NewIssueForm
 from django.http import Http404,HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
 
 
 
@@ -31,7 +34,9 @@ def list_of_issue(request,project_id):
 
 def issue_detail(request, issue_id, project_id):
     issue = get_object_or_404(Issue,id=issue_id)
-    context = {'issue': issue,'issue_id':issue_id,'project_id':project_id}
+    users = User.objects.all()
+    issue_status=Issue_status.objects.all()
+    context = {'issue': issue,'issue_id':issue_id,'project_id':project_id,'users': users,'issue_status':issue_status}
     if issue.status == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
     else:
@@ -89,12 +94,21 @@ def edit_issue(request, project_id,issue_id):
 
 
 def delete_issue(request,project_id,issue_id):
-    if not request.user.is_staff or not request.user.is_superuser:
-        raise Http404
     issue = get_object_or_404(Issue,id=issue_id)
     issue.delete()
     return redirect('project:issue_tracker:success_deletion',project_id=project_id,issue_id=issue_id)
 
 
 
-
+@csrf_exempt
+def assignee(request,project_id,issue_id):
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id', '')
+        obj=assignee_issue.objects.get_or_create(Issue_id=issue_id,assignee_id=user_id)
+        return JsonResponse({'success': True})
+@csrf_exempt
+def statusissue(request,project_id,issue_id):
+    if request.method == 'POST':
+        issue_status = request.POST.get('status', '')
+        obj=Issue_status.objects.get_or_create(Issue_id=issue_id,status=issue_status)
+        return JsonResponse({'success': True})

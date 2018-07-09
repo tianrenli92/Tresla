@@ -4,6 +4,7 @@
 {% block title %}List of Issue{% endblock %}
 
 {% block content %}
+    <div>{{ request.user.username }}</div>
     <div class="row">
         <div class="col-md-10">
             {% for issue in issues %}

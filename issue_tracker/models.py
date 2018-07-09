@@ -50,5 +50,23 @@ class Comment(models.Model):
 
 
 
+class assignee_issue(models.Model):
+    Issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='assignee_issue')
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assignee')
+
+    class Meta:
+        ordering = ('Issue','assignee',)
+
+    def __str__(self):
+        return self.assignee.username
 
 
+class Issue_status(models.Model):
+    Issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issuestatus')
+    status=models.CharField(max_length=10)
+
+    class Meta:
+        ordering=('Issue','status')
+
+    def __str__(self):
+        return self.status

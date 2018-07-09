@@ -8,11 +8,58 @@
          <p>{{issue.content|linebreaks}}</p>
 
          <small class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</small>
-    <div style="padding: 3% 6%">
+
+    {% if issue.assignee_issue.all %}
+        {% for issue_member in issue.assignee_issue.all  %}
+            <br>
+            <br>
+            <div style="color: red"> Assigned to: {{ issue_member }} </div>
+            {% if issue_status %}
+                {% for issue_status_s in issue_status %}
+                 {% if issue_status_s.Issue_id == issue_id %}
+                <div style="color: red"> Current status: {{ issue_status_s }} </div>
+                   {% endif %}
+                {% endfor %}
+            {% endif %}
+
+
+            {% if issue_member|stringformat:"i" == request.user.username|stringformat:"i" %}
+                <form method="POST">
+                {% csrf_token %}
+                <select id="status_list">
+                <option value="Read">Read</option>
+                <option value="WIP">WIP</option>
+                <option value="Closed">Closed</option>
+                </select>
+                </form>
+                <button id="changestatus">Change status</button>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+         <div style="padding: 3% 6%">
+       <div class="float-right">
+        <input class="btn btn-default btnbackground btnfont" style="margin: 0 10px;" type="button" value="Assignee" id="assignee">
+                        <form action="" method="POST" id="selection-form" class="display-inline">
+                            {% csrf_token %}
+                            <select class="btn btn-secondary dropdown-toggle display-inline" id="user_list">
+                                {% for user in users %}
+                                    <option class="dropdown-item" value="{{ user.id }}">
+                                        {{ user.username }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                        </form>
+                    </div>
+
+    {% endif %}
+
          <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;" href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a></div>
          <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;" href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a></div>
     </div>
     </div>
+
+
   <br>
     <br>
     <br>
@@ -36,3 +83,44 @@
        </div>
 
 {% endblock %}
+
+{% block script %}
+    <script>
+        $("#assignee").on('click', function (e) {
+            e.preventDefault();
+            var user_id = $('#user_list').val();
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'project:issue_tracker:assignee' project_id=project_id issue_id=issue_id %}',
+                data: {user_id: user_id},
+                success: function (result) {
+                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project_id issue_id=issue_id %}'
+                },
+                error: function (result) {
+                    alert('error');
+                    console.info(data);
+                }
+            });
+        });
+
+           $("#changestatus").on('click', function (e) {
+            e.preventDefault();
+            var status = $('#status_list').val();
+            $.ajax({
+                type: 'POST',
+                url: '{% url 'project:issue_tracker:statusissue' project_id=project_id issue_id=issue_id %}',
+                data: {status: status},
+                success: function (result) {
+                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project_id issue_id=issue_id %}'
+                },
+                error: function (result) {
+                    alert('error');
+                    console.info(data);
+                }
+            });
+        });
+</script>
+
+{% endblock %}
+
+
