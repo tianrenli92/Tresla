@@ -3,84 +3,84 @@
 
 {% block content %}
     <div class="issue-padding btn-position" style="background:#e9ecef">
-         <h2 style="color:darkgoldenrod ">{{ issue.title}}</h2>
+        <h2 style="color:darkgoldenrod ">{{ issue.title }}</h2>
         <hr>
-         <p>{{issue.content|linebreaks}}</p>
+        <p>{{ issue.content|linebreaks }}</p>
 
-         <small class="float-right" style="margin: 0 5%">Written by {{issue.author }} on {{issue.published}}</small>
+        <small class="float-right" style="margin: 0 5%">Written by {{ issue.author }} on {{ issue.published }}</small>
 
-    {% if issue.assignee_issue.all %}
-        {% for issue_member in issue.assignee_issue.all  %}
-            <br>
-            <br>
-            <div style="color: red"> Assigned to: {{ issue_member }} </div>
-            {% if issue_status %}
-                {% for issue_status_s in issue_status %}
-                 {% if issue_status_s.Issue_id == issue_id %}
-                <div style="color: red"> Current status: {{ issue_status_s }} </div>
-                   {% endif %}
-                {% endfor %}
-            {% endif %}
-
-
-            {% if issue_member|stringformat:"i" == request.user.username|stringformat:"i" %}
+        {% if issue.assignee_schema.all %}
+            {% for assignee_schema in issue.assignee_schema.all %}
+                <br>
+                <br>
+                <div style="color: red"> Assigned to: {{ assignee_schema.assignee }} </div>
+                <div style="color: red"> Current status: {{ assignee_schema.STATUS | dict_key:assignee_schema.status }} </div>
+                <div style="display: none" id="assignee_id">{{ assignee_schema.assignee.id }}</div>
                 <form method="POST">
-                {% csrf_token %}
-                <select id="status_list">
-                <option value="Read">Read</option>
-                <option value="WIP">WIP</option>
-                <option value="Closed">Closed</option>
-                </select>
+                    {% csrf_token %}
+                    <select id="status_list">
+                        {% for key in assignee_schema.STATUS %}
+                        <option value="{{ key }}">{{ assignee_schema.STATUS | dict_key:key }}</option>
+                        {% endfor %}
+                    </select>
                 </form>
                 <button id="changestatus">Change status</button>
-            {% endif %}
-        {% endfor %}
-    {% else %}
-         <div style="padding: 3% 6%">
-       <div class="float-right">
-        <input class="btn btn-default btnbackground btnfont" style="margin: 0 10px;" type="button" value="Assignee" id="assignee">
-                        <form action="" method="POST" id="selection-form" class="display-inline">
-                            {% csrf_token %}
-                            <select class="btn btn-secondary dropdown-toggle display-inline" id="user_list">
-                                {% for user in users %}
-                                    <option class="dropdown-item" value="{{ user.id }}">
-                                        {{ user.username }}
-                                    </option>
-                                {% endfor %}
-                            </select>
+            {% endfor %}
+        {% else %}
+            <div style="padding: 3% 6%">
+            <div class="float-right">
+                <input class="btn btn-default btnbackground btnfont" style="margin: 0 10px;" type="button"
+                       value="Assignee" id="assignee">
+                <form action="" method="POST" id="selection-form" class="display-inline">
+                    {% csrf_token %}
+                    <select class="btn btn-secondary dropdown-toggle display-inline" id="user_list">
+                        {% for user in users %}
+                            <option class="dropdown-item" value="{{ user.id }}">
+                                {{ user.username }}
+                            </option>
+                        {% endfor %}
+                    </select>
 
-                        </form>
-                    </div>
+                </form>
+            </div>
 
-    {% endif %}
+        {% endif %}
 
-         <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;" href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id%}">edit</a></div>
-         <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;" href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id%}">delete</a></div>
+        <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
+                href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id %}">edit</a>
+        </div>
+        <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;"
+                href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id %}">delete</a>
+        </div>
+        </div>
     </div>
-    </div>
 
 
-  <br>
     <br>
     <br>
-   <br>
-         <div class="page-header">
-         <h3>Leave a comment</h3>
-          <small class="float-right">Total comments: {{issue.Comment.count }}</small>
-         </div>
-         <button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id%}">leave a comment</a></button>
-         <button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id%}">Go back issues</a></button>
+    <br>
+    <br>
+    <div class="page-header">
+        <h3>Leave a comment</h3>
+        <small class="float-right">Total comments: {{ issue.Comment.count }}</small>
+    </div>
+    <button type="button" class="btn btn-dark"><a class="btnf"
+                                                  href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id %}">leave
+        a comment</a></button>
+    <button type="button" class="btn btn-dark"><a class="btnf"
+                                                  href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Go
+        back issues</a></button>
     <div class="border btn-position">
-         {% for comment in issue.Comment.all %}
-                  <div style="background:gainsboro">User: {{user}},Created: {{comment.created}}</div>
-                  <div>{{comment.body}}</div>
-             <br>
-         {% empty %}
-               <p>This is no comment</p>    
+        {% for comment in issue.Comment.all %}
+            <div style="background:gainsboro">User: {{ user }},Created: {{ comment.created }}</div>
+            <div>{{ comment.body }}</div>
+            <br>
+        {% empty %}
+            <p>This is no comment</p>
 
-         {% endfor %}
+        {% endfor %}
 
-       </div>
+    </div>
 
 {% endblock %}
 
@@ -103,13 +103,17 @@
             });
         });
 
-           $("#changestatus").on('click', function (e) {
+        $("#changestatus").on('click', function (e) {
             e.preventDefault();
             var status = $('#status_list').val();
+            var assignee_id = $('#assignee_id').text();
             $.ajax({
                 type: 'POST',
                 url: '{% url 'project:issue_tracker:statusissue' project_id=project_id issue_id=issue_id %}',
-                data: {status: status},
+                data: {
+                    status: status,
+                    assignee_id: assignee_id,
+                },
                 success: function (result) {
                     location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project_id issue_id=issue_id %}'
                 },
@@ -119,7 +123,7 @@
                 }
             });
         });
-</script>
+    </script>
 
 {% endblock %}
 

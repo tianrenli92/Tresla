@@ -6,13 +6,12 @@ from django.template.defaultfilters import slugify
 from project.models import Project
 
 
-
 class Issue(models.Model):
     STATUS_CHOICES = (
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    project = models.ForeignKey(Project,on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
     content = models.TextField()
@@ -20,14 +19,15 @@ class Issue(models.Model):
     published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='draft')
+    is_draft = models.CharField(max_length=9, choices=STATUS_CHOICES, default='draft')
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Issue, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('project:issue_tracker:issue_detail', kwargs={'project_id':self.project_id, 'issue_id':self.id})
+        return reverse('project:issue_tracker:issue_detail',
+                       kwargs={'project_id': self.project_id, 'issue_id': self.id})
 
     def __str__(self):
         return self.title
@@ -49,24 +49,36 @@ class Comment(models.Model):
         return self.user
 
 
+class IssueAssignee(models.Model):
+    UNREAD = 0
+    READ = 1
+    WIP = 2
+    CLOSED = 3
 
-class assignee_issue(models.Model):
-    Issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='assignee_issue')
-    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assignee')
+    STATUS = {
+        UNREAD: "Unread",
+        READ: "Read",
+        WIP: "WIP",
+        CLOSED: "Closed",
+    }
+
+    issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='assignee_schema')
+    assignee = models.ForeignKey(User, on_delete=models.CASCADE, related_name='assigned_issue_schema')
+    status = models.IntegerField(default=UNREAD)
 
     class Meta:
-        ordering = ('Issue','assignee',)
+        ordering = ('issue', 'assignee',)
 
     def __str__(self):
-        return self.assignee.username
+        return self.issue.title + ' ' + self.assignee.username
 
-
-class Issue_status(models.Model):
-    Issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issuestatus')
-    status=models.CharField(max_length=10)
-
-    class Meta:
-        ordering=('Issue','status')
-
-    def __str__(self):
-        return self.status
+#
+# class IssueStatus(models.Model):
+#     issue = models.ForeignKey(Issue, on_delete=models.CASCADE, related_name='issuestatus')
+#     status = models.CharField(max_length=10)
+#
+#     class Meta:
+#         ordering = ('issue', 'status')
+#
+#     def __str__(self):
+#         return self.status

@@ -12,11 +12,11 @@ class IssueForm(forms.ModelForm):
         self.fields['project'].disabled = disabled_project
     class Meta:
         model = Issue
-        fields = ('title','content','project','status')
+        fields = ('title','content','project', 'is_draft')
 
 
 class NewIssueForm(forms.ModelForm):
     class Meta:
         model = Issue
-        fields = ('title','content','project','status')
+        fields = ('title','content','project', 'is_draft')
 
