@@ -18,7 +18,7 @@ def list_of_issue_by_project(request, project_id):
 
 
 def list_of_issue(request, project_id):
-    issue = Issue.objects.filter(status='published', project_id=project_id)
+    issue = Issue.objects.filter(is_draft='published', project_id=project_id)
     paginator = Paginator(issue, 10)
     page = request.GET.get('page')
     try:
