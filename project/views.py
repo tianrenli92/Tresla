@@ -23,7 +23,7 @@ def project_detail(request, project_id):
     users = User.objects.all()
     project = Project.objects.get(id=project_id)
     return render(request, 'project/project_detail.html',
-                  {'project_id': project_id, 'project': project, 'users': users})
+                  {'project': project, 'users': users})
 
 
 def project_create(request):

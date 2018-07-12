@@ -11,6 +11,7 @@ def task_list_index(request, project_id):
 
 
 def task_list_create(request, project_id):
+    project = Project.objects.get(id=project_id)
     if request.method == 'POST':
         task_list = TaskList(project_id=project_id)
         form = TaskListForm(request.POST, instance=task_list)
@@ -20,10 +21,11 @@ def task_list_create(request, project_id):
 
     else:
         form = TaskListForm()
-        return render(request, 'task_tracker/task_list_create.html', {'project': project_id, 'form': form})
+        return render(request, 'task_tracker/task_list_create.html', {'project': project, 'form': form})
 
 
 def task_list_update(request, project_id, task_list_id):
+    project = Project.objects.get(id=project_id)
     try:
         task_list = TaskList.objects.get(id=task_list_id)
     except TaskList.DoesNotExist:
@@ -37,7 +39,7 @@ def task_list_update(request, project_id, task_list_id):
 
     else:
         form = TaskListForm(instance=task_list)
-        return render(request, 'task_tracker/task_list_create.html', {'project': project_id, 'form': form})
+        return render(request, 'task_tracker/task_list_create.html', {'project': project, 'form': form})
 
 
 def task_list_delete(request, project_id, task_list_id):
@@ -50,6 +52,7 @@ def task_list_delete(request, project_id, task_list_id):
 
 
 def task_create(request, project_id, task_list_id):
+    project = Project.objects.get(id=project_id)
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -59,10 +62,11 @@ def task_create(request, project_id, task_list_id):
     else:
         form = TaskForm(initial={'task_list': task_list_id})
         return render(request, 'task_tracker/task_create.html',
-                      {'project': project_id, 'task_list_id': task_list_id, 'form': form})
+                      {'project': project, 'task_list_id': task_list_id, 'form': form})
 
 
 def task_update(request, project_id, task_list_id, task_id):
+    project = Project.objects.get(id=project_id)
     try:
         task = Task.objects.get(id=task_id)
     except TaskList.DoesNotExist:
@@ -77,7 +81,7 @@ def task_update(request, project_id, task_list_id, task_id):
     else:
         form = TaskForm(instance=task)
         return render(request, 'task_tracker/task_create.html',
-                      {'project': project_id, 'task_list_id': task_list_id,'task_id': task_id, 'form': form})
+                      {'project': project, 'task_list_id': task_list_id,'task_id': task_id, 'form': form})
 
 
 def task_delete(request, project_id, task_list_id, task_id):
