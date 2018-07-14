@@ -18,6 +18,7 @@ def list_of_issue_by_project(request, project_id):
 
 
 def list_of_issue(request, project_id):
+    project = Project.objects.get(id=project_id)
     issue = Issue.objects.filter(is_draft='published', project_id=project_id)
     paginator = Paginator(issue, 10)
     page = request.GET.get('page')
@@ -28,13 +29,14 @@ def list_of_issue(request, project_id):
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
     template = 'issue_tracker/issue/list_of_issue.html'
-    return render(request, template, {'issues': issues, 'page': page, 'project_id': project_id})
+    return render(request, template, {'issues': issues, 'page': page, 'project': project})
 
 
 def issue_detail(request, issue_id, project_id):
+    project = Project.objects.get(id=project_id)
     issue = get_object_or_404(Issue, id=issue_id)
     users = User.objects.all()
-    context = {'issue': issue, 'issue_id': issue_id, 'project_id': project_id, 'users': users}
+    context = {'issue': issue,'project': project, 'users': users}
     if issue.is_draft == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
     else:
@@ -44,21 +46,23 @@ def issue_detail(request, issue_id, project_id):
 
 def add_comment(request, issue_id, project_id):
     issue = get_object_or_404(Issue, id=issue_id)
+    project = Project.objects.get(id=project_id)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.issue = issue
             comment.save()
-            return redirect('project:issue_tracker:issue_detail', project_id=project_id, issue_id=issue.id)
+            return redirect('project:issue_tracker:issue_detail', project_id=project.id, issue_id=issue.id)
     else:
         form = CommentForm()
     template = 'issue_tracker/issue/add_comment.html'
-    context = {'form': form, 'project_id': project_id}
+    context = {'form': form, 'project': project}
     return render(request, template, context)
 
 
 def new_issue(request, project_id):
+    project = Project.objects.get(id=project_id)
     if request.method == 'POST':
         form = IssueForm(request.POST, initial={'project': project_id})
         form.fields['project'].disabled = True
@@ -66,16 +70,17 @@ def new_issue(request, project_id):
             issue = form.save(commit=False)
             issue.author = request.user
             issue.save()
-            return redirect('project:issue_tracker:issue_detail', project_id=project_id, issue_id=issue.id)
+            return redirect('project:issue_tracker:issue_detail', project_id=project.id, issue_id=issue.id)
     else:
         form = IssueForm(initial={'project': project_id})
         form.fields['project'].disabled = True
     template = 'issue_tracker/issue/new_issue.html'
-    context = {'form': form, 'project_id': project_id}
+    context = {'form': form, 'project': project}
     return render(request, template, context)
 
 
 def edit_issue(request, project_id, issue_id):
+    project = Project.objects.get(id=project_id)
     issue = get_object_or_404(Issue, id=issue_id)
     if request.method == 'POST':
         form = NewIssueForm(request.POST, instance=issue)
@@ -83,11 +88,11 @@ def edit_issue(request, project_id, issue_id):
             issue = form.save(commit=False)
             issue.author = request.user
             issue.save()
-            return redirect('project:issue_tracker:issue_detail', project_id=project_id, issue_id=issue_id)
+            return redirect('project:issue_tracker:issue_detail', project_id=project.id, issue_id=issue_id)
     else:
         form = NewIssueForm(instance=issue)
     template = 'issue_tracker/issue/edit_issue.html'
-    context = {'form': form, 'project_id': project_id}
+    context = {'form': form, 'project': project}
     return render(request, template, context)
 
 

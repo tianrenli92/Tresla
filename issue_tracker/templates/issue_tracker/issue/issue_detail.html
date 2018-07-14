@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load tz %}
 
 
 {% block content %}
@@ -7,7 +8,7 @@
         <hr>
         <p>{{ issue.content|linebreaks }}</p>
 
-        <small class="float-right" style="margin: 0 5%">Written by {{ issue.author }} on {{ issue.published }}</small>
+        <small class="float-right" style="margin: 0 5%">Written by {{ issue.author }} on  {% timezone 'America/New_York' %}{{ issue.published }}{% endtimezone %}</small>
 
         {% if issue.assignee_schema.all %}
             {% for assignee_schema in issue.assignee_schema.all %}
@@ -47,10 +48,10 @@
         {% endif %}
 
         <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
-                href="{% url 'project:issue_tracker:edit_issue' project_id=project_id issue_id=issue_id %}">edit</a>
+                href="{% url 'project:issue_tracker:edit_issue' project_id=project.id issue_id=issue.id %}">edit</a>
         </div>
         <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;"
-                href="{% url 'project:issue_tracker:delete_issue' project_id=project_id issue_id=issue_id %}">delete</a>
+                href="{% url 'project:issue_tracker:delete_issue' project_id=project.id issue_id=issue.id %}">delete</a>
         </div>
         </div>
     </div>
@@ -65,14 +66,14 @@
         <small class="float-right">Total comments: {{ issue.Comment.count }}</small>
     </div>
     <button type="button" class="btn btn-dark"><a class="btnf"
-                                                  href="{% url 'project:issue_tracker:add_comment' issue_id=issue_id project_id=project_id %}">leave
+                                                  href="{% url 'project:issue_tracker:add_comment' issue_id=issue.id project_id=project.id %}">leave
         a comment</a></button>
     <button type="button" class="btn btn-dark"><a class="btnf"
-                                                  href="{% url 'project:issue_tracker:list_of_issue' project_id=project_id %}">Go
+                                                  href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}">Go
         back issues</a></button>
     <div class="border btn-position">
         {% for comment in issue.Comment.all %}
-            <div style="background:gainsboro">User: {{ user }},Created: {{ comment.created }}</div>
+            <div style="background:gainsboro">User: {{ user }},Created: {% timezone 'America/New_York' %}{{ comment.created }}{% endtimezone %}</div>
             <div>{{ comment.body }}</div>
             <br>
         {% empty %}
@@ -91,10 +92,10 @@
             var user_id = $('#user_list').val();
             $.ajax({
                 type: 'POST',
-                url: '{% url 'project:issue_tracker:assignee' project_id=project_id issue_id=issue_id %}',
+                url: '{% url 'project:issue_tracker:assignee' project_id=project.id issue_id=issue.id %}',
                 data: {user_id: user_id},
                 success: function (result) {
-                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project_id issue_id=issue_id %}'
+                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project.id issue_id=issue.id %}'
                 },
                 error: function (result) {
                     alert('error');
@@ -109,13 +110,13 @@
             var assignee_id = $('#assignee_id').text();
             $.ajax({
                 type: 'POST',
-                url: '{% url 'project:issue_tracker:statusissue' project_id=project_id issue_id=issue_id %}',
+                url: '{% url 'project:issue_tracker:statusissue' project_id=project.id issue_id=issue.id %}',
                 data: {
                     status: status,
                     assignee_id: assignee_id,
                 },
                 success: function (result) {
-                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project_id issue_id=issue_id %}'
+                    location.href = '{% url 'project:issue_tracker:issue_detail' project_id=project.id issue_id=issue.id %}'
                 },
                 error: function (result) {
                     alert('error');
