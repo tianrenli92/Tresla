@@ -42,10 +42,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'main',
     'project',
-    'task_tracker',
     'communication_channel',
+    'task_tracker',
     'issue_tracker',
-    'channels',
 ]
 
 MIDDLEWARE = [
@@ -167,17 +166,5 @@ LOGIN_REDIRECT_URL = 'project:project_index'
 # crispy
 
 CRISPY_TEMPLATE_PACK='bootstrap3'
-
-# Channels
-ASGI_APPLICATION = 'tresla.routing.application'
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
-            #"hosts": ["redis://(ec2-18-219-56-164.us-east-2.compute.amazonaws.com, 6379)"],
-        },
-    },
-}
 
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
