@@ -1,9 +1,9 @@
 from django.urls import include,path
-from django.contrib.auth import views as auth_views
 from . import views
 from django.views.generic import TemplateView
 
 app_name = 'project'
+
 
 urlpatterns = [
     path('', views.project_index, name='project_index'),

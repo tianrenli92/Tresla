@@ -1,9 +1,7 @@
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
-from .models import Project, ProjectForm, ProjectMember, UserSerializer, User
+from .models import Project, ProjectForm, ProjectMember
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
-from django.core import serializers
-from .serializers import UserSerializers
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
