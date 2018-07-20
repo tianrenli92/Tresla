@@ -17,15 +17,14 @@ def index(request,project_id):
                        })
 
 
-def message_view(request, sender, receiver):
-    if not request.user.is_authenticated:
-        return redirect('index')
+def message_view(request, project_id, sender_id, receiver_id):
     if request.method == "GET":
         return render(request, "communication_channel/messages.html",
                       {'users': User.objects.exclude(username=request.user.username),
-                       'receiver': User.objects.get(id=receiver),
-                       'messages': Message.objects.filter(sender_id=sender, receiver_id=receiver) |
-                                   Message.objects.filter(sender_id=receiver, receiver_id=sender)})
+                       'receiver': User.objects.get(id=receiver_id),
+                       'messages': Message.objects.filter(sender_id=sender_id, receiver_id=receiver_id) |
+                                   Message.objects.filter(sender_id=receiver_id, receiver_id=sender_id),
+                       'project_id':project_id})
 
 
 @csrf_exempt
