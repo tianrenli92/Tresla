@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load tz %}
 
 {% block title %}List of Issue{% endblock %}
@@ -16,7 +17,6 @@
      {% endfor %}
         {% include 'issue_tracker/paginator.html' with page=issues %}
             <button class="btn float-right btnbackground btn-position"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project.id %}" class='btnfont'>New issues</a></button>
-            <button class="btn float-right btn-danger" style="margin: 2% 2% 0 0"><a href="{% url 'project:issue_tracker:user_issues' project_id=project.id %}" class='btnfont'>My issues</a></button>
         </div>
 
 {% endblock %}

@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from project.models import Project, ProjectMember
+from project.models import Project
 from task_tracker.models import TaskList, Task
-from issue_tracker.models import Issue,Comment,IssueAssignee
+from issue_tracker.models import Issue, Comment, IssueAssignee
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -14,35 +14,34 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Project
-        exclude=()
+        exclude = ()
 
-
-class ProjectMemberSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = ProjectMember
-        exclude=()
 
 class TaskListSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TaskList
-        exclude=()
+        exclude = ()
+
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Task
-        exclude=()
+        exclude = ()
+
 
 class IssueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Issue
-        exclude=()
+        exclude = ()
+
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Comment
-        exclude=()
+        exclude = ()
+
 
 class IssueAssigneeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = IssueAssignee
-        exclude=()
+        exclude = ()

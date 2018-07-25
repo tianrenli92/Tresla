@@ -31,6 +31,21 @@ def list_of_issue(request, project_id):
     template = 'issue_tracker/issue/list_of_issue.html'
     return render(request, template, {'issues': issues, 'page': page, 'project': project})
 
+def user_issues(request,project_id):
+    project = Project.objects.get(id=project_id)
+    issue = Issue.objects.filter(author_id=request.user.id,project_id=project_id)
+    paginator = Paginator(issue, 10)
+    page = request.GET.get('page')
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
+    template = 'issue_tracker/issue/user_issues.html'
+    return render(request, template, {'issues': issues, 'page': page, 'project': project})
+
+
 
 def issue_detail(request, issue_id, project_id):
     project = Project.objects.get(id=project_id)
