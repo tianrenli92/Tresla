@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'widget_tweaks',
     'crispy_forms',
+    'api',
     'main',
     'project',
     'communication_channel',

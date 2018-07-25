@@ -30,11 +30,11 @@
                     <div class="card-header">Members:</div>
                     <div class="card-body" id="member-list">
                         {% if project.members.all %}
-                            {% for member_schema in project.members.all %}
+                            {% for member in project.members.all %}
                                 <div class="row my-1 align-items-center">
-                                    <div class="col-2">{{ member_schema.member.username }}</div>
+                                    <div class="col-2">{{ member.username }}</div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger" type="button" id="delete-member" value="{{ member_schema.member.id }}"
+                                        <button class="btn btn-danger" type="button" id="delete-member" value="{{ member.id }}"
                                            >Delete</button>
                                     </div>
                                 </div>

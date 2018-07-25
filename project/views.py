@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_list_or_404, redirect, get_object_or_404
-from .models import Project, ProjectForm, ProjectMember
+from .models import Project, ProjectForm
 from django.contrib.auth.models import User
 from django.http import Http404, HttpResponse
 from rest_framework import generics
@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 def project_index(request):
     user=request.user
     owned_project = [x for x in user.owned_projects.all()]
-    joined_project = [x.project for x in user.joined_projects.all()]
+    joined_project = [x for x in user.joined_projects.all()]
     project_list=owned_project+joined_project
     return render(request, 'project/project_index.html', {'project_list': project_list})
 
@@ -64,8 +64,10 @@ def project_member_create(request, project_id):
             raise Http404("No such project.")
 
         user_id = request.POST.get('user_id', '')
+        user = User.objects.get(id=user_id)
         if user_id != str(project.owner.id):
-            ProjectMember.objects.get_or_create(project_id=project_id, member_id=user_id)
+            project.members.add(user)
+            project.save()
         return JsonResponse({'success': True})
 
 
@@ -73,7 +75,8 @@ def project_member_create(request, project_id):
 def project_member_delete(request, project_id):
     if request.method == 'POST':
         user_id = request.POST.get('user_id', '')
-        project_member=ProjectMember.objects.get(project_id=project_id, member_id=user_id)
-        project_member.delete()
+        project = Project.objects.get(id=project_id)
+        user = User.objects.get(id=user_id)
+        project.members.remove(user)
         return JsonResponse({'success': True})
 
