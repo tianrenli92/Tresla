@@ -9,8 +9,8 @@
             text-decoration: none;
             margin: 4px 2px;
             cursor: pointer;
-}
-</style>
+        }
+    </style>
 {% endblock %}
 {% block content %}
     <div class="section" style="height: 80vh">
@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="collection">
                         {% for user in users %}
-                            <a href="{% url 'project:communication_channel:chat' project_id=project_id sender_id=request.user.id receiver_id=user.id %}"
+                            <a href="{% url 'project:communication_channel:chat' project_id=project.id target_id=user.id %}"
                                id="{{ request.user.id }}" class="list-group-item list-group-item-action row">
                                 <img src="https://frontend-1.adjust.com/new-assets/images/site-images/interface/user.svg"
                                      class="col-sm-4">
@@ -31,10 +31,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col s9">
+            <div class="col-9">
                 <div class="card">
-                    <div id="board" class="alert alert-dark" role="alert"
-                         style="height: 68vh; padding: 5px; overflow-y: scroll">
+                    <div id="board" class="card" style="height: 68vh; padding: 5px; overflow-y: scroll">
                         {% block messages %}
 
                         {% endblock %}
@@ -61,21 +60,5 @@
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'JS/chat.js' %}"></script>
-    <script>
-        // For receiving
-        sender_id = "{{ receiver.id }}";
-        receiver_id = "{{ request.user.id }}";
 
-        //For sending
-
-        scrolltoend();
-        $('#chat-box').submit(function (event) {
-            event.preventDefault();
-            var message = $('#id_message');
-            send('{{ request.user.username }}', '{{ receiver.username }}', message.val());
-            message.val('');
-        })
-
-    </script>
 {% endblock %}

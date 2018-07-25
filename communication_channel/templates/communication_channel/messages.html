@@ -1,24 +1,83 @@
 {% extends 'communication_channel/channel_index.html' %}
 {% block hide %}{% endblock %}
 {% block messages %}
-    {% for message in messages %}
-    {% if message.sender == request.user %}
-<div class="card-panel right" style="width: 75%; position: relative">
-    <div style="position: absolute; top: 0; left:3px; font-weight: bolder" class="title">You</div>
-    {{ message }}
-</div>
-    {% else %}
-<div class="card-panel left blue lighten-5" style="width: 75%; position: relative">
-    <div style="position: absolute; top: 0; left:3px; font-weight: bolder" class="title">{{ message.sender }}</div>
-    {{ message }}
-</div>
-    {% endif %}
-    {% endfor %}
-<script>
-$(function () {
-    $('#user{{ receiver.id }}').addClass('active');
-    //Call receive function each 1 seconds to check for new messages in the database
-    setInterval(receive,1000)
-})
-</script>
+    <div class="container-fluid" id="board-inner">
+
+        {% for message in messages %}
+
+            {% if message.sender == request.user %}
+                <div class="row justify-content-end">
+                    <div class="card col-6">
+                        <div class="card-title">You</div>
+                        <div class="card-text">{{ message }}</div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row justify-content-start">
+                    <div class="card col-6">
+                        <div class="card-title">{{ message.sender }}</div>
+                        <div class="card-text">{{ message }}</div>
+                    </div>
+                </div>
+            {% endif %}
+
+        {% endfor %}
+
+
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        var text_box = '                <div class="row justify-content-end">\n' +
+            '                    <div class="card col-6">\n' +
+            '                        <div class="card-title">{sender}</div>\n' +
+            '                        <div class="card-text">{message}</div>\n' +
+            '                    </div>\n' +
+            '                </div>\n'
+
+        function scrolltoend() {
+            $('#board').stop().animate({
+                scrollTop: $('#board')[0].scrollHeight
+            }, 800);
+        }
+
+        function send(sender, receiver, message) {
+            $.post('{% url 'project:communication_channel:message_list' project_id=project.id %}', '{"sender": "' + sender + '", "receiver": "' + receiver + '","message": "' + message + '" }', function (data) {
+                console.log(data);
+                var box = text_box.replace('{sender}', "You");
+                box = box.replace('{message}', message);
+                $('#board-inner').append(box);
+                scrolltoend();
+            })
+        }
+
+        function receive() {
+            $.get('{% url 'project:communication_channel:message_list' project_id=project.id %}', {sender_id: "{{ target.id }}"}, function (data) {
+                console.log(data);
+                if (data.length !== 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        var box = text_box.replace('{sender}', data[i].sender);
+                        box = box.replace('{message}', data[i].message);
+                        box = box.replace('justify-content-end', 'justify-content-start');
+                        $('#board-inner').append(box);
+                        scrolltoend();
+                    }
+                }
+            })
+        }
+
+        //For sending
+        $(function () {
+            scrolltoend();
+            setInterval(receive, 1000);
+            $('#chat-box').submit(function (event) {
+                event.preventDefault();
+                var message = $('#id_message');
+                send('{{ request.user.username }}', '{{ target.username }}', message.val());
+                message.val('');
+            })
+        })
+    </script>
 {% endblock %}
