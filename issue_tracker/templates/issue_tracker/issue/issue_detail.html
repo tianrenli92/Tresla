@@ -3,33 +3,40 @@
 
 
 {% block content %}
-    <div class="issue-padding btn-position" style="background:#e9ecef">
+
+    <div class="issue-padding btn-position" style="background:#e9ecef;margin:0 3%">
         <h2 style="color:darkgoldenrod ">{{ issue.title }}</h2>
         <hr>
-        <p>{{ issue.content|linebreaks }}</p>
-
+        <div>{{ issue.content|linebreaks }}</div>
+        <br>
         <small class="float-right" style="margin: 0 5%">Written by {{ issue.author }} on  {% timezone 'America/New_York' %}{{ issue.published }}{% endtimezone %}</small>
 
+        <div style="margin: 25% 0 0 0">
+        <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
+                href="{% url 'project:issue_tracker:edit_issue' project_id=project.id issue_id=issue.id %}">edit</a>
+        </div>
+        <div><a class="float-right btn btn-danger" style="margin: 0 10px;"
+                href="{% url 'project:issue_tracker:delete_issue' project_id=project.id issue_id=issue.id %}">delete</a>
+        </div>
         {% if issue.assignee_schema.all %}
             {% for assignee_schema in issue.assignee_schema.all %}
-                <br>
-                <br>
-                <div style="color: red"> Assigned to: {{ assignee_schema.assignee }} </div>
-                <div style="color: red"> Current status: {{ assignee_schema.STATUS | dict_key:assignee_schema.status }} </div>
+                <div> Assigned to: <span style="color: darkgoldenrod">{{ assignee_schema.assignee }}</span> </div>
+                <div> Current status: <span style="color: darkgoldenrod">{{ assignee_schema.STATUS | dict_key:assignee_schema.status }}</span> </div>
                 <div style="display: none" id="assignee_id">{{ assignee_schema.assignee.id }}</div>
-                <form method="POST">
+
+                <form method="POST" class="display-inline">
                     {% csrf_token %}
-                    <select id="status_list">
+                    <select id="status_list" class="btn btn-secondary dropdown-toggle">
                         {% for key in assignee_schema.STATUS %}
                         <option value="{{ key }}">{{ assignee_schema.STATUS | dict_key:key }}</option>
                         {% endfor %}
                     </select>
                 </form>
-                <button id="changestatus">Change status</button>
+                <button id="changestatus" class="display-inline btn btn-default btnbackground btnfont">Change status</button>
             {% endfor %}
         {% else %}
-            <div style="padding: 3% 6%">
-            <div class="float-right">
+
+            <div>
                 <input class="btn btn-default btnbackground btnfont" style="margin: 0 10px;" type="button"
                        value="Assignee" id="assignee">
                 <form action="" method="POST" id="selection-form" class="display-inline">
@@ -44,15 +51,8 @@
 
                 </form>
             </div>
-
         {% endif %}
 
-        <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
-                href="{% url 'project:issue_tracker:edit_issue' project_id=project.id issue_id=issue.id %}">edit</a>
-        </div>
-        <div><a class="float-right btn btn-default btnbackground btnfont" style="margin: 0 10px;"
-                href="{% url 'project:issue_tracker:delete_issue' project_id=project.id issue_id=issue.id %}">delete</a>
-        </div>
         </div>
     </div>
 
@@ -61,6 +61,7 @@
     <br>
     <br>
     <br>
+  <div style="margin:0 5%">
     <div class="page-header">
         <h3>Leave a comment</h3>
         <small class="float-right">Total comments: {{ issue.Comment.count }}</small>
@@ -82,7 +83,7 @@
         {% endfor %}
 
     </div>
-
+</div>
 {% endblock %}
 
 {% block script %}

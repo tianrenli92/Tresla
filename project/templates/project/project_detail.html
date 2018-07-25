@@ -46,7 +46,7 @@
                     <div class="card-footer">
                         <form action="" method="POST" id="selection-form">
                             {% csrf_token %}
-                            <select class="btn btn-secondary dropdown-toggle" id="user_list">
+                            <select class="btn btn-secondary dropdown-toggle"class="btn btn-secondary dropdown-toggle" id="user_list">
                                 {% for user in users %}
                                     <option class="dropdown-item" value="{{ user.id }}">
                                         {{ user.username }}
