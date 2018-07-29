@@ -34,7 +34,7 @@
                                 <div class="row my-1 align-items-center">
                                     <div class="col-2">{{ member.username }}</div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger" type="button" id="delete-member" value="{{ member.id }}"
+                                        <button class="btn btn-danger" type="button" id="member-delete" value="{{ member.id }}"
                                            >Delete</button>
                                     </div>
                                 </div>
@@ -53,7 +53,7 @@
                                     </option>
                                 {% endfor %}
                             </select>
-                            <input class="btn btn-success" type="button" value="Add Member" id="add-member">
+                            <input class="btn btn-success" type="button" value="Add Member" id="member-add">
                         </form>
                     </div>
                 </div>
@@ -69,9 +69,7 @@
 
 {% block script %}
     <script>
-        var url = $('#add-member').attr('action');
-        var storage = '';
-        $("#add-member").on('click', function (e) {
+        $("#member-add").on('click', function (e) {
             e.preventDefault();
             var user_id = $('#user_list').val();
             $.ajax({
@@ -87,7 +85,7 @@
                 }
             });
         });
-        $('#member-list >div>div>button').on('click', function (e) {
+        $('#member-delete').on('click', function (e) {
             e.preventDefault();
             var user_id = $(this).val();
             $.ajax({

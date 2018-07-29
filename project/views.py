@@ -63,7 +63,7 @@ def project_member_create(request, project_id):
         except Project.DoesNotExist:
             raise Http404("No such project.")
 
-        user_id = request.POST.get('user_id', '')
+        user_id = request.POST.get('user_id', None)
         user = User.objects.get(id=user_id)
         if user_id != str(project.owner.id):
             project.members.add(user)
@@ -74,7 +74,7 @@ def project_member_create(request, project_id):
 @csrf_exempt
 def project_member_delete(request, project_id):
     if request.method == 'POST':
-        user_id = request.POST.get('user_id', '')
+        user_id = request.POST.get('user_id', None)
         project = Project.objects.get(id=project_id)
         user = User.objects.get(id=user_id)
         project.members.remove(user)
