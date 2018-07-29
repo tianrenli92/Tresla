@@ -45,6 +45,22 @@ def user_issues(request,project_id):
     template = 'issue_tracker/issue/user_issues.html'
     return render(request, template, {'issues': issues, 'page': page, 'project': project})
 
+def assignee_issues(request,project_id):
+    project = Project.objects.get(id=project_id)
+    issue = IssueAssignee.objects.filter(assignee_id=request.user.id)
+    paginator = Paginator(issue, 10)
+    page = request.GET.get('page')
+    try:
+        issues = paginator.page(page)
+    except PageNotAnInteger:
+        issues = paginator.page(1)
+    except EmptyPage:
+        issues = paginator.page(paginator.num_pages)
+    template = 'issue_tracker/issue/user_issues.html'
+    return render(request, template, {'issues': issues, 'page': page, 'project': project,'issue':issue})
+
+
+
 
 
 def issue_detail(request, issue_id, project_id):
@@ -54,10 +70,22 @@ def issue_detail(request, issue_id, project_id):
     context = {'issue': issue,'project': project, 'users': users}
     if issue.is_draft == 'published':
         template = 'issue_tracker/issue/issue_detail.html'
-    else:
+    elif issue.is_draft == 'draft' and issue.author== request.user:
         template = 'issue_tracker/issue/issue_preview.html'
+    else:
+        template='issue_tracker/issue/error.html'
     return render(request, template, context)
 
+@csrf_exempt
+def ajax_change_status(request,project_id,issue_id):
+    issue = Issue.objects.get(pk=issue_id)
+    try:
+        issue.is_draft = 'published'
+        issue.save()
+        return JsonResponse({"success": True})
+    except Exception as e:
+        return JsonResponse({"success": False})
+    return JsonResponse(data)
 
 def add_comment(request, issue_id, project_id):
     issue = get_object_or_404(Issue, id=issue_id)

@@ -16,5 +16,6 @@ urlpatterns =[
     path('<int:issue_id>/assignee/', views.assignee, name='assignee'),
     path('<int:issue_id>/statusissue/', views.statusissue, name='statusissue'),
     path('issues/',views.user_issues,name='user_issues'),
-
+    path('issues_assigneed/',views.assignee_issues,name='assignee_issues'),
+    path('<int:issue_id>/ajax',views.ajax_change_status,name='ajax_change_status')
 ]
