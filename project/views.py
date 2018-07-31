@@ -11,8 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 def project_index(request):
     user=request.user
-    owned_project = [x for x in user.owned_projects.all()]
-    joined_project = [x for x in user.joined_projects.all()]
+    owned_project = [x for x in user.projects_owned.all()]
+    joined_project = [x for x in user.projects_joined.all()]
     project_list=owned_project+joined_project
     return render(request, 'project/project_index.html', {'project_list': project_list})
 
