@@ -52,6 +52,10 @@
                 </form>
             </div>
         {% endif %}
+        <a class="btn btn-danger" href="{% url 'project:issue_tracker:label' project_id=project.id issue_id=issue.id %}">Label</a>
+        <div>
+            here:{{ issue.Label.count }}
+        </div>
 
         </div>
     </div>
@@ -84,6 +88,8 @@
 
     </div>
 </div>
+
+
 {% endblock %}
 
 {% block script %}

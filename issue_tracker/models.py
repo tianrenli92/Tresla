@@ -82,3 +82,12 @@ class IssueAssignee(models.Model):
 #
 #     def __str__(self):
 #         return self.status
+
+class Label(models.Model):
+    issue = models.ForeignKey(Issue, related_name='issue_label', on_delete=models.CASCADE)
+    title=models.CharField(max_length=20,default='Debug')
+    color=models.CharField(max_length=20,default='red')
+
+
+    def __str__(self):
+        return self.title

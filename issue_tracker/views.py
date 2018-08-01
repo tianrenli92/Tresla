@@ -1,8 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Issue, Project, IssueAssignee
+from .models import Issue, Project, IssueAssignee,Label
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .forms import CommentForm, IssueForm, NewIssueForm
+from .forms import CommentForm, IssueForm, NewIssueForm,LabelForm
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_exempt
@@ -47,7 +47,9 @@ def user_issues(request,project_id):
 
 def assignee_issues(request,project_id):
     project = Project.objects.get(id=project_id)
-    issue = IssueAssignee.objects.filter(assignee_id=request.user.id)
+    issueid = IssueAssignee.objects.get(assignee_id=request.user.id)
+    issue = Issue.objects.filter(id=issueid.issue_id, project_id=project.id)
+    print('HERE',issue)
     paginator = Paginator(issue, 10)
     page = request.GET.get('page')
     try:
@@ -58,9 +60,6 @@ def assignee_issues(request,project_id):
         issues = paginator.page(paginator.num_pages)
     template = 'issue_tracker/issue/user_issues.html'
     return render(request, template, {'issues': issues, 'page': page, 'project': project,'issue':issue})
-
-
-
 
 
 def issue_detail(request, issue_id, project_id):
@@ -162,3 +161,20 @@ def statusissue(request, project_id, issue_id):
         issue.status=issue_status
         issue.save()
         return JsonResponse({'success': True})
+
+
+def label_create(request, project_id,issue_id):
+    issue = get_object_or_404(Issue, id=issue_id)
+    project = Project.objects.get(id=project_id)
+    if request.method == 'POST':
+        form = LabelForm(request.POST)
+        if form.is_valid():
+            label = form.save(commit=False)
+            label.issue = issue
+            label.save()
+            return redirect('project:issue_tracker:issue_detail', project_id=project.id, issue_id=issue.id)
+    else:
+        form = LabelForm()
+    template = 'issue_tracker/issue/label.html'
+    context = {'form': form, 'project': project}
+    return render(request, template, context)

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment,Issue
+from .models import Comment,Issue,Label
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -19,4 +19,9 @@ class NewIssueForm(forms.ModelForm):
     class Meta:
         model = Issue
         fields = ('title','content','project', 'is_draft')
+
+class LabelForm(forms.ModelForm):
+    class Meta:
+        model = Label
+        fields = ('title','color',)
 
