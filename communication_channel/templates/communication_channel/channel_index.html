@@ -13,52 +13,33 @@
     </style>
 {% endblock %}
 {% block content %}
-    <div class="section" style="height: 80vh">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2">
-                <div class="card">
-                    <div class="collection">
-                        {% for user in users %}
-                            <a href="{% url 'project:communication_channel:chat' project_id=project.id target_id=user.id %}"
-                               id="{{ request.user.id }}" class="list-group-item list-group-item-action row">
-                                <img src="https://frontend-1.adjust.com/new-assets/images/site-images/interface/user.svg"
-                                     class="col-sm-4">
-                                <div class="col-sm-8">
-                                    <span class="title" style="font-weight: bolder">{{ user.username }}</span>
-                                </div>
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
+                <p>Channels:</p>
+                {% if channels %}
+                    {% for channel in channels %}
+                        <a href="{% url 'project:communication_channel:channel_view' project_id=project.id channel_id=channel.id %}"
+                           id="{{ channel.id }}" class="list-group-item list-group-item-action row">
+                            <span class="title" style="font-weight: bolder">{{ channel.name }}</span>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+                <p>Messages:</p>
+                {% for user in users %}
+                    {% if user.id != request.user.id %}
+                        <a href="{% url 'project:communication_channel:message_view' project_id=project.id target_id=user.id %}"
+                           id="{{ request.user.id }}" class="list-group-item list-group-item-action row">
+                            <span class="title" style="font-weight: bolder">{{ user.username }}</span>
+                        </a>
+                    {% endif %}
+                {% endfor %}
             </div>
             <div class="col-9">
-                <div class="card">
-                    <div id="board" class="card" style="height: 68vh; padding: 5px; overflow-y: scroll">
-                        {% block messages %}
-
-                        {% endblock %}
-                    </div>
-                    <form id="chat-box" class="form-group {% block hide %}hide{% endblock %}" method="post">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-sm-11">
-                                <div class="input-field">
-                                    <input id="id_message" name="message" type="text" placeholder="Type your message..">
-                                </div>
-                            </div>
-                            <div class="col-sm-11" style="line-height: 80px">
-                                <input class="btn btn-floating blue lighten-3 waves-effect waves-light" type="submit"
-                                       value="Send"/>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                {% block chat_view %}
+                {% endblock %}
             </div>
         </div>
     </div>
-    {% load staticfiles %}
 {% endblock %}
 
-{% block script %}
-
-{% endblock %}

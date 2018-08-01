@@ -1,0 +1,33 @@
+{% extends 'communication_channel/channel_index.html' %}
+{% block chat_view %}
+    <div id="board" class="card" style="height: 68vh; padding: 5px; overflow-y: scroll">
+        <div class="container-fluid" id="board-inner">
+            {% for message in messages %}
+                {% if message.sender == request.user %}
+                    <div class="row justify-content-end">
+                        <div class="card col-5">
+                            <div class="card-title">You</div>
+                            <div class="card-text">{{ message }}</div>
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="row justify-content-start">
+                        <div class="card col-5">
+                            <div class="card-title">{{ message.sender }}</div>
+                            <div class="card-text">{{ message }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <form id="chat-box" class="form-group" method="post">
+        {% csrf_token %}
+        <div class="input-field">
+            <input id="id_message" name="message" type="text" placeholder="Type your message..">
+        </div>
+        <input class="btn btn-floating blue lighten-3 waves-effect waves-light" type="submit"
+               value="Send"/>
+        </div>
+    </form>
+{% endblock %}

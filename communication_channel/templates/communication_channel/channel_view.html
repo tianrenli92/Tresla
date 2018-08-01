@@ -1,0 +1,58 @@
+{% extends 'communication_channel/chat_view.html' %}
+
+{% block script %}
+    <script>
+        var text_box = '<div class="row justify-content-end">\n' +
+            '<div class="card col-5">\n' +
+            '<div class="card-title">{sender}</div>\n' +
+            '<div class="card-text">{message}</div>\n' +
+            '</div>\n' +
+            '</div>\n'
+
+        var latest_message_time = '{% latest_message_time '%Y-%m-%d %H:%M:%S'%}';
+
+        function scrolltoend() {
+            $('#board').stop().animate({
+                scrollTop: $('#board')[0].scrollHeight
+            }, 800);
+        }
+
+        function send(sender, receiver, message) {
+            $.post('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', '{"sender": "' + sender + '", "receiver": "' + receiver + '","message": "' + message + '" }', function (data) {
+                console.log(data);
+                var box = text_box.replace('{sender}', "You");
+                box = box.replace('{message}', message);
+                $('#board-inner').append(box);
+                scrolltoend();
+            })
+        }
+
+        function receive() {
+            $.get('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', {latest_message_time : latest_message_time}, function (data) {
+                console.log(data);
+                if (data.length !== 0) {
+                    for (var i = 0; i < data.length; i++) {
+                        console.log(data[i]);
+                        var box = text_box.replace('{sender}', data[i].sender);
+                        box = box.replace('{message}', data[i].message);
+                        box = box.replace('justify-content-end', 'justify-content-start');
+                        $('#board-inner').append(box);
+                        scrolltoend();
+                    }
+                }
+            })
+        }
+
+        //For sending
+        $(function () {
+            scrolltoend();
+                setInterval(receive, 10000);
+            $('#chat-box').submit(function (event) {
+                event.preventDefault();
+                var message = $('#id_message');
+                send('{{ request.user.username }}', '{{ target.username }}', message.val());
+                message.val('');
+            })
+        })
+    </script>
+{% endblock %}
