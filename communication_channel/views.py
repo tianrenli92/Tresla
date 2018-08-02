@@ -6,8 +6,7 @@ from rest_framework.parsers import JSONParser
 from .models import Message, ChannelMessage, Channel, ChannelForm
 from project.models import Project
 from .serializers import MessageSerializer, ChannelMessageSerializer
-from django.utils.timezone import now
-
+from django.http import Http404
 
 def channel_index(request, project_id):
     if not request.user.is_authenticated:
@@ -56,6 +55,15 @@ def channel_view(request, project_id, channel_id):
                        'messages': messages,
                        'latest_message_id': latest_message_id,
                        })
+
+
+def channel_delete(request, project_id, channel_id):
+    try:
+        instance = Channel.objects.get(id=channel_id)
+    except Channel.DoesNotExist:
+        raise Http404("No such channel.")
+    instance.delete()
+    return redirect('project:communication_channel:channel_index', project_id=project_id)
 
 
 @csrf_exempt

@@ -15,7 +15,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <div class="card my-3">
                     <div class="card-header">
                         Channels
@@ -28,10 +28,19 @@
                             {% if channels %}
                                 {% for channel in channels %}
                                     <li class="list-group-item">
-                                        <a href="{% url 'project:communication_channel:channel_view' project_id=project.id channel_id=channel.id %}"
-                                           id="{{ channel.id }}">
-                                            {{ channel.name }}
-                                        </a>
+                                        <div class="d-flex">
+                                            <div class="my-auto">
+                                                <a href="{% url 'project:communication_channel:channel_view' project_id=project.id channel_id=channel.id %}"
+                                                   id="{{ channel.id }}">
+                                                    {{ channel.name }}
+                                                </a>
+                                            </div>
+                                            <div class="ml-auto">
+
+                                                <a class="btn btn-danger" role="button"
+                                                   href="{% url 'project:communication_channel:channel_delete' project_id=project.id channel_id=channel.id %}">Delete</a>
+                                            </div>
+                                        </div>
                                     </li>
                                 {% endfor %}
                             {% endif %}
@@ -60,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-10">
+            <div class="col-9">
                 {% block chat_view %}
                 {% endblock %}
             </div>

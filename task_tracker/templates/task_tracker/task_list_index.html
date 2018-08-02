@@ -5,7 +5,7 @@
         <h3 class="my-3">Tasks of {{ project.name }}</h3>
 
         <a class="btn btn-success" role="button"
-           href="{% url 'project:task_tracker:task_list_create' project_id=project.id %}">new task list</a>
+           href="{% url 'project:task_tracker:task_list_create' project_id=project.id %}">New Task List</a>
 
         {% if task_list_list %}
             {% for task_list in task_list_list %}
@@ -17,16 +17,16 @@
                             </div>
                             <div class="ml-auto">
                                 <a class="btn btn-success" role="button"
-                                   href="{% url 'project:task_tracker:task_list_update' project_id=project.id task_list_id=task_list.id %}">edit</a>&nbsp;
+                                   href="{% url 'project:task_tracker:task_list_update' project_id=project.id task_list_id=task_list.id %}">Edit</a>&nbsp;
                                 <a class="btn btn-danger" role="button"
-                                   href="{% url 'project:task_tracker:task_list_delete' project_id=project.id task_list_id=task_list.id %}">delete</a>
+                                   href="{% url 'project:task_tracker:task_list_delete' project_id=project.id task_list_id=task_list.id %}">Delete</a>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
                         <a class="btn btn-success mb-3" role="button"
-                           href="{% url 'project:task_tracker:task_create' project_id=project.id task_list_id=task_list.id %}">new
-                            task</a>
+                           href="{% url 'project:task_tracker:task_create' project_id=project.id task_list_id=task_list.id %}">New
+                            Task</a>
                         <ul class="list-group">
                             {% if task_list.tasks.all %}
                                 {% for task in task_list.tasks.all %}
@@ -37,9 +37,9 @@
                                             </div>
                                             <div class="col-6">
                                                 <a class="btn btn-success" role="button"
-                                                   href="{% url 'project:task_tracker:task_update' project_id=project.id task_list_id=task_list.id task_id=task.id %}">edit</a>
+                                                   href="{% url 'project:task_tracker:task_update' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Edit</a>
                                                 <a class="btn btn-danger" role="button"
-                                                   href="{% url 'project:task_tracker:task_delete' project_id=project.id task_list_id=task_list.id task_id=task.id %}">delete</a>
+                                                   href="{% url 'project:task_tracker:task_delete' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Delete</a>
                                             </div>
                                         </div>
                                     </li>
