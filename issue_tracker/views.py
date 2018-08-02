@@ -47,10 +47,11 @@ def user_issues(request,project_id):
 
 def assignee_issues(request,project_id):
     project = Project.objects.get(id=project_id)
-    issueid = IssueAssignee.objects.get(assignee_id=request.user.id)
-    issue = Issue.objects.filter(id=issueid.issue_id, project_id=project.id)
-    print('HERE',issue)
-    paginator = Paginator(issue, 10)
+    user=request.user
+    assigned_issue_schema = user.assigned_issue_schema.all()
+    issues=Issue.objects.filter(project_id=project_id, id__in=assigned_issue_schema.values('issue'))
+
+    paginator = Paginator(issues, 10)
     page = request.GET.get('page')
     try:
         issues = paginator.page(page)
@@ -58,8 +59,8 @@ def assignee_issues(request,project_id):
         issues = paginator.page(1)
     except EmptyPage:
         issues = paginator.page(paginator.num_pages)
-    template = 'issue_tracker/issue/user_issues.html'
-    return render(request, template, {'issues': issues, 'page': page, 'project': project,'issue':issue})
+    template = 'issue_tracker/issue/assignee_issues.html'
+    return render(request, template, {'issues': issues, 'page': page, 'project': project})
 
 
 def issue_detail(request, issue_id, project_id):

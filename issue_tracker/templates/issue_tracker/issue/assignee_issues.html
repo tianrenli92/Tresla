@@ -16,7 +16,7 @@
          </div>
      {% endfor %}
         {% include 'issue_tracker/paginator.html' with page=issues %}
-            <button class="btn float-right btnbackground btn-position"><a  href="{% url 'project:issue_tracker:new_issue' project_id=project.id %}" class='btnfont'>New issues</a></button>
+            <button class="btn float-right btnbackground btn-position"><a  href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}" class='btnfont'>Back</a></button>
         </div>
 
 {% endblock %}
