@@ -3,9 +3,9 @@ from django.http.response import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .models import Message, ChannelMessage, Channel
+from .models import Message, ChannelMessage, Channel, ChannelForm
 from project.models import Project
-from .serializers import MessageSerializer, UserSerializer
+from .serializers import MessageSerializer, ChannelMessageSerializer
 from django.utils.timezone import now
 
 
@@ -24,6 +24,19 @@ def channel_index(request, project_id):
                       })
 
 
+def channel_create(request, project_id):
+    if request.method == 'POST':
+        channel = Channel(project_id=project_id)
+        form = ChannelForm(request.POST, instance=channel)
+        if form.is_valid():
+            form.save()
+        return redirect('project:communication_channel:channel_index', project_id=project_id)
+
+    else:
+        form = ChannelForm()
+        return render(request, 'communication_channel/channel_create.html', {'form': form})
+
+
 def channel_view(request, project_id, channel_id):
     if request.method == "GET":
         project = Project.objects.get(id=project_id)
@@ -32,16 +45,16 @@ def channel_view(request, project_id, channel_id):
         users = list(project.members.all()) + [project.owner]
         messages = ChannelMessage.objects.filter(channel_id=channel_id)
         if messages:
-            latest_message_time = messages.latest('timestamp').timestamp
+            latest_message_id = messages.latest('id').id
         else:
-            latest_message_time = now()
+            latest_message_id = 0
         return render(request, "communication_channel/channel_view.html",
                       {'project': project,
                        'channels': channels,
                        'channel': channel,
                        'users': users,
                        'messages': messages,
-                       'latest_message_time': latest_message_time,
+                       'latest_message_id': latest_message_id,
                        })
 
 
@@ -51,20 +64,23 @@ def channel_message_list(request, project_id, channel_id):
     List all required messages, or create a new message.
     """
     if request.method == 'GET':
-        latest_message_time = request.GET.get('latest_message_time', None)
-        messages = ChannelMessage.objects.filter(channel_id=channel_id,timestamp__gte=latest_message_time)
-        serializer = MessageSerializer(messages, many=True, context={'request': request})
-        for message in messages:
-            message.is_read = True
-            message.save()
-        return JsonResponse(serializer.data, safe=False)
+        latest_message_id = request.GET.get('latest_message_id', None)
+        messages = ChannelMessage.objects.filter(channel_id=channel_id, id__gt=latest_message_id)
+        serializer = ChannelMessageSerializer(messages, many=True, context={'request': request})
+        data=serializer.data
+        if messages:
+            latest_message_id = messages.latest('id').id
+            data=[{'latest_message_id':latest_message_id}]+data
+        return JsonResponse(data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = MessageSerializer(data=data)
+        serializer = ChannelMessageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            latest_message_id = ChannelMessage.objects.latest('id').id
+            data = {'latest_message_id': latest_message_id}
+            return JsonResponse(data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
 

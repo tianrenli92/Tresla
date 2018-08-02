@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Message
+from .models import Message, ChannelMessage
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,6 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['username', 'password']
+
+
+class ChannelMessageSerializer(serializers.ModelSerializer):
+    sender = serializers.SlugRelatedField(many=False, slug_field='username', queryset=User.objects.all())
+
+    class Meta:
+        model = ChannelMessage
+        fields = ['sender', 'channel', 'message', 'timestamp']
 
 
 class MessageSerializer(serializers.ModelSerializer):

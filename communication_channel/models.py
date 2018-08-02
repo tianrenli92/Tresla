@@ -1,12 +1,19 @@
 from django.contrib.auth.models import User
 from django.db import models
 from project.models import Project
+from django.forms import ModelForm
 
 
 class Channel(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='channels')
     members = models.ManyToManyField(User, related_name='channels_joined')
     name = models.CharField(max_length=255)
+
+
+class ChannelForm(ModelForm):
+    class Meta:
+        model = Channel
+        fields = ['name']
 
 
 class ChannelMessage(models.Model):

@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="container-fluid">
-        <a class="btn btn-success btn-position" role="button" href="{% url 'project:project_create' %}">Create new
-            project</a>
+        <a class="btn btn-success btn-position" role="button" href="{% url 'project:project_create' %}">Create New
+            Project</a>
         {% if project_list %}
             <div class="row">
                 {% for project in project_list %}

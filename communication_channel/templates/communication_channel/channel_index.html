@@ -15,27 +15,52 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-sm-2">
-                <p>Channels:</p>
-                {% if channels %}
-                    {% for channel in channels %}
-                        <a href="{% url 'project:communication_channel:channel_view' project_id=project.id channel_id=channel.id %}"
-                           id="{{ channel.id }}" class="list-group-item list-group-item-action row">
-                            <span class="title" style="font-weight: bolder">{{ channel.name }}</span>
-                        </a>
-                    {% endfor %}
-                {% endif %}
-                <p>Messages:</p>
-                {% for user in users %}
-                    {% if user.id != request.user.id %}
-                        <a href="{% url 'project:communication_channel:message_view' project_id=project.id target_id=user.id %}"
-                           id="{{ request.user.id }}" class="list-group-item list-group-item-action row">
-                            <span class="title" style="font-weight: bolder">{{ user.username }}</span>
-                        </a>
-                    {% endif %}
-                {% endfor %}
+            <div class="col-2">
+                <div class="card my-3">
+                    <div class="card-header">
+                        Channels
+                    </div>
+                    <div class="card-body">
+                        <a class="btn btn-success btn-position" role="button"
+                           href="{% url 'project:communication_channel:channel_create' project_id=project.id %}">New
+                            Channel</a>
+                        <ul class="list-group my-3">
+                            {% if channels %}
+                                {% for channel in channels %}
+                                    <li class="list-group-item">
+                                        <a href="{% url 'project:communication_channel:channel_view' project_id=project.id channel_id=channel.id %}"
+                                           id="{{ channel.id }}">
+                                            {{ channel.name }}
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="card my-3">
+                    <div class="card-header">
+                        Private Message
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group my-3">
+                            {% if users %}
+                                {% for user in users %}
+                                    {% if user.id != request.user.id %}
+                                        <li class="list-group-item">
+                                            <a href="{% url 'project:communication_channel:message_view' project_id=project.id target_id=user.id %}"
+                                               id="{{ request.user.id }}">
+                                                {{ user.username }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="col-9">
+            <div class="col-10">
                 {% block chat_view %}
                 {% endblock %}
             </div>

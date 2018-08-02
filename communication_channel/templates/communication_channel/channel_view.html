@@ -9,7 +9,7 @@
             '</div>\n' +
             '</div>\n'
 
-        var latest_message_time = '{% latest_message_time '%Y-%m-%d %H:%M:%S'%}';
+        var latest_message_id = {{ latest_message_id }};
 
         function scrolltoend() {
             $('#board').stop().animate({
@@ -17,21 +17,25 @@
             }, 800);
         }
 
-        function send(sender, receiver, message) {
-            $.post('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', '{"sender": "' + sender + '", "receiver": "' + receiver + '","message": "' + message + '" }', function (data) {
+        function send(sender, channel, message) {
+            $.post('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', '{"sender": "' + sender + '", "channel": ' + channel + ',"message": "' + message + '" }', function (data) {
                 console.log(data);
                 var box = text_box.replace('{sender}', "You");
                 box = box.replace('{message}', message);
                 $('#board-inner').append(box);
                 scrolltoend();
+                if (data.length !== 0) {
+                    latest_message_id=data.latest_message_id;
+                }
             })
         }
 
         function receive() {
-            $.get('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', {latest_message_time : latest_message_time}, function (data) {
+            $.get('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', {latest_message_id : latest_message_id}, function (data) {
                 console.log(data);
                 if (data.length !== 0) {
-                    for (var i = 0; i < data.length; i++) {
+                    latest_message_id=data[0].latest_message_id;
+                    for (var i = 1; i < data.length; i++) {
                         console.log(data[i]);
                         var box = text_box.replace('{sender}', data[i].sender);
                         box = box.replace('{message}', data[i].message);
@@ -46,11 +50,11 @@
         //For sending
         $(function () {
             scrolltoend();
-                setInterval(receive, 10000);
+                setInterval(receive, 1000);
             $('#chat-box').submit(function (event) {
                 event.preventDefault();
                 var message = $('#id_message');
-                send('{{ request.user.username }}', '{{ target.username }}', message.val());
+                send('{{ request.user.username }}', {{ channel.id }}, message.val());
                 message.val('');
             })
         })
