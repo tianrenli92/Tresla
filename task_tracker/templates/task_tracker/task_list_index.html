@@ -12,7 +12,7 @@
                 <div class="card my-3">
                     <div class="card-header">
                         <div class="d-flex">
-                            <div class="my-auto">
+                            <div class="p-2">
                                 {{ task_list.name }}
                             </div>
                             <div class="ml-auto">
@@ -30,17 +30,22 @@
                         <ul class="list-group">
                             {% if task_list.tasks.all %}
                                 {% for task in task_list.tasks.all %}
-                                    <li class="list-group-item">
-                                        <div class="d-flex align-items-center">
-                                            <div class="col-6">
-                                                {{ task.topic }}
+                                    <li class="card my-1">
+                                        <div class="card-header">
+                                            <div class="d-flex align-items-center">
+                                                <div class="p-2">
+                                                    {{ task.topic }}
+                                                </div>
+                                                <div class="ml-auto">
+                                                    <a class="btn btn-success" role="button"
+                                                       href="{% url 'project:task_tracker:task_update' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Edit</a>
+                                                    <a class="btn btn-danger" role="button"
+                                                       href="{% url 'project:task_tracker:task_delete' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Delete</a>
+                                                </div>
                                             </div>
-                                            <div class="col-6">
-                                                <a class="btn btn-success" role="button"
-                                                   href="{% url 'project:task_tracker:task_update' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Edit</a>
-                                                <a class="btn btn-danger" role="button"
-                                                   href="{% url 'project:task_tracker:task_delete' project_id=project.id task_list_id=task_list.id task_id=task.id %}">Delete</a>
-                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            {{ task.description }}
                                         </div>
                                     </li>
                                 {% endfor %}
