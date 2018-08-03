@@ -48,19 +48,18 @@ def user_issues(request,project_id):
 def assignee_issues(request,project_id):
     project = Project.objects.get(id=project_id)
     user=request.user
-    assigned_issue_schema = user.assigned_issue_schema.all()
-    issues=Issue.objects.filter(project_id=project_id, id__in=assigned_issue_schema.values('issue'))
+    assigned_issue_schemas = user.assigned_issue_schema.all()
 
-    paginator = Paginator(issues, 10)
+    paginator = Paginator(assigned_issue_schemas, 10)
     page = request.GET.get('page')
     try:
-        issues = paginator.page(page)
+        assigned_issue_schemas = paginator.page(page)
     except PageNotAnInteger:
-        issues = paginator.page(1)
+        assigned_issue_schemas = paginator.page(1)
     except EmptyPage:
-        issues = paginator.page(paginator.num_pages)
+        assigned_issue_schemas = paginator.page(paginator.num_pages)
     template = 'issue_tracker/issue/assignee_issues.html'
-    return render(request, template, {'issues': issues, 'page': page, 'project': project})
+    return render(request, template, {'assigned_issue_schemas': assigned_issue_schemas, 'page': page, 'project': project})
 
 
 def issue_detail(request, issue_id, project_id):

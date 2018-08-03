@@ -6,17 +6,18 @@
     <h3 class="my-3">Issues Assigned to Me</h3>
     <div class="row">
         <div class="col-md-10">
-            {% for issue in issues %}
-                <div style="background:#e9ecef" class="issue-padding">
-                    <h3 class="btn-position"><a style="color: darkgoldenrod"
-                                                href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></h3>
-                    <hr>
-                    {{ issue.content | truncatewords:40 | linebreaks }}
-                    <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %}
-                        {{ issue.published }} {% endtimezone %}</small>
-                </div>
+            {% for assigned_issue_schema in assigned_issue_schemas %}
+                    <div style="background:#e9ecef" class="issue-padding">
+                        <h3 class="btn-position"><a style="color: darkgoldenrod"
+                                                    href="{{ assigned_issue_schema.issue.get_absolute_url }}">{{ assigned_issue_schema.issue.title }}</a></h3>
+                        <div class="p-2">Status: {{ assigned_issue_schema.STATUS | dict_key:assigned_issue_schema.status }}</div>
+                        <hr>
+                        {{ assigned_issue_schema.issue.content | truncatewords:40 | linebreaks }}
+                        <small>Written by {{ assigned_issue_schema.issue.author }} on {% timezone 'America/New_York' %}
+                            {{ assigned_issue_schema.issue.published }} {% endtimezone %}</small>
+                    </div>
             {% endfor %}
-            {% include 'issue_tracker/paginator.html' with page=issues %}
+            {% include 'issue_tracker/paginator.html' with page=assigned_issue_schemas %}
             <button class="btn float-right btnbackground btn-position"><a
                     href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}"
                     class='btnfont'>Back</a></button>
