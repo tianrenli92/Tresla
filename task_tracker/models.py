@@ -31,6 +31,8 @@ class Task(models.Model):
     def __str__(self):
         return self.topic
 
+    class Meta:
+        ordering = ('id',)
 
 class TaskForm(ModelForm):
     description = forms.CharField(required=False, widget=forms.Textarea(attrs={'cols': 50, 'rows': 10}))
