@@ -9,6 +9,9 @@ class Channel(models.Model):
     members = models.ManyToManyField(User, related_name='channels_joined')
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 
 class ChannelForm(ModelForm):
     class Meta:
@@ -21,7 +24,6 @@ class ChannelMessage(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE, related_name='messages')
     message = models.CharField(max_length=1200)
     timestamp = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
 
     def __str__(self):
         return self.message
