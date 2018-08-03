@@ -65,7 +65,7 @@ def assignee_issues(request,project_id):
 def issue_detail(request, issue_id, project_id):
     project = Project.objects.get(id=project_id)
     issue = get_object_or_404(Issue, id=issue_id)
-    users = User.objects.all()
+    users = list(project.members.all()) + [project.owner]
     context = {'issue': issue,'project': project, 'users': users}
     if issue.is_draft == 'published':
         template = 'issue_tracker/issue/issue_detail.html'

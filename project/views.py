@@ -18,8 +18,8 @@ def project_index(request):
 
 
 def project_detail(request, project_id):
-    users = User.objects.all()
     project = Project.objects.get(id=project_id)
+    users = User.objects.all().exclude(id=project.owner.id)
     return render(request, 'project/project_detail.html',
                   {'project': project, 'users': users})
 
