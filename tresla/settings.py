@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'issue_tracker',
 ]
 
-ALLOWED_HOSTS = ["*"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
