@@ -100,12 +100,17 @@ def message_view(request, project_id, target_id):
         user_id = request.user.id
         messages = Message.objects.filter(sender_id=user_id, receiver_id=target_id) | Message.objects.filter(
             sender_id=target_id, receiver_id=user_id)
+        if messages:
+            latest_message_id = messages.latest('id').id
+        else:
+            latest_message_id = 0
         return render(request, "communication_channel/message_view.html",
                       {'project': project,
                        'channels': channels,
                        'users': users,
                        'target': User.objects.get(id=target_id),
                        'messages': messages,
+                       'latest_message_id': latest_message_id,
                        })
 
 
@@ -117,18 +122,24 @@ def message_list(request, project_id):
     if request.method == 'GET':
         sender_id = request.GET.get('sender_id', None)
         receiver_id = request.user.id
-
-        messages = Message.objects.filter(sender_id=sender_id, receiver_id=receiver_id, is_read=False)
+        latest_message_id = request.GET.get('latest_message_id', None)
+        messages = Message.objects.filter(sender_id=sender_id, receiver_id=receiver_id, id__gt=latest_message_id)
         serializer = MessageSerializer(messages, many=True, context={'request': request})
         for message in messages:
             message.is_read = True
             message.save()
-        return JsonResponse(serializer.data, safe=False)
+        data = serializer.data
+        if messages:
+            latest_message_id = messages.latest('id').id
+            data = [{'latest_message_id': latest_message_id}] + data
+        return JsonResponse(data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = MessageSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+            latest_message_id = ChannelMessage.objects.latest('id').id
+            data = {'latest_message_id': latest_message_id}
+            return JsonResponse(data, status=201)
         return JsonResponse(serializer.errors, status=400)

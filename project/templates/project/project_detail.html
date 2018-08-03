@@ -5,7 +5,7 @@
         <h3 class="my-3"> Project Detail</h3>
         <ul class="list-group">
             <div class="list-group-item">
-                <div class="row align-items-center">
+                <div class="d-flex">
                     <div class="col-2">Name: {{ project.name }}</div>
                     <div class="col-2">
                         <a class="btn btn-success" role="button"
@@ -34,7 +34,7 @@
                                 <div class="row my-1 align-items-center">
                                     <div class="col-2">{{ member.username }}</div>
                                     <div class="col-2">
-                                        <button class="btn btn-danger" type="button" id="member-delete" value="{{ member.id }}"
+                                        <button class="btn btn-danger member-delete" type="button" value="{{ member.id }}"
                                            >Delete</button>
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                 }
             });
         });
-        $('#member-delete').on('click', function (e) {
+        $('.member-delete').on('click', function (e) {
             e.preventDefault();
             var user_id = $(this).val();
             $.ajax({

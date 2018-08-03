@@ -25,16 +25,16 @@
                 $('#board-inner').append(box);
                 scrolltoend();
                 if (data.length !== 0) {
-                    latest_message_id=data.latest_message_id;
+                    latest_message_id = data.latest_message_id;
                 }
             })
         }
 
         function receive() {
-            $.get('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', {latest_message_id : latest_message_id}, function (data) {
+            $.get('{% url 'project:communication_channel:channel_message_list' project_id=project.id channel_id=channel.id%}', {latest_message_id: latest_message_id}, function (data) {
                 console.log(data);
                 if (data.length !== 0) {
-                    latest_message_id=data[0].latest_message_id;
+                    latest_message_id = data[0].latest_message_id;
                     for (var i = 1; i < data.length; i++) {
                         console.log(data[i]);
                         var box = text_box.replace('{sender}', data[i].sender);
@@ -50,7 +50,7 @@
         //For sending
         $(function () {
             scrolltoend();
-                setInterval(receive, 1000);
+            setInterval(receive, 1000);
             $('#chat-box').submit(function (event) {
                 event.preventDefault();
                 var message = $('#id_message');

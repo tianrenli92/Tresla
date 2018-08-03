@@ -3,42 +3,26 @@
 
 
 {% block content %}
+    <div class="container-fluid">
+        <div class="issue-padding btn-position" style="background:#e9ecef;">
 
-    <div class="issue-padding btn-position" style="background:#e9ecef;margin:0 3%">
-        <h2 style="color:darkgoldenrod">{{ issue.title }}</h2>
-        <hr>
-        <div>{{ issue.content|linebreaks }}</div>
-        <br>
-        <small class="float-right" style="margin: 0 5%">Written by {{ issue.author }} on  {% timezone 'America/New_York' %}{{ issue.published }}{% endtimezone %}</small>
+            <div class="row h2" style="color:darkgoldenrod">{{ issue.title }}</div>
 
-        <div style="margin: 25% 0 0 0">
-        <div><a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
-                href="{% url 'project:issue_tracker:edit_issue' project_id=project.id issue_id=issue.id %}">edit</a>
-        </div>
-        <div><a class="float-right btn btn-danger" style="margin: 0 10px;"
-                href="{% url 'project:issue_tracker:delete_issue' project_id=project.id issue_id=issue.id %}">delete</a>
-        </div>
-        {% if issue.assignee_schema.all %}
-            {% for assignee_schema in issue.assignee_schema.all %}
-                <div> Assigned to: <span style="color: darkgoldenrod">{{ assignee_schema.assignee }}</span> </div>
-                <div> Current status: <span style="color: darkgoldenrod">{{ assignee_schema.STATUS | dict_key:assignee_schema.status }}</span> </div>
-                <div style="display: none" id="assignee_id">{{ assignee_schema.assignee.id }}</div>
+            <div class="row p-2">{{ issue.content|linebreaks }}</div>
 
-                <form method="POST" class="display-inline">
-                    {% csrf_token %}
-                    <select id="status_list" class="btn btn-secondary dropdown-toggle">
-                        {% for key in assignee_schema.STATUS %}
-                        <option value="{{ key }}">{{ assignee_schema.STATUS | dict_key:key }}</option>
-                        {% endfor %}
-                    </select>
-                </form>
-                <button id="changestatus" class="display-inline btn btn-default btnbackground btnfont">Change status</button>
-            {% endfor %}
-        {% else %}
+            <div class="row justify-content-end p-2 small my-auto ">Written by {{ issue.author }} on
+                {% timezone 'America/New_York' %}{{ issue.published }}{% endtimezone %}</div>
+            <div class="row justify-content-end my-auto">
+                <a class="float-right btn btn-default btnbackground btnfont" style="width: 60px;"
+                   href="{% url 'project:issue_tracker:edit_issue' project_id=project.id issue_id=issue.id %}">edit</a>
+                <a class="float-right btn btn-danger" style="margin: 0 10px;"
+                   href="{% url 'project:issue_tracker:delete_issue' project_id=project.id issue_id=issue.id %}">delete</a>
+            </div>
 
-            <div>
+
+            <div class="row my-auto">
                 <input class="btn btn-default btnbackground btnfont" style="margin: 0 10px;" type="button"
-                       value="Assignee" id="assignee">
+                       value="New assign" id="assignee">
                 <form action="" method="POST" id="selection-form" class="display-inline">
                     {% csrf_token %}
                     <select class="btn btn-secondary dropdown-toggle display-inline" id="user_list">
@@ -48,46 +32,68 @@
                             </option>
                         {% endfor %}
                     </select>
-
                 </form>
             </div>
-        {% endif %}
-        <a class="btn btn-danger" href="{% url 'project:issue_tracker:label' project_id=project.id issue_id=issue.id %}">Label</a>
-        <div>
-            here:{{ issue.Label.count }}
+
+
+            {% if issue.assignee_schema.all %}
+                {% for assignee_schema in issue.assignee_schema.all %}
+                    <div class="d-flex my-auto">
+                        <div class="p-2"> Assigned to: <span
+                                style="color: darkgoldenrod">{{ assignee_schema.assignee }}</span>
+                        </div>
+                        <div class="p-2"> Current status: <span
+                                style="color: darkgoldenrod">{{ assignee_schema.STATUS | dict_key:assignee_schema.status }}</span>
+                        </div>
+                        <div class="p-2">
+                            <button type="button" value="{{ assignee_schema.assignee.id }}"
+                                    class="btn btn-default btnbackground btnfont change-status">
+                                Change status
+                            </button>
+                            <form method="POST" class="display-inline">
+                                {% csrf_token %}
+                                <select id="status_list" class="btn btn-secondary dropdown-toggle">
+                                    {% for key in assignee_schema.STATUS %}
+                                        <option value="{{ key }}">{{ assignee_schema.STATUS | dict_key:key }}</option>
+                                    {% endfor %}
+                                </select>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+
+            <div class="row my-1 d-none">
+                <a class="btn btn-danger"
+                   href="{% url 'project:issue_tracker:label' project_id=project.id issue_id=issue.id %}">Label</a>
+                <div>
+                    here:{{ issue.Label.count }}
+                </div>
+            </div>
         </div>
 
+        <div class="container-fluid">
+            <div class="page-header">
+                <h3>Comments</h3>
+                <small class="float-right">Total comments: {{ issue.Comment.count }}</small>
+            </div>
+            <button type="button" class="btn btn-dark"><a class="btnf" href="{% url 'project:issue_tracker:add_comment' issue_id=issue.id project_id=project.id %}">
+                Leave a comment</a></button>
+            <div class="border btn-position">
+                {% for comment in issue.Comment.all %}
+                    <div style="background:gainsboro">User: {{ user }},Created:
+                        {% timezone 'America/New_York' %}{{ comment.created }}{% endtimezone %}</div>
+                    <div>{{ comment.body }}</div>
+                    <br>
+                {% empty %}
+                    <p>This is no comment</p>
+
+                {% endfor %}
+
+            </div>
         </div>
     </div>
-
-
-    <br>
-    <br>
-    <br>
-    <br>
-  <div style="margin:0 5%">
-    <div class="page-header">
-        <h3>Leave a comment</h3>
-        <small class="float-right">Total comments: {{ issue.Comment.count }}</small>
-    </div>
-    <button type="button" class="btn btn-dark"><a class="btnf"
-                                                  href="{% url 'project:issue_tracker:add_comment' issue_id=issue.id project_id=project.id %}">leave
-        a comment</a></button>
-    <button type="button" class="btn btn-dark"><a class="btnf"
-                                                  href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}">Go
-        back issues</a></button>
-    <div class="border btn-position">
-        {% for comment in issue.Comment.all %}
-            <div style="background:gainsboro">User: {{ user }},Created: {% timezone 'America/New_York' %}{{ comment.created }}{% endtimezone %}</div>
-            <div>{{ comment.body }}</div>
-            <br>
-        {% empty %}
-            <p>This is no comment</p>
-
-        {% endfor %}
-
-    </div>
-</div>
 
 
 {% endblock %}
@@ -111,10 +117,12 @@
             });
         });
 
-        $("#changestatus").on('click', function (e) {
+        $(".change-status").on('click', function (e) {
             e.preventDefault();
-            var status = $('#status_list').val();
-            var assignee_id = $('#assignee_id').text();
+            var assignee_id = $(this).val();
+            var status = $(this).parent().find('#status_list').val();
+            console.log(assignee_id);
+            console.log(status);
             $.ajax({
                 type: 'POST',
                 url: '{% url 'project:issue_tracker:statusissue' project_id=project.id issue_id=issue.id %}',

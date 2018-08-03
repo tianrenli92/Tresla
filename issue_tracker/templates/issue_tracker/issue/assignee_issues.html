@@ -2,21 +2,24 @@
 
 {% load tz %}
 
-{% block title %}List of Issue{% endblock %}
-
 {% block content %}
+    <h3 class="my-3">Issues Assigned to Me</h3>
     <div class="row">
         <div class="col-md-10">
             {% for issue in issues %}
-         <div style="background:#e9ecef" class="issue-padding">
-         <h3  class="btn-position"><a  style="color: darkgoldenrod" href="{{issue.get_absolute_url}}">{{ issue.title }}</a></h3>
-         <hr>
-         {{ issue.content | truncatewords:40 | linebreaks}}
-             <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %} {{ issue.published}} {% endtimezone %}</small>
-         </div>
-     {% endfor %}
-        {% include 'issue_tracker/paginator.html' with page=issues %}
-            <button class="btn float-right btnbackground btn-position"><a  href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}" class='btnfont'>Back</a></button>
+                <div style="background:#e9ecef" class="issue-padding">
+                    <h3 class="btn-position"><a style="color: darkgoldenrod"
+                                                href="{{ issue.get_absolute_url }}">{{ issue.title }}</a></h3>
+                    <hr>
+                    {{ issue.content | truncatewords:40 | linebreaks }}
+                    <small>Written by {{ issue.author }} on {% timezone 'America/New_York' %}
+                        {{ issue.published }} {% endtimezone %}</small>
+                </div>
+            {% endfor %}
+            {% include 'issue_tracker/paginator.html' with page=issues %}
+            <button class="btn float-right btnbackground btn-position"><a
+                    href="{% url 'project:issue_tracker:list_of_issue' project_id=project.id %}"
+                    class='btnfont'>Back</a></button>
         </div>
 
 {% endblock %}
