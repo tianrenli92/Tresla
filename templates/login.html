@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <h2>Log in to Tresla</h2>
@@ -7,21 +8,7 @@
     {% endif %}
     <form method="post">
         {% csrf_token %}
-        <input type="hidden" name="next" value="{{ next }}"/>
-        {% for field in form %}
-            <div class="form-group">
-                {{ field.label_tag }}<br>
-                {{ field }}<br>
-                {% for error in field.errors %}
-                    <p style="color: red">{{ error }}</p>
-                {% endfor %}
-                {% if field.help_text %}
-                    <p>
-                        <small style="color: grey">{{ field.help_text }}</small>
-                    </p>
-                {% endif %}
-            </div>
-        {% endfor %}
+        {{ form|crispy }}
         <button type="submit" class="btn btn-primary">Log in</button>
     </form>
 {% endblock %}
