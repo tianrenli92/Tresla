@@ -170,3 +170,5 @@ LOGIN_REDIRECT_URL = 'project:project_index'
 CRISPY_TEMPLATE_PACK='bootstrap3'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "www", "static")
+
+# sudo setup: sudo ~/tresla/env/bin/python manage.py runserver 10.128.0.2:80
